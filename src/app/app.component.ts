@@ -11,19 +11,19 @@ export class AppComponent {
 
     constructor() {
         this.table = new OurpalmTable({
-            columns: [{
-                header: '全选',
-                checkbox: true
-            }, {
-                header: '序号',
-                rownumbers: true
-            },{
-                header: '姓名',
-                field: 'name'
-            },{
-                header: '年龄',
-                field: 'age'
-            }],
+            // columns: [{
+            //     header: '全选',
+            //     checkbox: true
+            // }, {
+            //     header: '序号',
+            //     rownumbers: true
+            // },{
+            //     header: '姓名',
+            //     field: 'name'
+            // },{
+            //     header: '年龄',
+            //     field: 'age'
+            // }],
             pagePosition: 'both',
             defaultPageSize: 10,
             loadData: (table: OurpalmTable, callback: (page: Page) => {}) => {

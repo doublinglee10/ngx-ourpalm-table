@@ -25,7 +25,7 @@ import {OurpalmTableColumnDirective} from "../directive/ourpalm-table-column.dir
                 </ng-container>
                 <!--静态列-->
                 <ng-container *ngIf="!dynamicColumn">
-                    <ng-content></ng-content>
+                    <ng-content selector="tr"></ng-content>
                     <!--<tr *ngFor="let $row of table.rows; let i = index;">-->
                         <!--<ng-template ngFor [ngForOf]="columnDirs">-->
                             <!--<ng-content></ng-content>-->
@@ -39,7 +39,9 @@ import {OurpalmTableColumnDirective} from "../directive/ourpalm-table-column.dir
                 </ng-container>
                 <ourpalm-table-settings [table]="table"></ourpalm-table-settings>
             </tfoot>
-            <!--<ng-content></ng-content>-->
+            <ng-container [class.hidden]="true">
+                <ng-content selector="thead"></ng-content>
+            </ng-container>
         </table>
     `
 })

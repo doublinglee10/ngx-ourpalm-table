@@ -1,4 +1,4 @@
-import {Input, OnInit, TemplateRef, ViewContainerRef, Component, ViewChild, AfterViewInit} from "@angular/core";
+import {Input, OnInit, TemplateRef, ViewContainerRef, Directive, ViewChild, AfterViewInit} from "@angular/core";
 import {OurpalmTableColumn} from "../model/ourpalm-table-column";
 
 export class ColumnContext {
@@ -8,14 +8,14 @@ export class ColumnContext {
 }
 
 
-@Component({
+@Directive({
     selector: 'ourpalm-table-column',
-    template: `
-        <h1>hello</h1>
-        <ng-template #tpl>
-            <ng-content></ng-content>
-        </ng-template>
-    `
+    // template: `
+    //     <h1>hello</h1>
+    //     <ng-template #tpl>
+    //         <ng-content></ng-content>
+    //     </ng-template>
+    // `
 })
 export class OurpalmTableColumnDirective implements OnInit,AfterViewInit {
 
@@ -41,14 +41,14 @@ export class OurpalmTableColumnDirective implements OnInit,AfterViewInit {
     }
 
     ngAfterViewInit(): void {
-        let tpl = this.tplVcRef.createEmbeddedView(this.tplRef);
-        console.warn(tpl);
+        // let tpl = this.tplVcRef.createEmbeddedView(this.tplRef);
+        // console.warn(tpl);
 
         // let tpl = this.tplRef.createEmbeddedView(null);
     }
 
     createView(container: ViewContainerRef) {
-        let tpl = container.createEmbeddedView(this.tplRef);
-        console.warn(tpl);
+        // let tpl = container.createEmbeddedView(this.tplRef);
+        // console.warn(tpl);
     }
 }
