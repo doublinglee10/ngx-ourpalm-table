@@ -66,8 +66,35 @@ export class OurpalmTableComponent implements AfterContentInit {
         } else {
             this.dynamicColumn = true;
         }
+        this.reloadCacheColumns();
+        this.reloadCachePageSize();
         //加载数据
         this.table.invokeLoadData();
+    }
+
+    private reloadCacheColumns() {
+        if (this.table.cacheKey && this.table.cacheColumns && window.localStorage) {
+            let cache: any = window.localStorage.getItem(`ngx-ourpalm-table-${this.table.cacheKey}`);
+            if (cache) {
+                cache = JSON.parse(cache);
+                let columns: any[] = cache.columns;
+                columns.forEach(column => {
+                    if (column) {
+
+                    }
+                });
+            }
+        }
+    }
+
+    private reloadCachePageSize() {
+        if (this.table.cacheKey && this.table.cachePageSize && window.localStorage) {
+            let cache: any = window.localStorage.getItem(`ngx-ourpalm-table-${this.table.cacheKey}`);
+            if (cache) {
+                cache = JSON.parse(cache);
+                this.table.defaultPageSize = +cache.pageSize;
+            }
+        }
     }
 
 }
