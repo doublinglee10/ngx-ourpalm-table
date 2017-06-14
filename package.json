@@ -1,7 +1,8 @@
 {
   "name": "ngx-ourpalm-table",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "license": "MIT",
+  "main": "dist/index.js",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -10,6 +11,20 @@
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lishichao1002/ngx-ourpalm-table"
+  },
+  "keywords": [
+    "angular2",
+    "angular4",
+    "ng2",
+    "table"
+  ],
+  "bugs": {
+    "url": "https://github.com/lishichao1002/ngx-ourpalm-table/issues"
+  },
+  "author": "lishichao",
   "private": true,
   "dependencies": {
     "@angular/animations": "^4.0.0",
