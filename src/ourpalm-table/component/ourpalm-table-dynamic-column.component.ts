@@ -3,7 +3,7 @@ import {OurpalmTableColumn} from "../model/ourpalm-table-column";
 
 
 @Component({
-    selector: '[ourpalm-table-column]',
+    selector: '[ourpalm-table-dynamic-column]',
     template: `
         <!-- 隐藏列 -->
         <ng-container [class.hidden]="!column.show">
@@ -24,7 +24,7 @@ import {OurpalmTableColumn} from "../model/ourpalm-table-column";
         </ng-container>
     `
 })
-export class OurpalmTableColumnComponent implements OnInit {
+export class OurpalmTableDynamicColumnComponent implements OnInit {
 
     @Input()
     column: OurpalmTableColumn;

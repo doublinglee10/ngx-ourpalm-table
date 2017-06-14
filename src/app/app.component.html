@@ -1,28 +1,17 @@
 <h2>Hello Ngx Ourpalm Table</h2>
 <div class="container">
     <ourpalm-table [table]="table">
-        <thead>
-            <ourpalm-table-column [column]="{header: '全选', field: 'checkAll', checkbox: true}"></ourpalm-table-column>
-            <ourpalm-table-column [column]="{header: '序号', field: 'number', rownumbers: true}"></ourpalm-table-column>
-            <ourpalm-table-column [column]="{header: '姓名', field: 'name'}"></ourpalm-table-column>
-            <ourpalm-table-column [column]="{header: '年龄', field: 'age'}"></ourpalm-table-column>
-        </thead>
-        <tr *ngFor="let row of table.rows">
-            <td>{{row.name}}</td>
-            <td>{{row.name}}</td>
-            <td>{{row.name}}</td>
-            <td>{{row.age}}</td>
-        </tr>
-
-        <!--<ng-container *ngFor="let row of table.columns">-->
-        <!--<td>{{row.name}}</td>-->
-        <!--<td>{{row.age}}</td>-->
-        <!--</ng-container>-->
-        <!--<ourpalm-table-column [column]="{header: '全选', field: 'checkAll', checkbox: true}"></ourpalm-table-column>-->
-        <!--<ourpalm-table-column [column]="{header: '序号', field: 'number', rownumbers: true}"></ourpalm-table-column>-->
-        <!--<ourpalm-table-column [column]="{header: '姓名', field: 'name'}" #col>-->
-        <!--{{col.$row ? 'yes' : 'no' }}-->
-        <!--</ourpalm-table-column>-->
-        <!--<ourpalm-table-column [column]="{header: '年龄', field: 'age'}"></ourpalm-table-column>-->
+        <td [ourpalm-table-column]="{header: '全选', field: 'checkAll', checkbox: true}"></td>
+        <td [ourpalm-table-column]="{header: '序号', field: 'number', rownumbers: true}"></td>
+        <td [ourpalm-table-column]="{header: '姓名', field: 'name'}">
+            <ng-template let-row="$row">
+                {{row.name}}
+            </ng-template>
+        </td>
+        <td [ourpalm-table-column]="{header: '年龄', field: 'age'}">
+            <ng-template let-row="$row">
+                {{row.age}}
+            </ng-template>
+        </td>
     </ourpalm-table>
 </div>

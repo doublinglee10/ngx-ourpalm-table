@@ -4,7 +4,24 @@ import {OurpalmTable} from "../model/ourpalm-table";
 
 @Component({
     selector: '[ourpalm-table-header]',
-    templateUrl: './ourpalm-table-header.component.html'
+    template: `
+        <th *ngFor="let column of table.columns; let i = index" [class.hidden]="!column.show"><!-- 隐藏列 -->
+            <!-- 排序列 -->
+            <ng-container *ngIf="column.sort">{{column.header}}</ng-container>
+            <!-- checkbox列 -->
+            <ng-container *ngIf="column.checkbox">
+                <input type="checkbox" [(ngModel)]="checkAll" (click)="toggleCheckBox()">
+            </ng-container>
+            <!-- 序号列 -->
+            <ng-container *ngIf="column.rownumbers">
+                {{column.header}}
+            </ng-container>
+            <!-- 正常列 -->
+            <ng-container *ngIf="!column.sort && !column.checkbox && !column.rownumbers">
+                {{column.header}}
+            </ng-container>
+        </th>
+    `
 })
 export class OurpalmTableHeaderComponent implements OnInit {
 

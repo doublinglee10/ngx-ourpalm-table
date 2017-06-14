@@ -24,14 +24,13 @@ export class AppComponent {
             //     header: '年龄',
             //     field: 'age'
             // }],
-            pagePosition: 'both',
+            pagePosition: 'bottom',
             defaultPageSize: 10,
             loadData: (table: OurpalmTable, callback: (page: Page) => {}) => {
 
                 var start = (table.currentPage - 1) * table.pageSize + 1;
                 var end = start + table.pageSize;
                 end = end > 86 ? 86 : end;
-                console.info('load data, currentPage : ', table.currentPage, 'pageSize : ', table.pageSize, ' , start :  ', start, ' , end : ', end);
                 //构造服务器假数据
                 var rows = [];
                 for (; start < end; start++) {
@@ -50,5 +49,9 @@ export class AppComponent {
                 }, 300);
             }
         });
+    }
+
+    log(data) {
+        console.log(data);
     }
 }

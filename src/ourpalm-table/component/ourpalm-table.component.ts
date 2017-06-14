@@ -1,6 +1,6 @@
-import {Component, Input, AfterContentInit, ContentChildren, QueryList, OnInit} from "@angular/core";
+import {Component, Input, AfterContentInit, ContentChildren, QueryList, TemplateRef, ContentChild} from "@angular/core";
 import {OurpalmTable} from "../model/ourpalm-table";
-import {OurpalmTableColumnDirective} from "../directive/ourpalm-table-column.directive";
+import {OurpalmTableStaticColumnComponent} from "./ourpalm-table-static-column.component";
 
 
 @Component({
@@ -9,7 +9,7 @@ import {OurpalmTableColumnDirective} from "../directive/ourpalm-table-column.dir
     template: `
         <table class="table table-bordered table-striped table-hover text-center">
             <thead>
-                <ng-container *ngIf="table.pagePosition != 'bottom' ">
+                <ng-container *ngIf="table.pagination && table.pagePosition != 'bottom' ">
                     <tr class="ourpalm-table-pageing" ourpalm-table-paging [table]="table"></tr>
                 </ng-container>
                 <tr ourpalm-table-header [table]="table"></tr>
@@ -19,33 +19,32 @@ import {OurpalmTableColumnDirective} from "../directive/ourpalm-table-column.dir
                 <ng-container *ngIf="dynamicColumn"> 
                     <tr *ngFor="let row of table.rows; let i = index;">
                         <ng-container *ngFor="let column of table.columns">
-                            <td ourpalm-table-column [row]="row" [column]="column" [index]="i" [class.hidden]="!column.show"></td>
+                            <td ourpalm-table-dynamic-column [row]="row" [column]="column" [index]="i" [class.hidden]="!column.show"></td>
                         </ng-container>
                     </tr>
                 </ng-container>
                 <!--静态列-->
                 <ng-container *ngIf="!dynamicColumn">
-                    <ng-content selector="tr"></ng-content>
-                    <!--<tr *ngFor="let $row of table.rows; let i = index;">-->
-                        <!--<ng-template ngFor [ngForOf]="columnDirs">-->
-                            <!--<ng-content></ng-content>-->
-                        <!--</ng-template>-->
-                    <!--</tr>-->
+                    <!--<ng-content selector="tr"></ng-content>-->
+                    <tr *ngFor="let row of table.rows; let i = index;">
+                        <!--<template [ngTemplateOutlet]="template" [ngOutletContext]="{}"></template>    -->
+                        
+                        <td *ngFor="let col of columnDirs" [class.hidden]="!col.column.show">
+                            <ourpalm-table-columnTemplateRenderer [columnDir]="col" [row]="row" [index]="i"></ourpalm-table-columnTemplateRenderer>
+                        </td>
+                    </tr>
                 </ng-container>
             </tbody>
             <tfoot>
-                <ng-container *ngIf="table.pagePosition != 'top' ">
+                <ng-container *ngIf="table.pagination && table.pagePosition != 'top' ">
                     <tr class="ourpalm-table-pageing" ourpalm-table-paging [table]="table"></tr>
                 </ng-container>
                 <ourpalm-table-settings [table]="table"></ourpalm-table-settings>
             </tfoot>
-            <ng-container [class.hidden]="true">
-                <ng-content selector="thead"></ng-content>
-            </ng-container>
         </table>
     `
 })
-export class OurpalmTableComponent implements AfterContentInit, OnInit {
+export class OurpalmTableComponent implements AfterContentInit {
 
     //是否是动态列，默认为声明式
     dynamicColumn: boolean = false;
@@ -53,30 +52,22 @@ export class OurpalmTableComponent implements AfterContentInit, OnInit {
     @Input()
     table: OurpalmTable;
 
-    @ContentChildren(OurpalmTableColumnDirective)
-    private columnDirs: QueryList<OurpalmTableColumnDirective>;
+    @ContentChildren(OurpalmTableStaticColumnComponent)
+    private columnDirs: QueryList<OurpalmTableStaticColumnComponent>;
 
-    ngOnInit(): void {
-        // console.warn(this.table);
-    }
+    @ContentChild(TemplateRef)
+    private template: TemplateRef<any>;
 
     ngAfterContentInit(): void {
-        console.info(this.columnDirs.toArray().length);
         //声明式列，不支持动态列特性
         if (this.table.columns.length == 0) {
             this.dynamicColumn = false;
-            this.table.columns = this.columnDirs.toArray().map((columnDir: OurpalmTableColumnDirective) => columnDir.column);
+            this.table.columns = this.columnDirs.toArray().map((columnDir: OurpalmTableStaticColumnComponent) => columnDir.column);
         } else {
             this.dynamicColumn = true;
         }
-
-        console.log('this.dynamicColumn', this.dynamicColumn);
         //加载数据
         this.table.invokeLoadData();
-    }
-
-    log(row, column) {
-        console.log(row, column);
     }
 
 }

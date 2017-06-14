@@ -1,12 +1,15 @@
 import {NgModule} from "@angular/core";
 import {CommonModule} from "@angular/common";
 import {OurpalmTableComponent} from "./component/ourpalm-table.component";
-import {OurpalmTableColumnDirective} from "./directive/ourpalm-table-column.directive";
 import {OurpalmTableHeaderComponent} from "./component/ourpalm-table-header.component";
 import {FormsModule} from "@angular/forms";
-import {OurpalmTableColumnComponent} from "./component/ourpalm-table-column.component";
 import {OurpalmTablePagingComponent} from "./component/ourpalm-table-paging.component";
 import {OurpalmTableSettingsComponent} from "./component/ourpalm-table-settings.component";
+import {OurpalmTableDynamicColumnComponent} from "./component/ourpalm-table-dynamic-column.component";
+import {
+    OurpalmTableStaticColumnComponent,
+    OurpalmTableColumnTemplateRenderer
+} from "./component/ourpalm-table-static-column.component";
 
 @NgModule({
     imports: [
@@ -15,15 +18,16 @@ import {OurpalmTableSettingsComponent} from "./component/ourpalm-table-settings.
     ],
     declarations: [
         OurpalmTableComponent,
-        OurpalmTableColumnComponent,
-        OurpalmTableColumnDirective,
+        OurpalmTableDynamicColumnComponent,
+        OurpalmTableStaticColumnComponent,
         OurpalmTableHeaderComponent,
         OurpalmTableSettingsComponent,
-        OurpalmTablePagingComponent
+        OurpalmTablePagingComponent,
+        OurpalmTableColumnTemplateRenderer
     ],
     exports: [
         OurpalmTableComponent,
-        OurpalmTableColumnDirective
+        OurpalmTableStaticColumnComponent
     ]
 })
 export class OurpalmTableModule {
