@@ -17,7 +17,7 @@ export class OurpalmTableColumn {
     /** 是否为多选列 */
     checkbox?: boolean = false;
     /** 单元格formatter(格式化器)函数 */
-    formatter?: (value, row) => {};
+    formatter?: (value: any, row: any) => {};
 
     constructor(optcolumn: OurpalmTableColumn) {
         // this = table;
@@ -29,7 +29,7 @@ export class OurpalmTableColumn {
             rownumbers: false,
             show: true,
             checkbox: false,
-            formatter: (value, row) => value
+            formatter: (value: any, row: any) => value
         }, optcolumn);
 
         this.header = table.header;
