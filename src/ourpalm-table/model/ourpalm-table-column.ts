@@ -7,17 +7,17 @@ export class OurpalmTableColumn {
     /** 字段名称 */
     field: string = '';
     /** 是否列排序 */
-    sort: boolean = false;
+    sort?: boolean = false;
     /** 列排序方向,取值 asc 或 desc */
-    sortOrder: string = 'asc';
+    sortOrder?: string = 'asc';
     /** 是否为行号列 1...* */
-    rownumbers: boolean = false;
+    rownumbers?: boolean = false;
     /** 是否隐藏列 */
-    show: boolean = true;
+    show?: boolean = true;
     /** 是否为多选列 */
-    checkbox: boolean = false;
+    checkbox?: boolean = false;
     /** 单元格formatter(格式化器)函数 */
-    formatter: (value, row) => {};
+    formatter?: (value, row) => {};
 
     constructor(optcolumn: OurpalmTableColumn) {
         // this = table;

@@ -1,5 +1,6 @@
 import {Input, Component, OnInit} from "@angular/core";
 import {OurpalmTableColumn} from "../model/ourpalm-table-column";
+import {OurpalmTable} from "../model/ourpalm-table";
 
 
 @Component({
@@ -11,7 +12,7 @@ import {OurpalmTableColumn} from "../model/ourpalm-table-column";
             <ng-container *ngIf="column.sort">{{value()}}</ng-container>
             <!-- checkbox列 -->
             <ng-container *ngIf="column.checkbox">
-                <input type="checkbox" [(ngModel)]="row.__checked__" name="checkAll">
+                <input type="checkbox" [(ngModel)]="row.__checked__" (change)="onCheckBoxChange()">
             </ng-container>
             <!-- 序号列 -->
             <ng-container *ngIf="column.rownumbers">
@@ -35,10 +36,20 @@ export class OurpalmTableDynamicColumnComponent implements OnInit {
     @Input()
     row: any;
 
+    @Input()
+    table: OurpalmTable;
+
     ngOnInit(): void {
     }
 
-    value(): any {
+    private value(): any {
         return this.column.formatter ? this.column.formatter(this.row[this.column.field], this.row) : this.row[this.column.field];
+    }
+
+    private onCheckBoxChange() {
+        if (this.row.__checked__ && this.table.singleSelect) {
+            this.table.rows.forEach(row => row.__checked__ = false);
+            this.row.__checked__ = true;
+        }
     }
 }

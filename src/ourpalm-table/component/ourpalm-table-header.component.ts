@@ -10,7 +10,7 @@ import {OurpalmTable} from "../model/ourpalm-table";
             <ng-container *ngIf="column.sort">{{column.header}}</ng-container>
             <!-- checkbox列 -->
             <ng-container *ngIf="column.checkbox">
-                <input type="checkbox" [(ngModel)]="checkAll" (click)="toggleCheckBox()">
+                <input type="checkbox" [(ngModel)]="checkAll" (change)="onCheckBoxChange()">
             </ng-container>
             <!-- 序号列 -->
             <ng-container *ngIf="column.rownumbers">
@@ -33,9 +33,12 @@ export class OurpalmTableHeaderComponent implements OnInit {
     ngOnInit(): void {
     }
 
-    toggleCheckBox() {
-        this.checkAll = !this.checkAll;
-        this.table.rows.forEach((row: any) => row.__checked__ = this.checkAll);
+    onCheckBoxChange() {
+        if (!this.table.singleSelect) {
+            this.table.rows.forEach((row: any) => row.__checked__ = this.checkAll);
+        } else if (!this.checkAll) {
+            this.table.rows.forEach((row: any) => row.__checked__ = false);
+        }
     }
 
 }

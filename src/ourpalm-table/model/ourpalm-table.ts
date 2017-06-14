@@ -32,7 +32,9 @@ export class OurpalmTable {
     /** 分页条在那里显示可取值 'bottom', 'top', 'both' */
     pagePosition?: string = 'bottom';
 
-    loadData: Function;
+    /** 加载数据成功回调 */
+    loadData: (table: OurpalmTable, callback: (page: Page) => {}) => {};
+
     /** 是否打开自定义列表项 */
     openSettings: boolean = false;
 
@@ -92,17 +94,23 @@ export class OurpalmTable {
 
     //获取显示的列信息
     getDisplayedColumns() {
-
+        let columns = [];
+        this.columns.forEach((column: OurpalmTableColumn) => {
+            if (column.show) {
+                columns.push(Object.assign({}, column));
+            }
+        });
+        return columns;
     }
 
     //获取显示的行信息
     getDisplayedRows() {
-
+        return this.rows.map(row => Object.assign({}, row));
     }
 
     //获取选中的行信息
     getSelectedRows() {
-
+        return this.rows.filter(row => row.__checked__).map(row => Object.assign({}, row));
     }
 
     //获取排序的列信息
@@ -112,7 +120,25 @@ export class OurpalmTable {
 
     //获取表格的实时信息
     getOptions() {
+        return {
+            currentPage: this.currentPage,
+            pageSize: this.pageSize,
+            pagination: this.pagination,
+            singleSelect: this.singleSelect,
+            serverSort: this.serverSort,
+            pageList: [].concat(this.pageList),
+            defaultPageSize: this.defaultPageSize,
+            skipPage: this.skipPage,
+            cacheKey: this.cacheKey,
+            cachePageSize: this.cachePageSize,
+            cacheColumns: this.cacheColumns,
+            pagePosition: this.pagePosition,
+        }
+    }
 
+    //修改列定义,支持动态列
+    changeColumns(columns: OurpalmTableColumn[]) {
+        this.columns = columns.map(column => new OurpalmTableColumn(column));
     }
 
     firstPage() {

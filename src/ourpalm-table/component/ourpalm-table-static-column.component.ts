@@ -1,13 +1,14 @@
 import {Input, OnInit, Component, TemplateRef, ContentChild} from "@angular/core";
 import {OurpalmTableColumn} from "../model/ourpalm-table-column";
+import {OurpalmTable} from "../model/ourpalm-table";
 
 @Component({
-    selector: 'td[ourpalm-table-column]',
+    selector: 'ourpalm-table-column',
     template: ``
 })
 export class OurpalmTableStaticColumnComponent implements OnInit {
 
-    @Input('ourpalm-table-column')
+    @Input()
     column: OurpalmTableColumn;
 
     @ContentChild(TemplateRef)
@@ -23,11 +24,11 @@ export class OurpalmTableStaticColumnComponent implements OnInit {
     template: `
         <!-- 排序列 -->
         <ng-container *ngIf="column.sort">
-            <template [ngTemplateOutlet]="columnDir?.template" [ngOutletContext]="{'$implicit': column, '$row': row}"></template>
+            <ng-template [ngTemplateOutlet]="columnDir?.template" [ngOutletContext]="{'$implicit': column, '$row': row}"></ng-template>
         </ng-container>
         <!-- checkbox列 -->
         <ng-container *ngIf="column.checkbox">
-            <input type="checkbox" [(ngModel)]="row.__checked__">
+            <input type="checkbox" [(ngModel)]="row.__checked__" (change)="onCheckBoxChange()">
         </ng-container>
         <!-- 序号列 -->
         <ng-container *ngIf="column.rownumbers">
@@ -35,7 +36,7 @@ export class OurpalmTableStaticColumnComponent implements OnInit {
         </ng-container>
         <!-- 正常列 -->
         <ng-container *ngIf="!column.sort && !column.checkbox && !column.rownumbers">
-            <template [ngTemplateOutlet]="columnDir?.template" [ngOutletContext]="{'$implicit': column, '$row': row}"></template>
+            <ng-template [ngTemplateOutlet]="columnDir?.template" [ngOutletContext]="{'$implicit': column, '$row': row}"></ng-template>
         </ng-container>
     `
 })
@@ -51,9 +52,19 @@ export class OurpalmTableColumnTemplateRenderer implements OnInit {
     @Input()
     index: number;
 
+    @Input()
+    table: OurpalmTable;
+
     column: OurpalmTableColumn;
 
     ngOnInit() {
         this.column = this.columnDir.column;
+    }
+
+    private onCheckBoxChange() {
+        if (this.row.__checked__ && this.table.singleSelect) {
+            this.table.rows.forEach(row => row.__checked__ = false);
+            this.row.__checked__ = true;
+        }
     }
 }

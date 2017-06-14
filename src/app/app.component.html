@@ -1,17 +1,19 @@
 <h2>Hello Ngx Ourpalm Table</h2>
 <div class="container">
     <ourpalm-table [table]="table">
-        <td [ourpalm-table-column]="{header: '全选', field: 'checkAll', checkbox: true}"></td>
-        <td [ourpalm-table-column]="{header: '序号', field: 'number', rownumbers: true}"></td>
-        <td [ourpalm-table-column]="{header: '姓名', field: 'name'}">
-            <ng-template let-row="$row">
-                {{row.name}}
+        <ourpalm-table-column [column]="{header: '全选', field: 'checkAll', checkbox: true}"></ourpalm-table-column>
+        <ourpalm-table-column [column]="{header: '序号', field: 'number', rownumbers: true}"></ourpalm-table-column>
+        <ourpalm-table-column [column]="{header: '姓名', field: 'name'}">
+            <ng-template let-data="$row">
+                {{data.name}}
             </ng-template>
-        </td>
-        <td [ourpalm-table-column]="{header: '年龄', field: 'age'}">
+        </ourpalm-table-column>
+        <ourpalm-table-column [column]="{header: '年龄', field: 'age'}">
             <ng-template let-row="$row">
                 {{row.age}}
             </ng-template>
-        </td>
+        </ourpalm-table-column>
     </ourpalm-table>
+
+    <ourpalm-table [table]="table2"></ourpalm-table>
 </div>

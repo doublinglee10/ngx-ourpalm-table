@@ -19,7 +19,7 @@ import {OurpalmTableStaticColumnComponent} from "./ourpalm-table-static-column.c
                 <ng-container *ngIf="dynamicColumn"> 
                     <tr *ngFor="let row of table.rows; let i = index;">
                         <ng-container *ngFor="let column of table.columns">
-                            <td ourpalm-table-dynamic-column [row]="row" [column]="column" [index]="i" [class.hidden]="!column.show"></td>
+                            <td ourpalm-table-dynamic-column [table]="table" [row]="row" [column]="column" [index]="i" [class.hidden]="!column.show"></td>
                         </ng-container>
                     </tr>
                 </ng-container>
@@ -30,7 +30,7 @@ import {OurpalmTableStaticColumnComponent} from "./ourpalm-table-static-column.c
                         <!--<template [ngTemplateOutlet]="template" [ngOutletContext]="{}"></template>    -->
                         
                         <td *ngFor="let col of columnDirs" [class.hidden]="!col.column.show">
-                            <ourpalm-table-columnTemplateRenderer [columnDir]="col" [row]="row" [index]="i"></ourpalm-table-columnTemplateRenderer>
+                            <ourpalm-table-columnTemplateRenderer [table]="table" [columnDir]="col" [row]="row" [index]="i"></ourpalm-table-columnTemplateRenderer>
                         </td>
                     </tr>
                 </ng-container>
