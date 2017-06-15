@@ -1,5 +1,6 @@
 import {OnInit, Component, Input} from "@angular/core";
 import {OurpalmTable} from "../model/ourpalm-table";
+import {OurpalmTableColumn} from "../model/ourpalm-table-column";
 
 
 @Component({
@@ -37,6 +38,13 @@ export class OurpalmTablePagingComponent implements OnInit {
     changePageSize() {
         this.table.defaultPageSize = +this.table.defaultPageSize;
         this.table.changePageSize(this.table.defaultPageSize);
+        this.saveCachePageSize();
+    }
+
+    saveCachePageSize() {
+        if (this.table.cacheKey && this.table.cachePageSize && window.localStorage) {
+            window.localStorage.setItem(`ngx-ourpalm-table-${this.table.cacheKey}-pagesize`, `${this.table.defaultPageSize}`);
+        }
     }
 
     firstPage() {

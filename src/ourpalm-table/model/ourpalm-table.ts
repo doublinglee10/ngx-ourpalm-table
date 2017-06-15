@@ -83,7 +83,6 @@ export class OurpalmTable {
     }
 
     onLoadSuccess(page: Page) {
-        console.info(this);
         this.total = page.total;
         this.rows = page.rows;
         this.allPage = this.total % this.pageSize == 0 ? this.total / this.pageSize : (Math.floor(this.total / this.pageSize) + 1);

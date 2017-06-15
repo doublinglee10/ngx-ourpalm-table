@@ -14,6 +14,9 @@ export class AppComponent {
 
     constructor() {
         this.table = new OurpalmTable({
+            cacheKey: 'table01',
+            cachePageSize: true,
+            cacheColumns: true,
             pagination: true,
             pagePosition: 'both',
             defaultPageSize: 10,

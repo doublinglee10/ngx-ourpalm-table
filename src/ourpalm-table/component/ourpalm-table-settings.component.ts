@@ -1,4 +1,4 @@
-import {OnInit, Component, Input} from "@angular/core";
+import {Component, Input} from "@angular/core";
 import {OurpalmTable} from "../model/ourpalm-table";
 import {OurpalmTableColumn} from "../model/ourpalm-table-column";
 
@@ -25,22 +25,27 @@ import {OurpalmTableColumn} from "../model/ourpalm-table-column";
         </div>
     `
 })
-export class OurpalmTableSettingsComponent implements OnInit {
+export class OurpalmTableSettingsComponent {
 
     @Input()
     table: OurpalmTable;
 
-    ngOnInit(): void {
-        // console.warn(this.table);
-    }
-
-    close() {
+    private close() {
         this.table.openSettings = false;
     }
 
-    toggleColumn(col: OurpalmTableColumn) {
+    private toggleColumn(col: OurpalmTableColumn) {
         col.show = !col.show;
-        // this.table.rows.forEach((row: any) => )
+        this.saveCacheColumns();
     }
 
+    private saveCacheColumns() {
+        if (this.table.cacheKey && this.table.cacheColumns && window.localStorage) {
+            let columnObj: Object = {};
+            this.table.columns.forEach((column: OurpalmTableColumn) => {
+                columnObj[column.field] = column.show;
+            });
+            window.localStorage.setItem(`ngx-ourpalm-table-${this.table.cacheKey}-columns`, JSON.stringify(columnObj));
+        }
+    }
 }

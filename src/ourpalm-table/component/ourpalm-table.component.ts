@@ -1,6 +1,7 @@
 import {Component, Input, AfterContentInit, ContentChildren, QueryList, TemplateRef, ContentChild} from "@angular/core";
 import {OurpalmTable} from "../model/ourpalm-table";
 import {OurpalmTableStaticColumnComponent} from "./ourpalm-table-static-column.component";
+import {OurpalmTableColumn} from "../model/ourpalm-table-column";
 
 
 @Component({
@@ -74,14 +75,12 @@ export class OurpalmTableComponent implements AfterContentInit {
 
     private reloadCacheColumns() {
         if (this.table.cacheKey && this.table.cacheColumns && window.localStorage) {
-            let cache: any = window.localStorage.getItem(`ngx-ourpalm-table-${this.table.cacheKey}`);
+            console.info(this.table);
+            let cache = window.localStorage.getItem(`ngx-ourpalm-table-${this.table.cacheKey}-columns`);
             if (cache) {
-                cache = JSON.parse(cache);
-                let columns: any[] = cache.columns;
-                columns.forEach(column => {
-                    if (column) {
-
-                    }
+                let columnObj: Object = JSON.parse(cache);
+                this.table.columns.forEach((column: OurpalmTableColumn) => {
+                    column.show = columnObj[column.field];
                 });
             }
         }
@@ -89,10 +88,10 @@ export class OurpalmTableComponent implements AfterContentInit {
 
     private reloadCachePageSize() {
         if (this.table.cacheKey && this.table.cachePageSize && window.localStorage) {
-            let cache: any = window.localStorage.getItem(`ngx-ourpalm-table-${this.table.cacheKey}`);
-            if (cache) {
-                cache = JSON.parse(cache);
-                this.table.defaultPageSize = +cache.pageSize;
+            let pageSize = window.localStorage.getItem(`ngx-ourpalm-table-${this.table.cacheKey}-pagesize`);
+            if (pageSize) {
+                this.table.defaultPageSize = +pageSize;
+                this.table.pageSize = this.table.defaultPageSize;
             }
         }
     }
