@@ -27,6 +27,12 @@
 
 
 
+## v0.1.1
+
+### Bugs修复
+ * 修复不支持文档中cacheKey，cachePageSize，cacheColumns的bug
+
+
 ## v0.1.0
 
 ### 新特性

@@ -155,5 +155,3 @@ export class AppComponent {
 |	refresh               |                   |		 刷新当前页    |
 |	gotoSkipPage          |   page:number     |		 跳转页 1...最大页    |
 
-
-*注意：所有数据为只读的，不要自己修改数据*
