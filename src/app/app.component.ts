@@ -15,6 +15,7 @@ export class AppComponent {
 
     constructor() {
         this.table = new OurpalmTable({
+            autoLoadData: false,
             cacheKey: 'table01',
             cachePageSize: true,
             cacheColumns: true,
@@ -147,6 +148,7 @@ export class AppComponent {
 
     changeOptions() {
         this.table.setOptions({
+            autoLoadData: true,
             currentPage: 2,
             defaultPageSize: 30
         });

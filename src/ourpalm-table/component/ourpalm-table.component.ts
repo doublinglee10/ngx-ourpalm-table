@@ -70,7 +70,9 @@ export class OurpalmTableComponent implements AfterContentInit {
         this.reloadCacheColumns();
         this.reloadCachePageSize();
         //加载数据
-        this.table.invokeLoadData();
+        if (this.table.autoLoadData) {
+            this.table.invokeLoadData();
+        }
     }
 
     private reloadCacheColumns() {
