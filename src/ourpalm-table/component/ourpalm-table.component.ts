@@ -18,19 +18,19 @@ import {OurpalmTableColumn} from "../model/ourpalm-table-column";
             <tbody>
                 <!--动态列-->
                 <ng-container *ngIf="dynamicColumn"> 
-                    <tr *ngFor="let row of table.rows; let i = index;">
-                        <ng-container *ngFor="let column of table.columns">
-                            <td ourpalm-table-dynamic-column [table]="table" [row]="row" [column]="column" [index]="i" [class.hidden]="!column.show"></td>
+                    <tr *ngFor="let row of table.rows; let i = index;" (dblclick)="table.onDbClickRow(i, row)" (click)="table.onClickRow(i, row)">
+                        <ng-container *ngFor="let column of table.columns; let j = index;">
+                            <td ourpalm-table-dynamic-column [table]="table" [row]="row" [column]="column" [index]="i" [class.hidden]="!column.show" (dblclick)="table.onDbClickCell(i, j, row, column)" (click)="table.onClickCell(i, j, row, column)"></td>
                         </ng-container>
                     </tr>
                 </ng-container>
                 <!--静态列-->
                 <ng-container *ngIf="!dynamicColumn">
                     <!--<ng-content selector="tr"></ng-content>-->
-                    <tr *ngFor="let row of table.rows; let i = index;">
+                    <tr *ngFor="let row of table.rows; let i = index;" (dblclick)="table.onDbClickRow(i, row)" (click)="table.onClickRow(i, row)">
                         <!--<template [ngTemplateOutlet]="template" [ngOutletContext]="{}"></template>    -->
                         
-                        <td *ngFor="let col of columnDirs" [class.hidden]="!col.column.show">
+                        <td *ngFor="let col of columnDirs; let j = index;" [class.hidden]="!col.column.show" (dblclick)="table.onDbClickCell(i, j, row, col.column)" (click)="table.onClickCell(i, j, row, col.column)">
                             <ourpalm-table-columnTemplateRenderer [table]="table" [columnDir]="col" [row]="row" [index]="i"></ourpalm-table-columnTemplateRenderer>
                         </td>
                     </tr>

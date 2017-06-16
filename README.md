@@ -154,4 +154,18 @@ export class AppComponent {
 |	lastPage              |                   |		 跳转到最后一页  |
 |	refresh               |                   |		 刷新当前页    |
 |	gotoSkipPage          |   page:number     |		 跳转页 1...最大页    |
+|	setOptions            |options:OurpalmTable|	 修改表配置项，修改后将触发加载数据   |
+|	setPageData           |  pageData: Page   |	     设置当页数据        |
+
+
+
+
+#### 事件
+
+|	事件名				  |	 参数 		      | 	            	描述 					|
+|-------------------------|-------------------|-------------------------------------------------|
+|	onClickRow            | rowIndex, rowData |		 在用户点击一行的时候触发，参数包括：rowIndex：点击的行的索引值，该索引值从0开始。rowData：对应于点击行的记录。 |
+|	onDblClickRow         | rowIndex, rowData |		 在用户双击一行的时候触发，参数包括：rowIndex：点击的行的索引值，该索引值从0开始。rowData：对应于点击行的记录。  |
+|	onClickCell           | rowIndex, cellIndex, rowData, column |		 在用户点击一个单元格的时候触发。  |
+|	onDblClickCell        | rowIndex, cellIndex, rowData, column |		 在用户双击一个单元格的时候触发。  |
 

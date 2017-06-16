@@ -1,5 +1,6 @@
 import {Component} from "@angular/core";
 import {OurpalmTable, Page} from "../ourpalm-table/model/ourpalm-table";
+import {OurpalmTableColumn} from "../ourpalm-table/model/ourpalm-table-column";
 
 @Component({
     selector: 'app-root',
@@ -24,6 +25,8 @@ export class AppComponent {
             pageList: [10, 30, 50, 100, 150],
             singleSelect: true,
             loadData: (table: OurpalmTable, callback: (page: Page) => {}) => {
+                console.info('loadData', table, callback);
+
                 var start = (table.currentPage - 1) * table.pageSize + 1;
                 var end = start + table.pageSize;
                 end = end > 86 ? 86 : end;
@@ -38,11 +41,24 @@ export class AppComponent {
                 }
 
                 setTimeout(function () {
+                    console.info('callback');
                     callback({
                         total: 86,
                         rows: rows
                     });
                 }, 300);
+            },
+            onClickRow: function (rowIndex: number, rowData: any) {
+                console.info('onClickRow', arguments);
+            },
+            onDbClickRow: function (rowIndex: number, rowData: any) {
+                console.info('onDbClickRow', arguments);
+            },
+            onClickCell: function (rowIndex: number, cellIndex: number, rowData: any, column: OurpalmTableColumn) {
+                console.info('onClickCell', arguments);
+            },
+            onDbClickCell: function (rowIndex: number, cellIndex: number, rowData: any, column: OurpalmTableColumn) {
+                console.info('onDbClickCell', arguments);
             }
         });
 
@@ -86,6 +102,18 @@ export class AppComponent {
                         rows: rows
                     });
                 }, 300);
+            },
+            onClickRow: function (rowIndex: number, rowData: any) {
+                console.info('onClickRow', arguments);
+            },
+            onDbClickRow: function (rowIndex: number, rowData: any) {
+                console.info('onDbClickRow', arguments);
+            },
+            onClickCell: function (rowIndex: number, cellIndex: number, rowData: any, column: OurpalmTableColumn) {
+                console.info('onClickCell', arguments);
+            },
+            onDbClickCell: function (rowIndex: number, cellIndex: number, rowData: any, column: OurpalmTableColumn) {
+                console.info('onDbClickCell', arguments);
             }
         });
 
@@ -112,6 +140,34 @@ export class AppComponent {
                 header: '年龄',
                 field: 'age'
             }]);
+
+
         }, 3000);
+    }
+
+    changeOptions() {
+        this.table.setOptions({
+            currentPage: 2,
+            defaultPageSize: 30
+        });
+    }
+
+    setPageData() {
+        var rows = [];
+        let start = 21, end = 40;
+        for (; start < end; start++) {
+            rows.push({
+                name: `data${start}`,
+                age: start,
+                email: `data${start}@163.com`
+            });
+        }
+
+        this.table.setPageData({
+            currentPage: 2,
+            pageSize: 20,
+            total: 86,
+            rows: rows
+        });
     }
 }

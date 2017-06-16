@@ -26,6 +26,16 @@
 <!-- * 修复linux x86_64下安装失败问题 -->
 
 
+## v0.1.2
+
+### 新特性
+ * 增加onClickRow事件
+ * 增加onDblClickRow事件
+ * 增加onClickCell事件
+ * 增加onDblClickCell事件
+ * 增加setOptions方法
+ * 增加setPageData方法
+
 
 ## v0.1.1
 

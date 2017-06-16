@@ -1,5 +1,8 @@
 <h2>Hello Ngx Ourpalm Table</h2>
 <div class="container">
+    <button (click)="changeOptions()">setOptions</button>
+    <button (click)="setPageData()">setPageData</button>
+
     <ourpalm-table [table]="table">
         <ourpalm-table-column [column]="{header: '全选', field: 'checkAll', checkbox: true}"></ourpalm-table-column>
         <ourpalm-table-column [column]="{header: '序号', field: 'number', rownumbers: true}"></ourpalm-table-column>
