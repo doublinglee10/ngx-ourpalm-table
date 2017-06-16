@@ -25,7 +25,9 @@ var OurpalmTableComponent = (function () {
         this.reloadCacheColumns();
         this.reloadCachePageSize();
         //加载数据
-        this.table.invokeLoadData();
+        if (this.table.autoLoadData) {
+            this.table.invokeLoadData();
+        }
     };
     OurpalmTableComponent.prototype.reloadCacheColumns = function () {
         if (this.table.cacheKey && this.table.cacheColumns && window.localStorage) {

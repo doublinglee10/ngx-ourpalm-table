@@ -33,7 +33,7 @@ export class AppComponent {
                 end = end > 86 ? 86 : end;
                 //构造服务器假数据
                 var rows = [];
-                for (; start < end; start++) {
+                for (; start <= end; start++) {
                     rows.push({
                         name: `zhangsan${start}`,
                         age: start,
@@ -49,18 +49,18 @@ export class AppComponent {
                     });
                 }, 300);
             },
-            onClickRow: function (rowIndex: number, rowData: any) {
-                console.info('onClickRow', arguments);
-            },
-            onDbClickRow: function (rowIndex: number, rowData: any) {
-                console.info('onDbClickRow', arguments);
-            },
-            onClickCell: function (rowIndex: number, cellIndex: number, rowData: any, column: OurpalmTableColumn) {
-                console.info('onClickCell', arguments);
-            },
-            onDbClickCell: function (rowIndex: number, cellIndex: number, rowData: any, column: OurpalmTableColumn) {
-                console.info('onDbClickCell', arguments);
-            }
+            // onClickRow: function (rowIndex: number, rowData: any) {
+            //     console.info('onClickRow', arguments);
+            // },
+            // onDbClickRow: function (rowIndex: number, rowData: any) {
+            //     console.info('onDbClickRow', arguments);
+            // },
+            // onClickCell: function (rowIndex: number, cellIndex: number, rowData: any, column: OurpalmTableColumn) {
+            //     console.info('onClickCell', arguments);
+            // },
+            // onDbClickCell: function (rowIndex: number, cellIndex: number, rowData: any, column: OurpalmTableColumn) {
+            //     console.info('onDbClickCell', arguments);
+            // }
         });
 
         this.table2 = new OurpalmTable({
@@ -89,7 +89,7 @@ export class AppComponent {
                 end = end > 86 ? 86 : end;
                 //构造服务器假数据
                 var rows = [];
-                for (; start < end; start++) {
+                for (; start <= end; start++) {
                     rows.push({
                         name: `lisi${start}`,
                         age: start,

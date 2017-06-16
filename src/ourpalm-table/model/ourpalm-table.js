@@ -6,6 +6,9 @@ var ourpalm_table_column_1 = require("./ourpalm-table-column");
  */
 var OurpalmTable = (function () {
     function OurpalmTable(optable) {
+        if (optable === void 0) { optable = {}; }
+        /** 初始化table的时候是否自动加载数据 */
+        this.autoLoadData = true;
         /** 表格列属性 */
         this.columns = [];
         /** 是否显示分页控件 */
@@ -135,10 +138,13 @@ var OurpalmTable = (function () {
     /*重新配置table属性，触发重新加载数据*/
     OurpalmTable.prototype.setOptions = function (optable) {
         this.changeOptions(optable);
-        this.invokeLoadData();
+        if (this.autoLoadData) {
+            this.invokeLoadData();
+        }
     };
     OurpalmTable.prototype.changeOptions = function (optable) {
         var table = Object.assign({}, {
+            autoLoadData: this.autoLoadData,
             columns: this.columns,
             pagination: this.pagination,
             singleSelect: this.singleSelect,
@@ -157,6 +163,7 @@ var OurpalmTable = (function () {
             onDbClickCell: this.onDbClickCell,
             currentPage: this.currentPage
         }, optable);
+        this.autoLoadData = table.autoLoadData;
         this.columns = table.columns.map(function (column) { return new ourpalm_table_column_1.OurpalmTableColumn(column); });
         this.pagination = table.pagination;
         this.singleSelect = table.singleSelect;
@@ -177,7 +184,6 @@ var OurpalmTable = (function () {
         this.currentPage = table.currentPage;
     };
     OurpalmTable.prototype.invokeLoadData = function () {
-        console.info(this.loadData);
         this.loadData(this, this.onLoadSuccess.bind(this));
     };
     return OurpalmTable;

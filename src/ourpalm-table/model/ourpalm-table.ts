@@ -37,15 +37,25 @@ export class OurpalmTable {
     pagePosition?: string = 'bottom';
 
     /** 加载数据成功回调 */
-    loadData: (table: OurpalmTable, callback: (page: Page) => {}) => {};
+    loadData: (table: OurpalmTable, callback: (page: Page) => {}) => {} = () => {
+        return null;
+    };
     /** 用户点击一行的时候触发 */
-    onClickRow: (rowIndex: number, rowData: any) => {};
+    onClickRow: (rowIndex: number, rowData: any) => {} = () => {
+        return null;
+    };
     /** 用户双击一行的时候触发 */
-    onDbClickRow: (rowIndex: number, rowData: any) => {};
+    onDbClickRow: (rowIndex: number, rowData: any) => {} = () => {
+        return null;
+    };
     /** 用户点击单元格的时候触发 */
-    onClickCell: (rowIndex: number, cellIndex: number, rowData: any, column: OurpalmTableColumn) => {};
+    onClickCell: (rowIndex: number, cellIndex: number, rowData: any, column: OurpalmTableColumn) => {} = () => {
+        return null;
+    };
     /** 用户双击单元格的时候触发 */
-    onDbClickCell: (rowIndex: number, cellIndex: number, rowData: any, column: OurpalmTableColumn) => {};
+    onDbClickCell: (rowIndex: number, cellIndex: number, rowData: any, column: OurpalmTableColumn) => {} = () => {
+        return null;
+    };
 
     /** 是否打开自定义列表项 */
     openSettings: boolean = false;
@@ -73,7 +83,7 @@ export class OurpalmTable {
         this.rows = page.rows;
         this.allPage = this.total % this.pageSize == 0 ? this.total / this.pageSize : (Math.floor(this.total / this.pageSize) + 1);
         this.start = (this.currentPage - 1) * this.pageSize + 1;
-        this.end = this.start + this.rows.length;
+        this.end = this.start + this.rows.length - 1;
         this.__tmpCurrentPage = this.currentPage;
     }
 
