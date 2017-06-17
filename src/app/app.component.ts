@@ -72,11 +72,14 @@ export class AppComponent {
                 rownumbers: true
             }, {
                 header: '姓名',
-                field: 'name'
+                field: 'name',
+                sort: true
             }, {
                 header: '年龄',
-                field: 'age'
+                field: 'age',
+                sort: true
             }],
+            serverSort: false,
             pagination: true,
             pagePosition: 'both',
             defaultPageSize: 10,
@@ -91,7 +94,7 @@ export class AppComponent {
                 var rows = [];
                 for (; start <= end; start++) {
                     rows.push({
-                        name: `lisi${start}`,
+                        name: `lisi-${this.randomString(4)}`,
                         age: start,
                         email: `lisi${start}@163.com`
                     });
@@ -118,32 +121,32 @@ export class AppComponent {
             }
         });
 
-        setTimeout(() => {
-            let columns = this.table2.getDisplayedColumns();
-            console.log('displayed columns', columns);
+        console.info(this.table2);
 
-            let rows = this.table2.getDisplayedRows();
-            console.log('displayed rows', rows);
+        // setTimeout(() => {
+        // let columns = this.table2.getDisplayedColumns();
+        // console.log('displayed columns', columns);
+        //
+        // let rows = this.table2.getDisplayedRows();
+        // console.log('displayed rows', rows);
+        //
+        // rows = this.table2.getSelectedRows();
+        // console.log('selected rows', rows);
+        //
+        // console.log('options', this.table2.getOptions());
 
-            rows = this.table2.getSelectedRows();
-            console.log('selected rows', rows);
-
-            console.log('options', this.table2.getOptions());
-
-            this.table2.changeColumns([{
-                field: 'checkAll',
-                header: '全选',
-                checkbox: true
-            }, {
-                header: '姓名',
-                field: 'name'
-            }, {
-                header: '年龄',
-                field: 'age'
-            }]);
-
-
-        }, 3000);
+        // this.table2.changeColumns([{
+        //     field: 'checkAll',
+        //     header: '全选',
+        //     checkbox: true
+        // }, {
+        //     header: '姓名',
+        //     field: 'name'
+        // }, {
+        //     header: '年龄',
+        //     field: 'age'
+        // }]);
+        // }, 3000);
     }
 
     changeOptions() {
@@ -171,5 +174,16 @@ export class AppComponent {
             total: 86,
             rows: rows
         });
+    }
+
+    randomString(len) {
+        len = len || 32;
+        var $chars = 'abcdefhijkmnprstwxyz2345678';
+        var maxPos = $chars.length;
+        var pwd = '';
+        for (let i = 0; i < len; i++) {
+            pwd += $chars.charAt(Math.floor(Math.random() * maxPos));
+        }
+        return pwd;
     }
 }

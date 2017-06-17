@@ -29,7 +29,6 @@ import {OurpalmTableColumn} from "../model/ourpalm-table-column";
                     <!--<ng-content selector="tr"></ng-content>-->
                     <tr *ngFor="let row of table.rows; let i = index;" (dblclick)="table.onDbClickRow(i, row)" (click)="table.onClickRow(i, row)">
                         <!--<template [ngTemplateOutlet]="template" [ngOutletContext]="{}"></template>    -->
-                        
                         <td *ngFor="let col of columnDirs; let j = index;" [class.hidden]="!col.column.show" (dblclick)="table.onDbClickCell(i, j, row, col.column)" (click)="table.onClickCell(i, j, row, col.column)">
                             <ourpalm-table-columnTemplateRenderer [table]="table" [columnDir]="col" [row]="row" [index]="i"></ourpalm-table-columnTemplateRenderer>
                         </td>
@@ -77,7 +76,6 @@ export class OurpalmTableComponent implements AfterContentInit {
 
     private reloadCacheColumns() {
         if (this.table.cacheKey && this.table.cacheColumns && window.localStorage) {
-            console.info(this.table);
             let cache = window.localStorage.getItem(`ngx-ourpalm-table-${this.table.cacheKey}-columns`);
             if (cache) {
                 let columnObj: Object = JSON.parse(cache);

@@ -132,10 +132,11 @@ export class AppComponent {
 |	header     		 	  |     string   	  |		''			   |	表头					   |
 |	field		    	  |     string   	  |		''			   |	字段名称		      	  |
 |	sort	     		  |     boolean   	  |		false	   	   |	是否列排序				 |
-|	sortOrder     		  |     string 		  |		asc			   |	列排序方向,取值 asc 或 desc	|
+|	sortOrder     		  |     string 		  |		null		   |	列排序方向,取值 asc 或 desc	 或 null|
 |	rownumbers		      |     boolean		  |		false		   |	是否为行号列 1...*				|
 |	show			      |     boolean		  |		true		   |	是否隐藏列				|
 |	checkbox		      |     boolean		  |		false		   |	是否为多选列				|
+|	sorter  		      |     function	  |		undefined      |	服务器排序不需要设置，客户端排序需要设置，sorter: (column, row1, row2) => row1[column.field] - row2[column.field]		|
 
 
 

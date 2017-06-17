@@ -26,10 +26,24 @@
 <!-- * 修复linux x86_64下安装失败问题 -->
 
 
+## v0.1.6
+
+### Bugs修复
+ * 修改不支持文档中排序的bug
+
+### 新特性
+ * 增加列属性sorter
+
+### 改进
+ * sortOrder属性取值由['asc', 'desc']改为['asc', 'desc', null]
+
+
+
 ## v0.1.5
 
 ### Bugs修复
  * 修复默认事件为undefined导致的bug
+
 
 
 ## v0.1.4
@@ -37,10 +51,13 @@
 ### 新特性
  * 增加autoLoadData属性
 
+
+
 ## v0.1.3
 
 ### Bugs修复
  * 修复分页显示错误bug
+
 
 
 ## v0.1.2
@@ -54,10 +71,12 @@
  * 增加setPageData方法
 
 
+
 ## v0.1.1
 
 ### Bugs修复
  * 修复不支持文档中cacheKey，cachePageSize，cacheColumns的bug
+
 
 
 ## v0.1.0
