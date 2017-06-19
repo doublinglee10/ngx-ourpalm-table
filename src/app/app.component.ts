@@ -64,19 +64,44 @@ export class AppComponent {
         });
 
         this.table2 = new OurpalmTable({
+            cacheKey: 'table02',
+            cachePageSize: true,
+            cacheColumns: true,
             columns: [{
                 header: '全选',
-                checkbox: true
+                checkbox: true,
+                field: 'checkbox'
             }, {
                 header: '序号',
-                rownumbers: true
+                rownumbers: true,
+                field: 'rownumbers'
             }, {
                 header: '姓名',
                 field: 'name',
                 sort: true
             }, {
-                header: '年龄',
-                field: 'age',
+                header: '生日',
+                field: 'birth',
+                sort: true
+            }, {
+                header: '邮箱',
+                field: 'email',
+                sort: true
+            }, {
+                header: '手机',
+                field: 'phone',
+                sort: true
+            }, {
+                header: '住址',
+                field: 'address',
+                sort: true
+            }, {
+                header: '爱好',
+                field: 'hobby',
+                sort: true
+            }, {
+                header: '学习',
+                field: 'school',
                 sort: true
             }],
             serverSort: false,

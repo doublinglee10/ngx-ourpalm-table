@@ -1,7 +1,6 @@
 import {Component, Input, AfterContentInit, ContentChildren, QueryList, TemplateRef, ContentChild} from "@angular/core";
 import {OurpalmTable} from "../model/ourpalm-table";
 import {OurpalmTableStaticColumnComponent} from "./ourpalm-table-static-column.component";
-import {OurpalmTableColumn} from "../model/ourpalm-table-column";
 
 
 @Component({
@@ -76,10 +75,19 @@ export class OurpalmTableComponent implements AfterContentInit {
         if (this.table.cacheKey && this.table.cacheColumns && window.localStorage) {
             let cache = window.localStorage.getItem(`ngx-ourpalm-table-${this.table.cacheKey}-columns`);
             if (cache) {
-                let columnObj: Object = JSON.parse(cache);
-                this.table.columns.forEach((column: OurpalmTableColumn) => {
-                    column.show = columnObj[column.field];
-                });
+                let columnArr: Array<any> = JSON.parse(cache);
+                let columns = [];
+                columnArr.forEach((col => {
+                    this.table.columns.forEach(column => {
+                        if (col.field == column.field) {
+                            columns.push({...column, ...col});
+                        }
+                    });
+                }));
+                this.table.columns = columns;
+                // this.table.columns.forEach((column: OurpalmTableColumn) => {
+                //     column.show = columnObj[column.field];
+                // });
             }
         }
     }

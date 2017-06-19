@@ -38,9 +38,21 @@
     margin-left: 0px;
 }
 
+.col-con {
+    border: 1px solid #bbb;
+    margin-bottom: 10px;
+}
+
+.col-con [type=text] {
+    width: 100%;
+    border: none;
+    padding-top: 2px;
+    padding-left: 10px;
+    border-bottom: 1px solid #aaa;
+}
+
 .ourpalm-table-settings ul {
     list-style: none;
-    border: 1px solid #bbb;
     height: 300px;
     overflow-y: auto;
     padding: 0px;
@@ -48,10 +60,6 @@
 
 .ourpalm-table-settings ul li {
     padding: 6px 10px;
-}
-
-.ourpalm-table-settings ul li [type=text] {
-    width: 100%;
 }
 
 .ourpalm-table-settings ul li:hover {

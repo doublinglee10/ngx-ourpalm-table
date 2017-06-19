@@ -14,11 +14,13 @@ import {
     ColumnSettingsLeftFilter,
     ColumnSettingsRightFilter
 } from "./component/ourpalm-table-settings.component";
+import {DndModule} from 'ng2-dnd';
 
 @NgModule({
     imports: [
         CommonModule,
-        FormsModule
+        FormsModule,
+        DndModule.forRoot()
     ],
     declarations: [
         OurpalmTableComponent,

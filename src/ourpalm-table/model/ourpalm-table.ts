@@ -11,6 +11,9 @@ export interface Page {
  * 表属性
  */
 export class OurpalmTable {
+    /** 用户配置的原始的列信息 */
+    __columns?: OurpalmTableColumn[] = [];
+
     /** 初始化table的时候是否自动加载数据 */
     autoLoadData?: boolean = true;
     /** 表格列属性 */
@@ -134,6 +137,7 @@ export class OurpalmTable {
     /*修改列定义,支持动态列,不会触发重新加载数据*/
     changeColumns(columns: OurpalmTableColumn[]) {
         this.columns = columns.map(column => new OurpalmTableColumn(column));
+        this.__columns = columns.map(column => new OurpalmTableColumn(column));
     }
 
     /*跳转到第一页，触发重新加载数据*/
@@ -215,6 +219,7 @@ export class OurpalmTable {
 
         this.autoLoadData = table.autoLoadData;
         this.columns = table.columns.map(column => new OurpalmTableColumn(column));
+        this.__columns = table.columns.map(column => new OurpalmTableColumn(column));
         this.pagination = table.pagination;
         this.singleSelect = table.singleSelect;
         this.serverSort = table.serverSort;
