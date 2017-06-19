@@ -20,8 +20,8 @@
 }
 
 .ourpalm-table-settings {
-    max-width: 500px !important;
-    min-width: 400px !important;
+    max-width: 800px !important;
+    min-width: 600px !important;
 }
 
 .ourpalm-table-settings .modal-body {
@@ -36,4 +36,28 @@
 
 .ourpalm-table-settings .checkbox-inline + .checkbox-inline {
     margin-left: 0px;
+}
+
+.ourpalm-table-settings ul {
+    list-style: none;
+    border: 1px solid #bbb;
+    height: 300px;
+    overflow-y: auto;
+    padding: 0px;
+}
+
+.ourpalm-table-settings ul li {
+    padding: 6px 10px;
+}
+
+.ourpalm-table-settings ul li [type=text] {
+    width: 100%;
+}
+
+.ourpalm-table-settings ul li:hover {
+    background-color: antiquewhite;
+}
+
+.ourpalm-table-settings ul li:first-child:hover {
+    background-color: #fff;
 }

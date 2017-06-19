@@ -110,7 +110,7 @@ export class OurpalmTable {
 
     /*获取排序的列信息*/
     getSortColumns() {
-
+        return this.columns.filter(column => column.sort).map(col => Object.assign({}, col));
     }
 
     /*获取表格的实时信息*/

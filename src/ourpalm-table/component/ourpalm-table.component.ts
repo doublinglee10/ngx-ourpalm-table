@@ -26,7 +26,6 @@ import {OurpalmTableColumn} from "../model/ourpalm-table-column";
                 </ng-container>
                 <!--静态列-->
                 <ng-container *ngIf="!dynamicColumn">
-                    <!--<ng-content selector="tr"></ng-content>-->
                     <tr *ngFor="let row of table.rows; let i = index;" (dblclick)="table.onDbClickRow(i, row)" (click)="table.onClickRow(i, row)">
                         <!--<template [ngTemplateOutlet]="template" [ngOutletContext]="{}"></template>    -->
                         <td *ngFor="let col of columnDirs; let j = index;" [class.hidden]="!col.column.show" (dblclick)="table.onDbClickCell(i, j, row, col.column)" (click)="table.onClickCell(i, j, row, col.column)">
@@ -39,7 +38,6 @@ import {OurpalmTableColumn} from "../model/ourpalm-table-column";
                 <ng-container *ngIf="table.pagination && table.pagePosition != 'top' ">
                     <tr class="ourpalm-table-pageing" ourpalm-table-paging [table]="table"></tr>
                 </ng-container>
-                <ourpalm-table-settings [table]="table"></ourpalm-table-settings>
             </tfoot>
         </table>
     `

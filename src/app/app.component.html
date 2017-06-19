@@ -3,20 +3,24 @@
     <button (click)="changeOptions()">setOptions</button>
     <button (click)="setPageData()">setPageData</button>
 
-    <ourpalm-table [table]="table">
-        <ourpalm-table-column [column]="{header: '全选', field: 'checkAll', checkbox: true}"></ourpalm-table-column>
-        <ourpalm-table-column [column]="{header: '序号', field: 'number', rownumbers: true}"></ourpalm-table-column>
-        <ourpalm-table-column [column]="{header: '姓名', field: 'name'}">
-            <ng-template let-data="$row">
-                {{data.name}}
-            </ng-template>
-        </ourpalm-table-column>
-        <ourpalm-table-column [column]="{header: '年龄', field: 'age'}">
-            <ng-template let-row="$row">
-                {{row.age}}
-            </ng-template>
-        </ourpalm-table-column>
-    </ourpalm-table>
+    <div class="table-responsive">
+        <ourpalm-table [table]="table">
+            <ourpalm-table-column [column]="{header: '全选', field: 'checkAll', checkbox: true}"></ourpalm-table-column>
+            <ourpalm-table-column [column]="{header: '序号', field: 'number', rownumbers: true}"></ourpalm-table-column>
+            <ourpalm-table-column [column]="{header: '姓名', field: 'name'}">
+                <ng-template let-data="$row">
+                    {{data.name}}
+                </ng-template>
+            </ourpalm-table-column>
+            <ourpalm-table-column [column]="{header: '年龄', field: 'age'}">
+                <ng-template let-row="$row">
+                    {{row.age}}
+                </ng-template>
+            </ourpalm-table-column>
+        </ourpalm-table>
+    </div>
 
-    <ourpalm-table [table]="table2"></ourpalm-table>
+    <div class="table-responsive">
+        <ourpalm-table [table]="table2"></ourpalm-table>
+    </div>
 </div>

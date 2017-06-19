@@ -94,7 +94,7 @@ export class AppComponent {
                 var rows = [];
                 for (; start <= end; start++) {
                     rows.push({
-                        name: `lisi-${this.randomString(4)}`,
+                        name: `lisi-${this.randomString(24)} ${this.randomString(24)}`,
                         age: start,
                         email: `lisi${start}@163.com`
                     });
@@ -121,7 +121,7 @@ export class AppComponent {
             }
         });
 
-        console.info(this.table2);
+        // console.info(this.table2);
 
         // setTimeout(() => {
         // let columns = this.table2.getDisplayedColumns();

@@ -23,6 +23,10 @@ import {OurpalmTableColumn} from "../model/ourpalm-table-column";
                 <button class="glyphicon glyphicon-cog ourpalm-table-pager" (click)="settings()"></button>
             </span>
             <span class="page-right">显示{{table.start}}-{{table.end}}条记录,共{{table.total}}条记录</span>
+            
+            <div *ngIf="table?.openSettings">
+                <ourpalm-table-settings [table]="table"></ourpalm-table-settings>
+            </div>
         </td>
     `
 })

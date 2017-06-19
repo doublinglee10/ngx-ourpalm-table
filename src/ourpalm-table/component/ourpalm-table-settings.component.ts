@@ -1,13 +1,12 @@
-import {Component, Input} from "@angular/core";
+import {Component, Input, PipeTransform, Injectable, Pipe, OnInit} from "@angular/core";
 import {OurpalmTable} from "../model/ourpalm-table";
 import {OurpalmTableColumn} from "../model/ourpalm-table-column";
-
 
 @Component({
     selector: 'ourpalm-table-settings',
     styleUrls: ['./ourpalm-table-settings.component.css'],
     template: `
-        <div *ngIf="table.openSettings">
+        <div>
             <div class="ourpalm-mask"></div>
             <div class="ourpalm-dialog">
                 <div class="modal-content ourpalm-table-settings">
@@ -16,30 +15,87 @@ import {OurpalmTableColumn} from "../model/ourpalm-table-column";
                         <h4 class="modal-title">自定义列表项</h4> 
                     </div>
                     <div class="modal-body">
-                        <label class="checkbox-inline" *ngFor="let col of table.columns">
-                            <input type="checkbox" [(ngModel)]="col.show" (click)="toggleColumn(col)"><span>{{col.header}}</span>
-                        </label>
+                    
+                        <div class="row">
+                        </div>
+                        <div class="row">
+                            <div class="col-md-5">
+                                <span>所有列</span>
+                                <ul>
+                                    <li>
+                                        <input type="text" placeholder="输入值..." [(ngModel)]="lmodel">
+                                    </li>
+                                    <li *ngFor="let col of table.columns | lcolumnFilter:lmodel">
+                                        <input type="checkbox" [(ngModel)]="col.__lshow__">
+                                        <span>{{col.header}}</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            
+                            <div class="col-md-2" style="padding:0px;margin:0px;text-align:center;">
+                                <div style="margin-top:130px;margin-bottom:10px;">
+                                    <button type="button" class="btn btn-default btn-sm" (click)="showColumn()"><i class="fa fa-long-arrow-right"></i></button>
+                                </div>
+                                <button type="button" class="btn btn-default btn-sm" (click)="hideColumn()"><i class="fa fa-long-arrow-left"></i></button>
+                            </div>
+                            <div class="col-md-5">
+                                <span>已选列</span>
+                                <ul>
+                                    <li>
+                                        <input type="text" placeholder="输入值..." [(ngModel)]="rmodel">
+                                    </li>
+                                    <li *ngFor="let col of table.columns | rcolumnFilter:rmodel">
+                                        <input type="checkbox" [(ngModel)]="col.__rshow__">
+                                        <span>{{col.header}}</span>                      
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="btn-group btn-group-sm" style="float:right;">
+                                    <!--<button type="button" class="btn btn-default" data-toggle="tooltip" title="显示" (click)="showColumn()"><i class="fa fa-long-arrow-right"></i></button>-->
+                                    <!--<button type="button" class="btn btn-default" data-toggle="tooltip" title="隐藏" (click)="hideColumn()"><i class="fa fa-long-arrow-left"></i></button>-->
+                                    <button type="button" class="btn btn-default" data-toggle="tooltip" title="还原" (click)="resetColumn()">还原</button>
+                                    <button type="button" class="btn btn-default" data-toggle="tooltip" title="保存" (click)="saveColumn()">保存</button>
+                                    <!--<button type="button" class="btn btn-default" data-toggle="tooltip" title="还原" (click)="resetColumn()"><i class="fa fa-reply"></i></button>-->
+                                    <!--<button type="button" class="btn btn-default" data-toggle="tooltip" title="保存" (click)="saveColumn()"><i class="fa fa-dot-circle-o"></i></button>-->
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     `
 })
-export class OurpalmTableSettingsComponent {
+export class OurpalmTableSettingsComponent implements OnInit {
+
+    lmodel: string;
+    rmodel: string;
 
     @Input()
     table: OurpalmTable;
 
-    private close() {
-        this.table.openSettings = false;
+    ngOnInit(): void {
+        this.table.columns.filter((column: any) => column.show).map((column: any) => column.__fshow__ = true);
+        this.table.columns.map((column: any) => column.__lshow__ = column.__rshow__ = false);
     }
 
-    private toggleColumn(col: OurpalmTableColumn) {
-        col.show = !col.show;
-        this.saveCacheColumns();
+    private showColumn() {
+        this.table.columns.filter((column: any) => column.__lshow__).map((column: any) => column.__fshow__ = true);
     }
 
-    private saveCacheColumns() {
+    private hideColumn() {
+        this.table.columns.filter((column: any) => column.__rshow__).map((column: any) => column.__fshow__ = false);
+    }
+
+    private resetColumn() {
+        this.table.columns.map((column: any) => Object.assign(column, {__fshow__: false})).filter((column: any) => column.show).map((column: any) => column.__fshow__ = true);
+    }
+
+    private saveColumn() {
+        this.table.columns.map((column: any) => Object.assign(column, {show: false})).filter((column: any) => column.__fshow__).map((column: any) => column.show = true);
         if (this.table.cacheKey && this.table.cacheColumns && window.localStorage) {
             let columnObj: Object = {};
             this.table.columns.forEach((column: OurpalmTableColumn) => {
@@ -47,5 +103,31 @@ export class OurpalmTableSettingsComponent {
             });
             window.localStorage.setItem(`ngx-ourpalm-table-${this.table.cacheKey}-columns`, JSON.stringify(columnObj));
         }
+    }
+
+    private close() {
+        this.table.openSettings = false;
+    }
+}
+
+@Pipe({
+    name: 'lcolumnFilter',
+    pure: false
+})
+@Injectable()
+export class ColumnSettingsLeftFilter implements PipeTransform {
+    transform(columns: OurpalmTableColumn[], name: string): any {
+        return !name ? columns : columns.filter(column => column.header.startsWith(name));
+    }
+}
+
+@Pipe({
+    name: 'rcolumnFilter',
+    pure: false
+})
+@Injectable()
+export class ColumnSettingsRightFilter implements PipeTransform {
+    transform(columns: OurpalmTableColumn[], name: string): any {
+        return name ? columns.filter((col: any) => col.__fshow__).filter(column => column.header.startsWith(name)) : columns.filter((col: any) => col.__fshow__);
     }
 }

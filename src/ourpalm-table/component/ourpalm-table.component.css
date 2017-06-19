@@ -1,3 +1,14 @@
 .ourpalm-table-pageing {
     background-color: #f9f9f9;
 }
+
+table {
+    margin-bottom: 0px;
+}
+
+table >>> td, table >>> th {
+    word-break: keep-all; /* 不换行 */
+    white-space: nowrap; /* 不换行 */
+    overflow: hidden;
+    text-overflow: ellipsis; /*省略号*/
+}
