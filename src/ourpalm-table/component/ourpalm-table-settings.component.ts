@@ -92,8 +92,18 @@ export class OurpalmTableSettingsComponent implements OnInit {
     }
 
     private saveColumn() {
-        this.table.columns = this.columns.map(column => Object.assign({}, column));
-        this.table.columns.map((column: any) => Object.assign(column, {show: false})).filter((column: any) => column.__fshow__).map((column: any) => column.show = true);
+        let tmpColumns = [];
+        this.columns.forEach((col1: any) => {
+            this.table.columns.forEach(col2 => {
+                if (col1.field == col2.field) {
+                    tmpColumns.push(Object.assign(col2, {show: !!col1.__fshow__}));
+                }
+            });
+        });
+        this.table.columns.splice(0);
+        tmpColumns.forEach(col => {
+            this.table.columns.push(col);
+        });
         if (this.table.cacheKey && this.table.cacheColumns && window.localStorage) {
             let columnArr: Array<any> = [];
             this.table.columns.forEach((column: OurpalmTableColumn) => {

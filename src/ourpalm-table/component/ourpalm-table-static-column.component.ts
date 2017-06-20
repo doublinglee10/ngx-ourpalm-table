@@ -24,7 +24,7 @@ export class OurpalmTableStaticColumnComponent implements OnInit {
     template: `
         <!-- 排序列 -->
         <ng-container *ngIf="column.sort">
-            <ng-template [ngTemplateOutlet]="columnDir?.template" [ngOutletContext]="{'$implicit': column, '$row': row}"></ng-template>
+            <ng-template [ngTemplateOutlet]="column.__template__" [ngOutletContext]="{'$implicit': column, '$row': row}"></ng-template>
         </ng-container>
         <!-- checkbox列 -->
         <ng-container *ngIf="column.checkbox">
@@ -36,15 +36,12 @@ export class OurpalmTableStaticColumnComponent implements OnInit {
         </ng-container>
         <!-- 正常列 -->
         <ng-container *ngIf="!column.sort && !column.checkbox && !column.rownumbers">
-            <ng-template [ngTemplateOutlet]="columnDir?.template" [ngOutletContext]="{'$implicit': column, '$row': row}"></ng-template>
+            <ng-template [ngTemplateOutlet]="column.__template__" [ngOutletContext]="{'$implicit': column, '$row': row}"></ng-template>
         </ng-container>
     `
 })
 
-export class OurpalmTableColumnTemplateRenderer implements OnInit {
-
-    @Input()
-    columnDir: OurpalmTableStaticColumnComponent;
+export class OurpalmTableColumnTemplateRenderer {
 
     @Input()
     row: any;
@@ -55,11 +52,8 @@ export class OurpalmTableColumnTemplateRenderer implements OnInit {
     @Input()
     table: OurpalmTable;
 
+    @Input()
     column: OurpalmTableColumn;
-
-    ngOnInit() {
-        this.column = this.columnDir.column;
-    }
 
     private onCheckBoxChange() {
         if (this.row.__checked__ && this.table.singleSelect) {

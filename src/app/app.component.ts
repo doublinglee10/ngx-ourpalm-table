@@ -15,7 +15,7 @@ export class AppComponent {
 
     constructor() {
         this.table = new OurpalmTable({
-            autoLoadData: false,
+            autoLoadData: true,
             cacheKey: 'table01',
             cachePageSize: true,
             cacheColumns: true,
@@ -26,8 +26,6 @@ export class AppComponent {
             pageList: [10, 30, 50, 100, 150],
             singleSelect: true,
             loadData: (table: OurpalmTable, callback: (page: Page) => {}) => {
-                console.info('loadData', table, callback);
-
                 var start = (table.currentPage - 1) * table.pageSize + 1;
                 var end = start + table.pageSize;
                 end = end > 86 ? 86 : end;
@@ -40,27 +38,25 @@ export class AppComponent {
                         email: `zhangsan${start}@163.com`
                     });
                 }
-
                 setTimeout(function () {
-                    console.info('callback');
                     callback({
                         total: 86,
                         rows: rows
                     });
                 }, 300);
             },
-            // onClickRow: function (rowIndex: number, rowData: any) {
-            //     console.info('onClickRow', arguments);
-            // },
-            // onDbClickRow: function (rowIndex: number, rowData: any) {
-            //     console.info('onDbClickRow', arguments);
-            // },
-            // onClickCell: function (rowIndex: number, cellIndex: number, rowData: any, column: OurpalmTableColumn) {
-            //     console.info('onClickCell', arguments);
-            // },
-            // onDbClickCell: function (rowIndex: number, cellIndex: number, rowData: any, column: OurpalmTableColumn) {
-            //     console.info('onDbClickCell', arguments);
-            // }
+            onClickRow: function (rowIndex: number, rowData: any) {
+                console.info('onClickRow', arguments);
+            },
+            onDbClickRow: function (rowIndex: number, rowData: any) {
+                console.info('onDbClickRow', arguments);
+            },
+            onClickCell: function (rowIndex: number, cellIndex: number, rowData: any, column: OurpalmTableColumn) {
+                console.info('onClickCell', arguments);
+            },
+            onDbClickCell: function (rowIndex: number, cellIndex: number, rowData: any, column: OurpalmTableColumn) {
+                console.info('onDbClickCell', arguments);
+            }
         });
 
         this.table2 = new OurpalmTable({

@@ -1,3 +1,4 @@
+import {TemplateRef} from "@angular/core";
 /**
  * 表属性
  */
@@ -22,6 +23,8 @@ export class OurpalmTableColumn {
         return row1[column.field] - row2[column.field];
     };
 
+    __template__: TemplateRef<any>;
+
     constructor(optcolumn: OurpalmTableColumn) {
         // this = table;
         let table = Object.assign({}, {
@@ -33,7 +36,8 @@ export class OurpalmTableColumn {
             show: this.show,
             checkbox: this.checkbox,
             formatter: this.formatter,
-            sorter: this.sorter
+            sorter: this.sorter,
+            __template__: this.__template__
         }, optcolumn);
 
         this.header = table.header;
@@ -45,5 +49,6 @@ export class OurpalmTableColumn {
         this.checkbox = table.checkbox;
         this.formatter = table.formatter;
         this.sorter = table.sorter;
+        this.__template__ = table.__template__;
     }
 }

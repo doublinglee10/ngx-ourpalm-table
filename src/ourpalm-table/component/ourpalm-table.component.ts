@@ -26,9 +26,8 @@ import {OurpalmTableStaticColumnComponent} from "./ourpalm-table-static-column.c
                 <!--静态列-->
                 <ng-container *ngIf="!dynamicColumn">
                     <tr *ngFor="let row of table.rows; let i = index;" (dblclick)="table.onDbClickRow(i, row)" (click)="table.onClickRow(i, row)">
-                        <!--<template [ngTemplateOutlet]="template" [ngOutletContext]="{}"></template>    -->
-                        <td *ngFor="let col of columnDirs; let j = index;" [class.hidden]="!col.column.show" (dblclick)="table.onDbClickCell(i, j, row, col.column)" (click)="table.onClickCell(i, j, row, col.column)">
-                            <ourpalm-table-columnTemplateRenderer [table]="table" [columnDir]="col" [row]="row" [index]="i"></ourpalm-table-columnTemplateRenderer>
+                        <td *ngFor="let col of table.columns; let j = index;" [class.hidden]="!col.show" (dblclick)="table.onDbClickCell(i, j, row, col)" (click)="table.onClickCell(i, j, row, col)">
+                            <ourpalm-table-columnTemplateRenderer [table]="table" [column]="col" [row]="row" [index]="i"></ourpalm-table-columnTemplateRenderer>
                         </td>
                     </tr>
                 </ng-container>
@@ -59,7 +58,8 @@ export class OurpalmTableComponent implements AfterContentInit {
         //声明式列，不支持动态列特性
         if (this.table.columns.length == 0) {
             this.dynamicColumn = false;
-            this.table.columns = this.columnDirs.toArray().map((columnDir: OurpalmTableStaticColumnComponent) => columnDir.column);
+            this.table.columns = this.columnDirs.toArray().map((columnDir: OurpalmTableStaticColumnComponent) => Object.assign(columnDir.column, {__template__: columnDir.template}));
+            this.table.__columns = this.table.columns.map(col => Object.assign({}, col));
         } else {
             this.dynamicColumn = true;
         }
@@ -76,18 +76,22 @@ export class OurpalmTableComponent implements AfterContentInit {
             let cache = window.localStorage.getItem(`ngx-ourpalm-table-${this.table.cacheKey}-columns`);
             if (cache) {
                 let columnArr: Array<any> = JSON.parse(cache);
-                let columns = [];
-                columnArr.forEach((col => {
-                    this.table.columns.forEach(column => {
-                        if (col.field == column.field) {
-                            columns.push({...column, ...col});
-                        }
+                if (columnArr.length == this.table.columns.length) {
+                    let tmpColumns = [];
+                    columnArr.forEach((col1 => {
+                        this.table.columns.forEach(col2 => {
+                            if (col1.field == col2.field) {
+                                tmpColumns.push(Object.assign(col2, col1));
+                            }
+                        });
+                    }));
+                    this.table.columns.splice(0);
+                    tmpColumns.forEach(col => {
+                        this.table.columns.push(col);
                     });
-                }));
-                this.table.columns = columns;
-                // this.table.columns.forEach((column: OurpalmTableColumn) => {
-                //     column.show = columnObj[column.field];
-                // });
+                } else {
+                    window.localStorage.removeItem(`ngx-ourpalm-table-${this.table.cacheKey}-columns`);
+                }
             }
         }
     }

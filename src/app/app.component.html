@@ -5,8 +5,8 @@
 
     <div class="table-responsive">
         <ourpalm-table [table]="table">
-            <ourpalm-table-column [column]="{header: '全选', field: 'checkAll', checkbox: true}"></ourpalm-table-column>
-            <ourpalm-table-column [column]="{header: '序号', field: 'number', rownumbers: true}"></ourpalm-table-column>
+            <ourpalm-table-column [column]="{header: '全选', field: 'checkbox', checkbox: true}"></ourpalm-table-column>
+            <ourpalm-table-column [column]="{header: '序号', field: 'rownumbers', rownumbers: true}"></ourpalm-table-column>
             <ourpalm-table-column [column]="{header: '姓名', field: 'name', sort: true}">
                 <ng-template let-data="$row">
                     {{data.name}}
