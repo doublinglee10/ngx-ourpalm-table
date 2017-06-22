@@ -1,15 +1,17 @@
 {
   "name": "ngx-ourpalm-table",
-  "version": "0.1.8",
+  "version": "0.1.12",
   "license": "MIT",
-  "main": "dist/index.js",
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "ngc-build": "rm -rf aot && rm -rf lib && \"node_modules/.bin/ngc\" -p tsconfig-aot.json"
   },
   "repository": {
     "type": "git",

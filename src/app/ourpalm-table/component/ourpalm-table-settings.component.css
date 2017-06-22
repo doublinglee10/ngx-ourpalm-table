@@ -65,7 +65,3 @@
 .ourpalm-table-settings ul li:hover {
     background-color: antiquewhite;
 }
-
-.ourpalm-table-settings ul li:first-child:hover {
-    background-color: #fff;
-}

@@ -5,7 +5,7 @@ import {OurpalmTableStaticColumnComponent} from "./ourpalm-table-static-column.c
 
 @Component({
     selector: 'ourpalm-table',
-    styleUrls: ['./ourpalm-table.component.css'],
+    styleUrls: ['ourpalm-table.component.css'],
     template: `
         <table class="table table-bordered table-striped table-hover text-center">
             <thead>

@@ -5,7 +5,7 @@ import {OurpalmTableColumn} from "../model/ourpalm-table-column";
 
 @Component({
     selector: '[ourpalm-table-header]',
-    styleUrls: ['./ourpalm-table-header.component.css'],
+    styleUrls: ['ourpalm-table-header.component.css'],
     template: `
         <th *ngFor="let column of table.columns; let i = index" [class.hidden]="!column.show"><!-- 隐藏列 -->
             <!-- 排序列 -->

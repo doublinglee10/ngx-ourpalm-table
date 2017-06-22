@@ -1,6 +1,6 @@
 import {Component} from "@angular/core";
-import {OurpalmTable, Page} from "../ourpalm-table/model/ourpalm-table";
-import {OurpalmTableColumn} from "../ourpalm-table/model/ourpalm-table-column";
+import {OurpalmTable, Page} from "./ourpalm-table/model/ourpalm-table";
+import {OurpalmTableColumn} from "./ourpalm-table/model/ourpalm-table-column";
 
 @Component({
     selector: 'app-root',

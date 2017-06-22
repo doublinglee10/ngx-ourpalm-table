@@ -4,7 +4,7 @@ import {OurpalmTableColumn} from "../model/ourpalm-table-column";
 
 @Component({
     selector: 'ourpalm-table-settings',
-    styleUrls: ['./ourpalm-table-settings.component.css'],
+    styleUrls: ['ourpalm-table-settings.component.css'],
     template: `
         <div>
             <div class="ourpalm-mask"></div>
@@ -77,21 +77,21 @@ export class OurpalmTableSettingsComponent implements OnInit {
         this.columns.map((column: any) => column.__lshow__ = column.__rshow__ = false);
     }
 
-    private showColumn() {
+    showColumn() {
         this.columns.filter((column: any) => column.__lshow__).map((column: any) => column.__fshow__ = true);
     }
 
-    private hideColumn() {
+    hideColumn() {
         this.columns.filter((column: any) => column.__rshow__).map((column: any) => column.__fshow__ = false);
     }
 
-    private resetColumn() {
+    resetColumn() {
         this.columns = this.table.__columns.map(column => Object.assign({}, column));
         this.columns.filter((column: any) => column.show).map((column: any) => column.__fshow__ = true);
         this.columns.map((column: any) => column.__lshow__ = column.__rshow__ = false);
     }
 
-    private saveColumn() {
+    saveColumn() {
         let tmpColumns = [];
         this.columns.forEach((col1: any) => {
             this.table.columns.forEach(col2 => {
@@ -113,7 +113,7 @@ export class OurpalmTableSettingsComponent implements OnInit {
         }
     }
 
-    private close() {
+    close() {
         this.table.openSettings = false;
     }
 }
