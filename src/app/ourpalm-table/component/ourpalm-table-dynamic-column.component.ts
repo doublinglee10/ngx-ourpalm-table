@@ -2,7 +2,6 @@ import {Input, Component, OnInit} from "@angular/core";
 import {OurpalmTableColumn} from "../model/ourpalm-table-column";
 import {OurpalmTable} from "../model/ourpalm-table";
 
-
 @Component({
     selector: '[ourpalm-table-dynamic-column]',
     template: `

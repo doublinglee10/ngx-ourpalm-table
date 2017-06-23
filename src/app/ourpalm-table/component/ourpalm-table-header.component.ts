@@ -2,7 +2,6 @@ import {OnInit, Component, Input} from "@angular/core";
 import {OurpalmTable} from "../model/ourpalm-table";
 import {OurpalmTableColumn} from "../model/ourpalm-table-column";
 
-
 @Component({
     selector: '[ourpalm-table-header]',
     styleUrls: ['ourpalm-table-header.component.css'],

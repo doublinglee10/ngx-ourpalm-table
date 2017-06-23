@@ -2,7 +2,6 @@ import {Component, Input, AfterContentInit, ContentChildren, QueryList, Template
 import {OurpalmTable} from "../model/ourpalm-table";
 import {OurpalmTableStaticColumnComponent} from "./ourpalm-table-static-column.component";
 
-
 @Component({
     selector: 'ourpalm-table',
     styleUrls: ['ourpalm-table.component.css'],
