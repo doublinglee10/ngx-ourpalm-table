@@ -94,9 +94,7 @@ export class OurpalmTable {
     getDisplayedColumns() {
         let columns = [];
         this.columns.forEach((column: OurpalmTableColumn) => {
-            if (column.show) {
-                columns.push(Object.assign({},));
-            }
+            column.show && columns.push(Object.assign({}, column));
         });
         return columns;
     }

@@ -26,6 +26,12 @@
 <!-- * 修复linux x86_64下安装失败问题 -->
 
 
+## v0.1.16
+
+### Bugs修复
+ * 修改getDisplayedColumns的bug
+
+
 ## v0.1.9
 
 ### Bugs修复
