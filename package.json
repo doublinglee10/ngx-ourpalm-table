@@ -1,9 +1,8 @@
 {
   "name": "ngx-ourpalm-table",
-  "version": "0.1.16",
+  "version": "0.1.18",
   "license": "MIT",
   "main": "./lib/index.js",
-  "types": "./lib/index.d.ts",
   "typings": "./lib/index.d.ts",
   "files": [
     "lib"
@@ -11,7 +10,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "ng build --aot --prod",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
