@@ -24,7 +24,7 @@ export class OurpalmTableColumn {
         return row1[column.field] - row2[column.field];
     };
 
-    __template__: TemplateRef<any>;
+    __template__?: TemplateRef<any>;
 
     constructor(optcolumn: OurpalmTableColumn) {
         // this = table;
