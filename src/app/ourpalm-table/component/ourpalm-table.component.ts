@@ -1,4 +1,4 @@
-import {Component, Input, AfterContentInit, ContentChildren, QueryList, TemplateRef, ContentChild} from "@angular/core";
+import {AfterContentInit, Component, ContentChild, ContentChildren, Input, QueryList, TemplateRef} from "@angular/core";
 import {OurpalmTable} from "../model/ourpalm-table";
 import {OurpalmTableStaticColumnComponent} from "./ourpalm-table-static-column.component";
 
@@ -15,18 +15,25 @@ import {OurpalmTableStaticColumnComponent} from "./ourpalm-table-static-column.c
             </thead>
             <tbody>
                 <!--动态列-->
-                <ng-container *ngIf="dynamicColumn"> 
-                    <tr *ngFor="let row of table.rows; let i = index;" (dblclick)="table.onDbClickRow(i, row)" (click)="table.onClickRow(i, row)">
+                <ng-container *ngIf="dynamicColumn">
+                    <tr *ngFor="let row of table.rows; let i = index;" (dblclick)="table.onDbClickRow(i, row)"
+                        (click)="table.onClickRow(i, row)">
                         <ng-container *ngFor="let column of table.columns; let j = index;">
-                            <td ourpalm-table-dynamic-column [table]="table" [row]="row" [column]="column" [index]="i" [class.hidden]="!column.show" (dblclick)="table.onDbClickCell(i, j, row, column)" (click)="table.onClickCell(i, j, row, column)"></td>
+                            <td ourpalm-table-dynamic-column [table]="table" [row]="row" [column]="column" [index]="i"
+                                [class.hidden]="!column.show" (dblclick)="table.onDbClickCell(i, j, row, column)"
+                                (click)="table.onClickCell(i, j, row, column)"></td>
                         </ng-container>
                     </tr>
                 </ng-container>
                 <!--静态列-->
                 <ng-container *ngIf="!dynamicColumn">
-                    <tr *ngFor="let row of table.rows; let i = index;" (dblclick)="table.onDbClickRow(i, row)" (click)="table.onClickRow(i, row)">
-                        <td *ngFor="let col of table.columns; let j = index;" [class.hidden]="!col.show" (dblclick)="table.onDbClickCell(i, j, row, col)" (click)="table.onClickCell(i, j, row, col)">
-                            <ourpalm-table-columnTemplateRenderer [table]="table" [column]="col" [row]="row" [index]="i"></ourpalm-table-columnTemplateRenderer>
+                    <tr *ngFor="let row of table.rows; let i = index;" (dblclick)="table.onDbClickRow(i, row)"
+                        (click)="table.onClickRow(i, row)">
+                        <td *ngFor="let col of table.columns; let j = index;" [class.hidden]="!col.show"
+                            (dblclick)="table.onDbClickCell(i, j, row, col)"
+                            (click)="table.onClickCell(i, j, row, col)">
+                            <ourpalm-table-columnTemplateRenderer [table]="table" [column]="col" [row]="row"
+                                                                  [index]="i"></ourpalm-table-columnTemplateRenderer>
                         </td>
                     </tr>
                 </ng-container>
@@ -55,7 +62,7 @@ export class OurpalmTableComponent implements AfterContentInit {
 
     ngAfterContentInit(): void {
         //声明式列，不支持动态列特性
-        if (this.table.columns.length == 0) {
+        if (this.columnDirs.toArray().length > 0) {
             this.dynamicColumn = false;
             this.table.columns = this.columnDirs.toArray().map((columnDir: OurpalmTableStaticColumnComponent) => Object.assign(columnDir.column, {__template__: columnDir.template}));
             this.table.__columns = this.table.columns.map(col => Object.assign({}, col));
