@@ -158,7 +158,10 @@ export class AppComponent {
 |	gotoSkipPage          |   page:number     |		 跳转页 1...最大页    |
 |	setOptions            |options:OurpalmTable|	 修改表配置项，修改后将触发加载数据   |
 |	setPageData           |  pageData: Page   |	     设置当页数据        |
-
+|	checkAll              |                   |		 勾选当前页中的所有行                 |
+|	uncheckAll            |                   |		 取消勾选当前页中的所有行            |
+|	checkRow              |   index           |		 勾选一行，行索引从0开始，传入行索引          |
+|	uncheckRow            |   index           |		 取消勾选一行，行索引从0开始，传入行索引           |
 
 
 
@@ -170,4 +173,6 @@ export class AppComponent {
 |	onDblClickRow         | rowIndex, rowData |		 在用户双击一行的时候触发，参数包括：rowIndex：点击的行的索引值，该索引值从0开始。rowData：对应于点击行的记录。  |
 |	onClickCell           | rowIndex, cellIndex, rowData, column |		 在用户点击一个单元格的时候触发。  |
 |	onDblClickCell        | rowIndex, cellIndex, rowData, column |		 在用户双击一个单元格的时候触发。  |
+|	onHeaderCheckBoxChange|                   |		 选择header中多选框时触发   |
+|	onRowCheckBoxChange   | rowData, rowIndex |		 用户选中表格行时触发   |
 

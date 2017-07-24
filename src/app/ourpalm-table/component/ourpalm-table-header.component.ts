@@ -1,4 +1,4 @@
-import {OnInit, Component, Input} from "@angular/core";
+import {Component, Input, OnInit} from "@angular/core";
 import {OurpalmTable} from "../model/ourpalm-table";
 import {OurpalmTableColumn} from "../model/ourpalm-table-column";
 
@@ -10,7 +10,8 @@ import {OurpalmTableColumn} from "../model/ourpalm-table-column";
             <!-- 排序列 -->
             <span *ngIf="column.sort" (click)="sortColumn(column)">
                 {{column.header}}
-                <i class="fa" [ngClass]="{'fa-sort-asc': column.sortOrder == 'asc', 'fa-sort-desc': column.sortOrder == 'desc', 'fa-sort': !column.sortOrder}"></i>
+                <i class="fa"
+                   [ngClass]="{'fa-sort-asc': column.sortOrder == 'asc', 'fa-sort-desc': column.sortOrder == 'desc', 'fa-sort': !column.sortOrder}"></i>
             </span>
             <!-- checkbox列 -->
             <ng-container *ngIf="column.checkbox">
@@ -43,6 +44,8 @@ export class OurpalmTableHeaderComponent implements OnInit {
         } else if (!this.checkAll) {
             this.table.rows.forEach((row: any) => row.__checked__ = false);
         }
+
+        this.table.onHeaderCheckBoxChange();
     }
 
     private sortColumn(column: OurpalmTableColumn) {

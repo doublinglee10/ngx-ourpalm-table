@@ -1,4 +1,4 @@
-import {Input, OnInit, Component, TemplateRef, ContentChild} from "@angular/core";
+import {Component, ContentChild, Input, OnInit, TemplateRef} from "@angular/core";
 import {OurpalmTableColumn} from "../model/ourpalm-table-column";
 import {OurpalmTable} from "../model/ourpalm-table";
 
@@ -24,7 +24,8 @@ export class OurpalmTableStaticColumnComponent implements OnInit {
     template: `
         <!-- 排序列 -->
         <ng-container *ngIf="column.sort">
-            <ng-template [ngTemplateOutlet]="column.__template__" [ngOutletContext]="{'$implicit': column, '$row': row}"></ng-template>
+            <ng-template [ngTemplateOutlet]="column.__template__"
+                         [ngOutletContext]="{'$implicit': column, '$row': row}"></ng-template>
         </ng-container>
         <!-- checkbox列 -->
         <ng-container *ngIf="column.checkbox">
@@ -32,11 +33,12 @@ export class OurpalmTableStaticColumnComponent implements OnInit {
         </ng-container>
         <!-- 序号列 -->
         <ng-container *ngIf="column.rownumbers">
-            {{index+1}}
+            {{index + 1}}
         </ng-container>
         <!-- 正常列 -->
         <ng-container *ngIf="!column.sort && !column.checkbox && !column.rownumbers">
-            <ng-template [ngTemplateOutlet]="column.__template__" [ngOutletContext]="{'$implicit': column, '$row': row}"></ng-template>
+            <ng-template [ngTemplateOutlet]="column.__template__"
+                         [ngOutletContext]="{'$implicit': column, '$row': row}"></ng-template>
         </ng-container>
     `
 })
@@ -55,10 +57,12 @@ export class OurpalmTableColumnTemplateRenderer {
     @Input()
     column: OurpalmTableColumn;
 
-    private onCheckBoxChange() {
+    onCheckBoxChange() {
         if (this.row.__checked__ && this.table.singleSelect) {
             this.table.rows.forEach(row => row.__checked__ = false);
             this.row.__checked__ = true;
         }
+
+        this.table.onRowCheckBoxChange(this.row, this.index);
     }
 }

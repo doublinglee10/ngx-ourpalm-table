@@ -56,6 +56,12 @@ export class AppComponent {
             },
             onDbClickCell: function (rowIndex: number, cellIndex: number, rowData: any, column: OurpalmTableColumn) {
                 console.info('onDbClickCell', arguments);
+            },
+            onHeaderCheckBoxChange: function () {
+                console.info('onHeaderCheckBoxChange', arguments);
+            },
+            onRowCheckBoxChange: function () {
+                console.info('onRowCheckBoxChange', arguments);
             }
         });
 
@@ -195,6 +201,22 @@ export class AppComponent {
             total: 86,
             rows: rows
         });
+    }
+
+    checkAll() {
+        this.table.checkAll();
+    }
+
+    uncheckAll() {
+        this.table.uncheckAll();
+    }
+
+    checkRow() {
+        this.table.checkRow(2);
+    }
+
+    uncheckRow() {
+        this.table.uncheckRow(2);
     }
 
     randomString(len) {

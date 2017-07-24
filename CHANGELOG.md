@@ -26,6 +26,18 @@
 <!-- * 修复linux x86_64下安装失败问题 -->
 
 
+## v0.1.21
+
+### 新特性
+ * 增加方法checkAll
+ * 增加方法uncheckAll
+ * 增加方法checkRow
+ * 增加方法uncheckRow
+ * 增加事件onHeaderCheckBoxChange
+ * 增加事件onRowCheckBoxChange
+
+
+
 ## v0.1.16
 
 ### Bugs修复

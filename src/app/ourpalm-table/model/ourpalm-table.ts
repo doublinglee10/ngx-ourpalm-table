@@ -59,6 +59,12 @@ export class OurpalmTable {
     onDbClickCell: (rowIndex: number, cellIndex: number, rowData: any, column: OurpalmTableColumn) => {} = () => {
         return null;
     };
+    /** 用户选择头部checkbox时触发 */
+    onHeaderCheckBoxChange: () => void = () => {
+    };
+    /** 用户选择列表行checkbox时触发 */
+    onRowCheckBoxChange: (rowData, rowIndex) => void = () => {
+    };
 
     /** 是否打开自定义列表项 */
     openSettings: boolean = false;
@@ -193,6 +199,36 @@ export class OurpalmTable {
         }
     }
 
+    /*勾选当前页中的所有行*/
+    checkAll() {
+        this.rows.forEach((row: any) => {
+            row.__checked__ = true;
+        });
+    }
+
+    /*取消勾选当前页中的所有行*/
+    uncheckAll() {
+        this.rows.forEach((row: any) => {
+            row.__checked__ = false;
+        });
+    }
+
+    /*勾选一行，行索引从0开始，传入行索引*/
+    checkRow(index: number) {
+        let row = this.rows[index];
+        if (row) {
+            row.__checked__ = true;
+        }
+    }
+
+    /*取消勾选一行，行索引从0开始，传入行索*/
+    uncheckRow(index: number) {
+        let row = this.rows[index];
+        if (row) {
+            row.__checked__ = false;
+        }
+    }
+
     private changeOptions(optable: Object | OurpalmTable) {
         let table = Object.assign({}, {
             autoLoadData: this.autoLoadData,
@@ -212,7 +248,9 @@ export class OurpalmTable {
             onDbClickRow: this.onDbClickRow,
             onClickCell: this.onClickCell,
             onDbClickCell: this.onDbClickCell,
-            currentPage: this.currentPage
+            currentPage: this.currentPage,
+            onHeaderCheckBoxChange: this.onHeaderCheckBoxChange,
+            onRowCheckBoxChange: this.onRowCheckBoxChange
         }, optable);
 
         this.autoLoadData = table.autoLoadData;
@@ -235,6 +273,8 @@ export class OurpalmTable {
         this.onClickCell = table.onClickCell;
         this.onDbClickCell = table.onDbClickCell;
         this.currentPage = table.currentPage;
+        this.onHeaderCheckBoxChange = table.onHeaderCheckBoxChange;
+        this.onRowCheckBoxChange = table.onRowCheckBoxChange;
     }
 
     invokeLoadData() {
