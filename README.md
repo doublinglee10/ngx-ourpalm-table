@@ -5,7 +5,7 @@
 ### Installation
 
 ```
-npm install ngx-ourpalm-form --save
+npm install ngx-ourpalm-table --save
 ```
 
 #### Demo(声明式配置)
