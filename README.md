@@ -2,6 +2,12 @@
 
 基于angular2.x、bootstrap的表格控件，支持编程式和声明式列配置
 
+### Installation
+
+```
+npm install ngx-ourpalm-form --save
+```
+
 #### Demo(声明式配置)
 ```xml
 <ourpalm-table [table]="table">
