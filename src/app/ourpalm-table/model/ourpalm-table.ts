@@ -70,15 +70,12 @@ export class OurpalmTable {
     openSettings: boolean = false;
 
     /** 分页信息 */
-    start: number = 0; //开始位置
-    end: number = 0; //结束位置
     total: number = 0; //总共记录数
     rows: any[] = []; //当前页数据
     currentPage: number = 1; //当前第几页
     pageSize: number = 10; //当前页大小
-    allPage: number = 0; //总共多少页
 
-    __tmpCurrentPage: number;
+    tmpCurrentPage?: number;
 
     constructor(optable: Object | OurpalmTable = {}) {
         this.changeOptions(optable);
@@ -87,13 +84,35 @@ export class OurpalmTable {
     onLoadSuccess(page: Page) {
         this.pageSize = page.pageSize || this.pageSize;
         this.defaultPageSize = this.pageSize;
-        this.currentPage = page.currentPage || this.currentPage;
         this.total = page.total;
         this.rows = page.rows;
-        this.allPage = this.total % this.pageSize == 0 ? this.total / this.pageSize : (Math.floor(this.total / this.pageSize) + 1);
-        this.start = (this.currentPage - 1) * this.pageSize + 1;
-        this.end = this.start + this.rows.length - 1;
-        this.__tmpCurrentPage = this.currentPage;
+        this.currentPage = page.currentPage || this.currentPage;
+        this.tmpCurrentPage = this.allPage > 0 ? (page.currentPage || this.currentPage) : 0;
+    }
+
+    /**
+     * 总共多少页
+     */
+    get allPage(): number {
+        return Math.max(Math.ceil(this.total / this.pageSize), 0);
+    }
+
+    /**
+     * 开始位置
+     */
+    get start(): number {
+        if (this.allPage > 0)
+            return (this.currentPage - 1) * this.pageSize + 1;
+        return 0;
+    }
+
+    /**
+     * 结束位置
+     */
+    get end(): number {
+        if (this.allPage > 0)
+            return this.start + this.rows.length - 1;
+        return 0;
     }
 
     /*获取显示的列信息*/

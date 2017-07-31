@@ -26,6 +26,8 @@ export class AppComponent {
             pageList: [10, 30, 50, 100, 150],
             singleSelect: true,
             loadData: (table: OurpalmTable, callback: (page: Page) => {}) => {
+                console.info('current page: ', table.currentPage);
+
                 var start = (table.currentPage - 1) * table.pageSize + 1;
                 var end = start + table.pageSize;
                 end = end > 86 ? 86 : end;
@@ -40,8 +42,8 @@ export class AppComponent {
                 }
                 setTimeout(function () {
                     callback({
-                        total: 86,
-                        rows: rows
+                        total: 0,
+                        rows: []
                     });
                 }, 300);
             },
@@ -180,7 +182,7 @@ export class AppComponent {
         this.table.setOptions({
             autoLoadData: true,
             currentPage: 2,
-            defaultPageSize: 30
+            defaultPageSize: 20
         });
     }
 
