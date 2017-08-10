@@ -26,6 +26,16 @@
 <!-- * 修复linux x86_64下安装失败问题 -->
 
 
+## v0.1.25
+
+### 新特性
+ * 增加方法 openSetting
+ * 增加表属性 showRefreshBtn
+ * 增加表属性 showSettingBtn
+ * 增加表属性 fixTop
+ * 增加表属性 distanceTop
+
+
 ## v0.1.21
 
 ### 新特性

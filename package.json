@@ -1,6 +1,6 @@
 {
   "name": "ngx-ourpalm-table",
-  "version": "0.1.24",
+  "version": "0.1.25",
   "license": "MIT",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
@@ -31,7 +31,9 @@
   },
   "author": "lishichao",
   "dependencies": {
+    "floatthead": "^2.0.3",
     "font-awesome": "^4.7.0",
+    "jquery": "^3.2.1",
     "ng2-dnd": "^4.2.0"
   },
   "devDependencies": {
@@ -49,6 +51,7 @@
     "@angular/language-service": "^4.0.0",
     "@types/jasmine": "2.5.45",
     "@types/node": "~6.0.60",
+    "@types/jquery": "^3.2.9",
     "admin-lte": "^2.3.11",
     "bootstrap": "^3.3.7",
     "core-js": "^2.4.1",

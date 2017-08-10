@@ -23,8 +23,8 @@ import {OurpalmTable} from "../model/ourpalm-table";
                         [disabled]="table.currentPage == table.allPage || table.allPage == 0"></button>
                 <button class="glyphicon glyphicon-step-forward ourpalm-table-pager" (click)="lastPage()"
                         [disabled]="table.currentPage == table.allPage || table.allPage == 0"></button>
-                <button class="glyphicon glyphicon-refresh ourpalm-table-pager" (click)="refresh()"></button>
-                <button class="glyphicon glyphicon-cog ourpalm-table-pager" (click)="settings()"></button>
+                <button *ngIf="table.showRefreshBtn" class="glyphicon glyphicon-refresh ourpalm-table-pager" (click)="refresh()"></button>
+                <button *ngIf="table.showSettingBtn" class="glyphicon glyphicon-cog ourpalm-table-pager" (click)="table.openSetting()"></button>
             </span>
             <span class="page-right">显示{{table.start}}-{{table.end}}条记录,共{{table.total}}条记录</span>
 
@@ -73,10 +73,6 @@ export class OurpalmTablePagingComponent implements OnInit {
 
     refresh() {
         this.table.refresh();
-    }
-
-    settings() {
-        this.table.openSettings = true;
     }
 
     focusout() {

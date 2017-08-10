@@ -1,4 +1,16 @@
-import {AfterContentInit, Component, ContentChild, ContentChildren, Input, QueryList, TemplateRef} from "@angular/core";
+import {
+    AfterContentInit,
+    AfterViewInit,
+    Component,
+    ContentChild,
+    ContentChildren,
+    ElementRef,
+    Input,
+    OnDestroy,
+    QueryList,
+    TemplateRef,
+    ViewChild
+} from "@angular/core";
 import {OurpalmTable} from "../model/ourpalm-table";
 import {OurpalmTableStaticColumnComponent} from "./ourpalm-table-static-column.component";
 
@@ -6,7 +18,7 @@ import {OurpalmTableStaticColumnComponent} from "./ourpalm-table-static-column.c
     selector: 'ourpalm-table',
     styleUrls: ['ourpalm-table.component.css'],
     template: `
-        <table class="table table-bordered table-striped table-hover text-center">
+        <table #el class="table table-bordered table-striped table-hover text-center">
             <thead>
                 <ng-container *ngIf="table.pagination && table.pagePosition != 'bottom' ">
                     <tr class="ourpalm-table-pageing" ourpalm-table-paging [table]="table"></tr>
@@ -46,7 +58,9 @@ import {OurpalmTableStaticColumnComponent} from "./ourpalm-table-static-column.c
         </table>
     `
 })
-export class OurpalmTableComponent implements AfterContentInit {
+export class OurpalmTableComponent implements AfterContentInit, AfterViewInit, OnDestroy {
+
+    @ViewChild('el') el: ElementRef;
 
     //是否是动态列，默认为声明式
     dynamicColumn: boolean = false;
@@ -59,6 +73,21 @@ export class OurpalmTableComponent implements AfterContentInit {
 
     @ContentChild(TemplateRef)
     private template: TemplateRef<any>;
+
+    ngAfterViewInit(): void {
+        if (this.table.fixTop) {
+            let $table: any = $(this.el.nativeElement);
+            $table.floatThead({
+                responsiveContainer: function ($table) {
+                    return $table.closest('.table-responsive');
+                },
+                top: this.table.distanceTop
+            });
+        }
+    }
+
+    ngOnDestroy(): void {
+    }
 
     ngAfterContentInit(): void {
         //声明式列，不支持动态列特性

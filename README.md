@@ -127,6 +127,10 @@ export class AppComponent {
 |	cachePageSize         |     boolean   	  |		false		   |	是否在客户端存储table的页大小,刷新的时候页大小不变,保存在localStorage中,key为${cacheKey}-pageSize	|
 |	cacheColumns          |     boolean   	  |		false		   |	是否在客户端存在table的列隐藏信息,刷新的时候列的隐藏信息不变,保存在localStorage中,key为${cacheKey}-columns	|
 |	pagePosition          |     string   	  |		bottom		   |	分页条在那里显示可取值 'bottom', 'top', 'both'	|
+|	showRefreshBtn        |     boolean   	  |		true		   |	是否显示刷新按钮        	|
+|	showSettingBtn        |     boolean   	  |		true		   |	是否显示设置按钮        	|
+|	fixTop                |     boolean   	  |		false		   |	是否固定到顶部,依赖jquery	|
+|	distanceTop           |     number   	  |		0   		   |	固定到顶部的距离,单位像素	|
 
 
 
@@ -168,6 +172,7 @@ export class AppComponent {
 |	uncheckAll            |                   |		 取消勾选当前页中的所有行            |
 |	checkRow              |   index           |		 勾选一行，行索引从0开始，传入行索引          |
 |	uncheckRow            |   index           |		 取消勾选一行，行索引从0开始，传入行索引           |
+|	openSetting           |                   |		 打开设置列面板         |
 
 
 

@@ -21,16 +21,18 @@ export class AppComponent {
             cacheColumns: true,
             pagination: true,
             pagePosition: 'both',
-            defaultPageSize: 10,
+            defaultPageSize: 100,
             skipPage: true,
-            pageList: [10, 30, 50, 100, 150],
+            pageList: [100, 200],
             singleSelect: true,
+            showRefreshBtn: false,
+            showSettingBtn: false,
             loadData: (table: OurpalmTable, callback: (page: Page) => {}) => {
                 console.info('current page: ', table.currentPage);
 
                 var start = (table.currentPage - 1) * table.pageSize + 1;
                 var end = start + table.pageSize;
-                end = end > 86 ? 86 : end;
+                end = end > 586 ? 586 : end;
                 //构造服务器假数据
                 var rows = [];
                 for (; start <= end; start++) {
@@ -110,15 +112,17 @@ export class AppComponent {
             }],
             serverSort: false,
             pagination: true,
-            pagePosition: 'both',
-            defaultPageSize: 10,
+            pagePosition: 'bottom',
             skipPage: true,
-            pageList: [10, 30, 50, 100, 150],
+            defaultPageSize: 100,
+            pageList: [100, 200],
+            fixTop: true,
+            distanceTop: 30,
             singleSelect: true,
             loadData: (table: OurpalmTable, callback: (page: Page) => {}) => {
                 var start = (table.currentPage - 1) * table.pageSize + 1;
                 var end = start + table.pageSize;
-                end = end > 86 ? 86 : end;
+                end = end > 486 ? 486 : end;
                 //构造服务器假数据
                 var rows = [];
                 for (; start <= end; start++) {
@@ -131,7 +135,7 @@ export class AppComponent {
 
                 setTimeout(function () {
                     callback({
-                        total: 86,
+                        total: 486,
                         rows: rows
                     });
                 }, 300);

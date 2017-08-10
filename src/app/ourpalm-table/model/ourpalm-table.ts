@@ -38,6 +38,14 @@ export class OurpalmTable {
     cacheColumns?: boolean = false;
     /** 分页条在那里显示可取值 'bottom', 'top', 'both' */
     pagePosition?: string = 'bottom';
+    /** 是否显示刷新按钮*/
+    showRefreshBtn?: boolean = true;
+    /** 是否显示设置按钮*/
+    showSettingBtn?: boolean = true;
+    /** 是否固定到顶部,依赖jquery*/
+    fixTop?: boolean = false;
+    /** 固定到顶部的距离,单位像素*/
+    distanceTop?: number = 0;
 
     /** 加载数据成功回调 */
     loadData: (table: OurpalmTable, callback: (page: Page) => {}) => {} = () => {
@@ -248,6 +256,10 @@ export class OurpalmTable {
         }
     }
 
+    openSetting() {
+        this.openSettings = true;
+    }
+
     private changeOptions(optable: Object | OurpalmTable) {
         let table = Object.assign({}, {
             autoLoadData: this.autoLoadData,
@@ -269,7 +281,11 @@ export class OurpalmTable {
             onDbClickCell: this.onDbClickCell,
             currentPage: this.currentPage,
             onHeaderCheckBoxChange: this.onHeaderCheckBoxChange,
-            onRowCheckBoxChange: this.onRowCheckBoxChange
+            onRowCheckBoxChange: this.onRowCheckBoxChange,
+            showRefreshBtn: this.showRefreshBtn,
+            showSettingBtn: this.showSettingBtn,
+            fixTop: this.fixTop,
+            distanceTop: this.distanceTop
         }, optable);
 
         this.autoLoadData = table.autoLoadData;
@@ -294,6 +310,10 @@ export class OurpalmTable {
         this.currentPage = table.currentPage;
         this.onHeaderCheckBoxChange = table.onHeaderCheckBoxChange;
         this.onRowCheckBoxChange = table.onRowCheckBoxChange;
+        this.showRefreshBtn = table.showRefreshBtn;
+        this.showSettingBtn = table.showSettingBtn;
+        this.fixTop = table.fixTop;
+        this.distanceTop = table.distanceTop;
     }
 
     invokeLoadData() {

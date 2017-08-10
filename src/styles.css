@@ -4,3 +4,7 @@
 @import "../node_modules/admin-lte/dist/css/AdminLTE.css";
 @import "../node_modules/admin-lte/dist/css/skins/skin-blue.css";
 @import "../node_modules/ng2-dnd/style.css";
+
+table.floatThead-table thead tr {
+    background-color: #DDDDDD;
+}
