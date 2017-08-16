@@ -46,6 +46,7 @@ export class OurpalmTable {
     fixTop?: boolean = false;
     /** 固定到顶部的距离,单位像素*/
     distanceTop?: number = 0;
+    theadZIndex?: number = 10;
 
     /** 加载数据成功回调 */
     loadData: (table: OurpalmTable, callback: (page: Page) => {}) => {} = () => {
@@ -285,7 +286,8 @@ export class OurpalmTable {
             showRefreshBtn: this.showRefreshBtn,
             showSettingBtn: this.showSettingBtn,
             fixTop: this.fixTop,
-            distanceTop: this.distanceTop
+            distanceTop: this.distanceTop,
+            theadZIndex: this.theadZIndex
         }, optable);
 
         this.autoLoadData = table.autoLoadData;
@@ -314,6 +316,7 @@ export class OurpalmTable {
         this.showSettingBtn = table.showSettingBtn;
         this.fixTop = table.fixTop;
         this.distanceTop = table.distanceTop;
+        this.theadZIndex = table.theadZIndex;
     }
 
     invokeLoadData() {

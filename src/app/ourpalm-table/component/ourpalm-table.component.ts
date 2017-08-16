@@ -52,7 +52,7 @@ import {OurpalmTableStaticColumnComponent} from "./ourpalm-table-static-column.c
             </tbody>
             <tfoot>
                 <ng-container *ngIf="table.pagination && table.pagePosition != 'top' ">
-                    <tr class="ourpalm-table-pageing" ourpalm-table-paging [table]="table"></tr>
+                    <tr class="ourpalm-table-pageing" ourpalm-table-paging [table]="table" [tableComponent]="this"></tr>
                 </ng-container>
             </tfoot>
         </table>
@@ -74,16 +74,27 @@ export class OurpalmTableComponent implements AfterContentInit, AfterViewInit, O
     @ContentChild(TemplateRef)
     private template: TemplateRef<any>;
 
+    private $table: any;
+
     ngAfterViewInit(): void {
         if (this.table.fixTop) {
-            let $table: any = $(this.el.nativeElement);
-            $table.floatThead({
+            this.$table = $(this.el.nativeElement);
+            this.$table.floatThead({
                 responsiveContainer: function ($table) {
                     return $table.closest('.table-responsive');
                 },
+                zIndex: this.table.theadZIndex,
                 top: this.table.distanceTop
             });
+
+            $(window).resize(() => {
+                this.$table.floatThead('reflow');
+            });
         }
+    }
+
+    reflowTable() {
+        this.$table && this.$table.floatThead('reflow');
     }
 
     ngOnDestroy(): void {

@@ -65,3 +65,13 @@
 .ourpalm-table-settings ul li:hover {
     background-color: antiquewhite;
 }
+
+.ourpalm-table-settings ul li label {
+    margin-bottom: 0;
+    font-weight: normal;
+}
+
+.ourpalm-table-settings ul li label span {
+    width: 160px;
+    display: inline-block;
+}

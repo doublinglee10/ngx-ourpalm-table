@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from "@angular/core";
 import {OurpalmTable} from "../model/ourpalm-table";
+import {OurpalmTableComponent} from "./ourpalm-table.component";
 
 @Component({
     selector: '[ourpalm-table-paging]',
@@ -23,13 +24,15 @@ import {OurpalmTable} from "../model/ourpalm-table";
                         [disabled]="table.currentPage == table.allPage || table.allPage == 0"></button>
                 <button class="glyphicon glyphicon-step-forward ourpalm-table-pager" (click)="lastPage()"
                         [disabled]="table.currentPage == table.allPage || table.allPage == 0"></button>
-                <button *ngIf="table.showRefreshBtn" class="glyphicon glyphicon-refresh ourpalm-table-pager" (click)="refresh()"></button>
-                <button *ngIf="table.showSettingBtn" class="glyphicon glyphicon-cog ourpalm-table-pager" (click)="table.openSetting()"></button>
+                <button *ngIf="table.showRefreshBtn" class="glyphicon glyphicon-refresh ourpalm-table-pager"
+                        (click)="refresh()"></button>
+                <button *ngIf="table.showSettingBtn" class="glyphicon glyphicon-cog ourpalm-table-pager"
+                        (click)="table.openSetting()"></button>
             </span>
             <span class="page-right">显示{{table.start}}-{{table.end}}条记录,共{{table.total}}条记录</span>
 
             <div *ngIf="table?.openSettings">
-                <ourpalm-table-settings [table]="table"></ourpalm-table-settings>
+                <ourpalm-table-settings [table]="table" [tableComponent]="tableComponent"></ourpalm-table-settings>
             </div>
         </td>
     `
@@ -38,9 +41,10 @@ export class OurpalmTablePagingComponent implements OnInit {
 
     @Input()
     table: OurpalmTable;
+    @Input()
+    tableComponent: OurpalmTableComponent;
 
     ngOnInit(): void {
-        // this.table.tmpCurrentPage = this.table.currentPage > 1 ? this.table.currentPage : 0;
     }
 
     changePageSize() {

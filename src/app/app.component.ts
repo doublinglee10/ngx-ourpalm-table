@@ -117,7 +117,7 @@ export class AppComponent {
             defaultPageSize: 100,
             pageList: [100, 200],
             fixTop: true,
-            distanceTop: 30,
+            distanceTop: 0,
             singleSelect: true,
             loadData: (table: OurpalmTable, callback: (page: Page) => {}) => {
                 var start = (table.currentPage - 1) * table.pageSize + 1;

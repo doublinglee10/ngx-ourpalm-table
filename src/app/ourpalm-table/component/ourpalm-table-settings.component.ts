@@ -1,6 +1,7 @@
-import {Component, Input, PipeTransform, Injectable, Pipe, OnInit} from "@angular/core";
+import {Component, Injectable, Input, OnInit, Pipe, PipeTransform} from "@angular/core";
 import {OurpalmTable} from "../model/ourpalm-table";
 import {OurpalmTableColumn} from "../model/ourpalm-table-column";
+import {OurpalmTableComponent} from "./ourpalm-table.component";
 
 @Component({
     selector: 'ourpalm-table-settings',
@@ -11,8 +12,9 @@ import {OurpalmTableColumn} from "../model/ourpalm-table-column";
             <div class="ourpalm-dialog">
                 <div class="modal-content ourpalm-table-settings">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="close()"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title">自定义列表项</h4> 
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="close()">
+                            <span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">自定义列表项</h4>
                     </div>
                     <div class="modal-body">
                         <div class="row">
@@ -21,27 +23,34 @@ import {OurpalmTableColumn} from "../model/ourpalm-table-column";
                                 <div class="col-con">
                                     <input type="text" placeholder="输入值..." [(ngModel)]="lmodel">
                                     <ul>
-                                        <li *ngFor="let col of columns | lcolumnFilter:lmodel">
-                                            <input type="checkbox" [(ngModel)]="col.__lshow__">
-                                            <span>{{col.header}}</span>
+                                        <li *ngFor="let col of lcolumns | lcolumnFilter:lmodel">
+                                            <label>
+                                                <input type="checkbox" [(ngModel)]="col.__lshow__">
+                                                <span>{{col.header}}</span>
+                                            </label>
                                         </li>
                                     </ul>
                                 </div>
                             </div>
                             <div class="col-md-2" style="padding:0px;margin:0px;text-align:center;">
                                 <div style="margin-top:130px;margin-bottom:10px;">
-                                    <button type="button" class="btn btn-default btn-sm" (click)="showColumn()"><i class="fa fa-long-arrow-right"></i></button>
+                                    <button type="button" class="btn btn-default btn-sm" (click)="showColumn()"><i
+                                            class="fa fa-long-arrow-right"></i></button>
                                 </div>
-                                <button type="button" class="btn btn-default btn-sm" (click)="hideColumn()"><i class="fa fa-long-arrow-left"></i></button>
+                                <button type="button" class="btn btn-default btn-sm" (click)="hideColumn()"><i
+                                        class="fa fa-long-arrow-left"></i></button>
                             </div>
                             <div class="col-md-5">
                                 <span>已选列</span>
                                 <div class="col-con">
                                     <input type="text" placeholder="输入值..." [(ngModel)]="rmodel">
-                                    <ul dnd-sortable-container [sortableData]="columns"> 
-                                        <li *ngFor="let col of columns | rcolumnFilter:rmodel; let i = index;" dnd-sortable [sortableIndex]="i">
-                                            <input type="checkbox" [(ngModel)]="col.__rshow__">
-                                            <span>{{col.header}}</span>                      
+                                    <ul dnd-sortable-container [sortableData]="rcolumns">
+                                        <li *ngFor="let col of rcolumns | rcolumnFilter:rmodel; let i = index;"
+                                            dnd-sortable [sortableIndex]="i">
+                                            <label>
+                                                <input type="checkbox" [(ngModel)]="col.__rshow__">
+                                                <span dnd-sortable-handle>{{col.header}}</span>
+                                            </label>
                                         </li>
                                     </ul>
                                 </div>
@@ -50,8 +59,12 @@ import {OurpalmTableColumn} from "../model/ourpalm-table-column";
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="btn-group btn-group-sm" style="float:right;">
-                                    <button type="button" class="btn btn-default" data-toggle="tooltip" title="还原" (click)="resetColumn()">还原</button>
-                                    <button type="button" class="btn btn-default" data-toggle="tooltip" title="保存" (click)="saveColumn()">保存</button>
+                                    <button type="button" class="btn btn-default" data-toggle="tooltip" title="还原"
+                                            (click)="resetColumn()">还原
+                                    </button>
+                                    <button type="button" class="btn btn-default" data-toggle="tooltip" title="保存"
+                                            (click)="saveColumn()">保存
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -68,42 +81,65 @@ export class OurpalmTableSettingsComponent implements OnInit {
 
     @Input()
     table: OurpalmTable;
+    @Input()
+    tableComponent: OurpalmTableComponent;
 
     columns: OurpalmTableColumn[] = [];
 
+    lcolumns: OurpalmTableColumn[] = [];
+    rcolumns: OurpalmTableColumn[] = [];
+
     ngOnInit(): void {
-        this.columns = this.table.columns.map(column => Object.assign({}, column));
-        this.columns.filter((column: any) => column.show).map((column: any) => column.__fshow__ = true);
-        this.columns.map((column: any) => column.__lshow__ = column.__rshow__ = false);
+        this.lcolumns = [...this.table.columns.map(column => Object.assign({}, column))];
+        this.rcolumns = [...this.lcolumns.filter((column: OurpalmTableColumn) => column.show)];
+    }
+
+    existsColumn(column: any, columns: any[]): boolean {
+        for (let i = 0; i < columns.length; i++) {
+            let col = columns[i];
+            if (col.field == column.field) return true;
+        }
+        return false;
     }
 
     showColumn() {
-        this.columns.filter((column: any) => column.__lshow__).map((column: any) => column.__fshow__ = true);
+        let addcolumns: any[] = this.lcolumns.filter((column: any) => column.__lshow__);
+        addcolumns.forEach((col1: any) => {
+            if (!this.existsColumn(col1, this.rcolumns)) {
+                let column = {...col1};
+                delete column.__lshow__;
+                delete column.__rshow__;
+                console.log(column);
+                this.rcolumns.push(column);
+            }
+        });
     }
 
     hideColumn() {
-        this.columns.filter((column: any) => column.__rshow__).map((column: any) => column.__fshow__ = false);
+        this.rcolumns = this.rcolumns.filter((column: any) => !column.__rshow__);
     }
 
     resetColumn() {
-        this.columns = this.table.__columns.map(column => Object.assign({}, column));
-        this.columns.filter((column: any) => column.show).map((column: any) => column.__fshow__ = true);
-        this.columns.map((column: any) => column.__lshow__ = column.__rshow__ = false);
+        let columns: any[] = this.table.__columns.map(column => Object.assign({}, column));
+        this.rcolumns = [...columns.filter((column: any) => column.show)];
     }
 
     saveColumn() {
         let tmpColumns = [];
-        this.columns.forEach((col1: any) => {
-            this.table.columns.forEach(col2 => {
-                if (col1.field == col2.field) {
-                    tmpColumns.push(Object.assign(col2, {show: !!col1.__fshow__}));
-                }
-            });
+        this.rcolumns.forEach((col: any) => {
+            tmpColumns.push({...col, ...{show: true}})
         });
+        this.table.columns.forEach((col1: any) => {
+            if (!this.existsColumn(col1, this.rcolumns)) {
+                tmpColumns.push({...col1, ...{show: false}})
+            }
+        });
+
         this.table.columns.splice(0);
         tmpColumns.forEach(col => {
             this.table.columns.push(col);
         });
+
         if (this.table.cacheKey && this.table.cacheColumns && window.localStorage) {
             let columnArr: Array<any> = [];
             this.table.columns.forEach((column: OurpalmTableColumn) => {
@@ -111,6 +147,8 @@ export class OurpalmTableSettingsComponent implements OnInit {
             });
             window.localStorage.setItem(`ngx-ourpalm-table-${this.table.cacheKey}-columns`, JSON.stringify(columnArr));
         }
+        this.tableComponent.reflowTable();
+        this.close();
     }
 
     close() {
@@ -126,7 +164,7 @@ export class OurpalmTableSettingsComponent implements OnInit {
 @Injectable()
 export class ColumnSettingsLeftFilter implements PipeTransform {
     transform(columns: OurpalmTableColumn[], name: string): any {
-        return !name ? columns : columns.filter(column => column.header.startsWith(name));
+        return !name ? columns : columns.filter(column => column.header.includes(name));
     }
 }
 
@@ -138,6 +176,6 @@ export class ColumnSettingsLeftFilter implements PipeTransform {
 @Injectable()
 export class ColumnSettingsRightFilter implements PipeTransform {
     transform(columns: OurpalmTableColumn[], name: string): any {
-        return name ? columns.filter((col: any) => col.__fshow__).filter(column => column.header.startsWith(name)) : columns.filter((col: any) => col.__fshow__);
+        return name ? columns.filter(column => column.header.includes(name)) : columns;
     }
 }

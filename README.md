@@ -131,6 +131,7 @@ export class AppComponent {
 |	showSettingBtn        |     boolean   	  |		true		   |	是否显示设置按钮        	|
 |	fixTop                |     boolean   	  |		false		   |	是否固定到顶部,依赖jquery	|
 |	distanceTop           |     number   	  |		0   		   |	固定到顶部的距离,单位像素	|
+|	theadZIndex           |     number   	  |		10   		   |	固定到顶部的zindex	|
 
 
 
