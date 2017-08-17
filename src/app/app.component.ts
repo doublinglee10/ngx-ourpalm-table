@@ -11,67 +11,10 @@ export class AppComponent {
 
     table: OurpalmTable;
 
-    table2: OurpalmTable;
-
     constructor() {
         this.table = new OurpalmTable({
-            autoLoadData: true,
-            cacheKey: 'table01',
-            cachePageSize: true,
-            cacheColumns: true,
-            pagination: true,
-            pagePosition: 'both',
-            defaultPageSize: 100,
-            skipPage: true,
-            pageList: [100, 200],
-            singleSelect: true,
-            showRefreshBtn: false,
-            showSettingBtn: false,
-            loadData: (table: OurpalmTable, callback: (page: Page) => {}) => {
-                console.info('current page: ', table.currentPage);
-
-                var start = (table.currentPage - 1) * table.pageSize + 1;
-                var end = start + table.pageSize;
-                end = end > 586 ? 586 : end;
-                //构造服务器假数据
-                var rows = [];
-                for (; start <= end; start++) {
-                    rows.push({
-                        name: `zhangsan${start}`,
-                        age: start,
-                        email: `zhangsan${start}@163.com`
-                    });
-                }
-                setTimeout(function () {
-                    callback({
-                        total: 0,
-                        rows: []
-                    });
-                }, 300);
-            },
-            onClickRow: function (rowIndex: number, rowData: any) {
-                console.info('onClickRow', arguments);
-            },
-            onDbClickRow: function (rowIndex: number, rowData: any) {
-                console.info('onDbClickRow', arguments);
-            },
-            onClickCell: function (rowIndex: number, cellIndex: number, rowData: any, column: OurpalmTableColumn) {
-                console.info('onClickCell', arguments);
-            },
-            onDbClickCell: function (rowIndex: number, cellIndex: number, rowData: any, column: OurpalmTableColumn) {
-                console.info('onDbClickCell', arguments);
-            },
-            onHeaderCheckBoxChange: function () {
-                console.info('onHeaderCheckBoxChange', arguments);
-            },
-            onRowCheckBoxChange: function () {
-                console.info('onRowCheckBoxChange', arguments);
-            }
-        });
-
-        this.table2 = new OurpalmTable({
-            cacheKey: 'table02',
-            cachePageSize: true,
+            // cacheKey: 'table02',
+            cachePageSize: false,
             cacheColumns: true,
             columns: [{
                 header: '全选',
@@ -112,17 +55,17 @@ export class AppComponent {
             }],
             serverSort: false,
             pagination: true,
-            pagePosition: 'bottom',
+            pagePosition: 'both',
             skipPage: true,
             defaultPageSize: 100,
-            pageList: [100, 200],
+            pageList: [100, 200, 500, 1000, 5000, 10000],
             fixTop: true,
             distanceTop: 0,
             singleSelect: true,
             loadData: (table: OurpalmTable, callback: (page: Page) => {}) => {
                 var start = (table.currentPage - 1) * table.pageSize + 1;
                 var end = start + table.pageSize;
-                end = end > 486 ? 486 : end;
+                end = end > 486000 ? 486000 : end;
                 //构造服务器假数据
                 var rows = [];
                 for (; start <= end; start++) {
@@ -135,7 +78,7 @@ export class AppComponent {
 
                 setTimeout(function () {
                     callback({
-                        total: 486,
+                        total: 486000,
                         rows: rows
                     });
                 }, 300);
@@ -154,59 +97,6 @@ export class AppComponent {
             }
         });
 
-        // console.info(this.table2);
-
-        // setTimeout(() => {
-        // let columns = this.table2.getDisplayedColumns();
-        // console.log('displayed columns', columns);
-        //
-        // let rows = this.table2.getDisplayedRows();
-        // console.log('displayed rows', rows);
-        //
-        // rows = this.table2.getSelectedRows();
-        // console.log('selected rows', rows);
-        //
-        // console.log('options', this.table2.getOptions());
-
-        // this.table2.changeColumns([{
-        //     field: 'checkAll',
-        //     header: '全选',
-        //     checkbox: true
-        // }, {
-        //     header: '姓名',
-        //     field: 'name'
-        // }, {
-        //     header: '年龄',
-        //     field: 'age'
-        // }]);
-        // }, 3000);
-    }
-
-    changeOptions() {
-        this.table.setOptions({
-            autoLoadData: true,
-            currentPage: 2,
-            defaultPageSize: 20
-        });
-    }
-
-    setPageData() {
-        var rows = [];
-        let start = 21, end = 40;
-        for (; start < end; start++) {
-            rows.push({
-                name: `data${start}`,
-                age: start,
-                email: `data${start}@163.com`
-            });
-        }
-
-        this.table.setPageData({
-            currentPage: 2,
-            pageSize: 20,
-            total: 86,
-            rows: rows
-        });
     }
 
     checkAll() {

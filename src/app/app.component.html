@@ -1,7 +1,5 @@
 <h2>Hello Ngx Ourpalm Table</h2>
 <div class="container">
-    <button (click)="changeOptions()">setOptions</button>
-    <button (click)="setPageData()">setPageData</button>
     <button (click)="checkAll()">checkAll</button>
     <button (click)="uncheckAll()">uncheckAll</button>
     <button (click)="checkRow()">checkRow</button>
@@ -9,23 +7,6 @@
     <button (click)="table.openSetting()">settings</button>
 
     <div class="table-responsive">
-        <ourpalm-table [table]="table">
-            <ourpalm-table-column [column]="{header: '全选', field: 'checkbox', checkbox: true}"></ourpalm-table-column>
-            <ourpalm-table-column [column]="{header: '序号', field: 'rownumbers', rownumbers: true}"></ourpalm-table-column>
-            <ourpalm-table-column [column]="{header: '姓名', field: 'name', sort: true}">
-                <ng-template let-data="$row">
-                    {{data.name}}
-                </ng-template>
-            </ourpalm-table-column>
-            <ourpalm-table-column [column]="{header: '年龄', field: 'age'}">
-                <ng-template let-row="$row">
-                    {{row.age}}
-                </ng-template>
-            </ourpalm-table-column>
-        </ourpalm-table>
-    </div>
-
-    <div class="table-responsive">
-        <ourpalm-table [table]="table2"></ourpalm-table>
+        <ourpalm-table [table]="table"></ourpalm-table>
     </div>
 </div>

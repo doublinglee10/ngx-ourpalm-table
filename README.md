@@ -187,4 +187,5 @@ export class AppComponent {
 |	onDblClickCell        | rowIndex, cellIndex, rowData, column |		 在用户双击一个单元格的时候触发。  |
 |	onHeaderCheckBoxChange|                   |		 选择header中多选框时触发   |
 |	onRowCheckBoxChange   | rowData, rowIndex |		 用户选中表格行时触发   |
+|	trackByFun            | rowIndex, rowData |		 ngFor tr trackBy    |
 

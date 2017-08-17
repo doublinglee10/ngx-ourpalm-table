@@ -1,11 +1,13 @@
 import {
     AfterContentInit,
     AfterViewInit,
+    ChangeDetectionStrategy,
     Component,
     ContentChild,
     ContentChildren,
     ElementRef,
     Input,
+    NgZone,
     OnDestroy,
     QueryList,
     TemplateRef,
@@ -17,6 +19,7 @@ import {OurpalmTableStaticColumnComponent} from "./ourpalm-table-static-column.c
 @Component({
     selector: 'ourpalm-table',
     styleUrls: ['ourpalm-table.component.css'],
+    changeDetection: ChangeDetectionStrategy.Default,
     template: `
         <table #el class="table table-bordered table-striped table-hover text-center">
             <thead>
@@ -28,9 +31,10 @@ import {OurpalmTableStaticColumnComponent} from "./ourpalm-table-static-column.c
             <tbody>
                 <!--动态列-->
                 <ng-container *ngIf="dynamicColumn">
-                    <tr *ngFor="let row of table.rows; let i = index;" (dblclick)="table.onDbClickRow(i, row)"
+                    <tr *ngFor="let row of table.rows; trackBy: table?.trackByFun; let i = index;"
+                        (dblclick)="table.onDbClickRow(i, row)"
                         (click)="table.onClickRow(i, row)">
-                        <ng-container *ngFor="let column of table.columns; let j = index;">
+                        <ng-container *ngFor="let column of table.columns; let j = index">
                             <td ourpalm-table-dynamic-column [table]="table" [row]="row" [column]="column" [index]="i"
                                 [class.hidden]="!column.show" (dblclick)="table.onDbClickCell(i, j, row, column)"
                                 (click)="table.onClickCell(i, j, row, column)"></td>
@@ -39,9 +43,11 @@ import {OurpalmTableStaticColumnComponent} from "./ourpalm-table-static-column.c
                 </ng-container>
                 <!--静态列-->
                 <ng-container *ngIf="!dynamicColumn">
-                    <tr *ngFor="let row of table.rows; let i = index;" (dblclick)="table.onDbClickRow(i, row)"
+                    <tr *ngFor="let row of table.rows; trackBy: table?.trackByFun ; let i = index;"
+                        (dblclick)="table.onDbClickRow(i, row)"
                         (click)="table.onClickRow(i, row)">
-                        <td *ngFor="let col of table.columns; let j = index;" [class.hidden]="!col.show"
+                        <td *ngFor="let col of table.columns; let j = index"
+                            [class.hidden]="!col.show"
                             (dblclick)="table.onDbClickCell(i, j, row, col)"
                             (click)="table.onClickCell(i, j, row, col)">
                             <ourpalm-table-columnTemplateRenderer [table]="table" [column]="col" [row]="row"
@@ -76,19 +82,26 @@ export class OurpalmTableComponent implements AfterContentInit, AfterViewInit, O
 
     private $table: any;
 
-    ngAfterViewInit(): void {
-        if (this.table.fixTop) {
-            this.$table = $(this.el.nativeElement);
-            this.$table.floatThead({
-                responsiveContainer: function ($table) {
-                    return $table.closest('.table-responsive');
-                },
-                zIndex: this.table.theadZIndex,
-                top: this.table.distanceTop
-            });
+    constructor(private zone: NgZone) {
+    }
 
-            $(window).resize(() => {
-                this.$table.floatThead('reflow');
+    ngAfterViewInit(): void {
+        this.table && this.table.setTableComponent(this);
+
+        if (this.table.fixTop) {
+            this.zone.runOutsideAngular(() => {
+                this.$table = $(this.el.nativeElement);
+                this.$table.floatThead({
+                    responsiveContainer: function ($table) {
+                        return $table.closest('.table-responsive');
+                    },
+                    zIndex: this.table.theadZIndex,
+                    top: this.table.distanceTop
+                });
+
+                $(window).resize(() => {
+                    this.$table.floatThead('reflow');
+                });
             });
         }
     }
@@ -151,5 +164,4 @@ export class OurpalmTableComponent implements AfterContentInit, AfterViewInit, O
             }
         }
     }
-
 }

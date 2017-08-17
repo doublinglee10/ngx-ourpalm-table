@@ -1,4 +1,5 @@
 import {OurpalmTableColumn} from "./ourpalm-table-column";
+import {OurpalmTableComponent} from "../component/ourpalm-table.component";
 
 export interface Page {
     currentPage?: number;
@@ -74,6 +75,8 @@ export class OurpalmTable {
     /** 用户选择列表行checkbox时触发 */
     onRowCheckBoxChange: (rowData, rowIndex) => void = () => {
     };
+    /** ngFor trackBy row */
+    trackByFun: (rowIndex, rowData) => string = (rowIndex, rowData) => rowIndex;
 
     /** 是否打开自定义列表项 */
     openSettings: boolean = false;
@@ -85,6 +88,8 @@ export class OurpalmTable {
     pageSize: number = 10; //当前页大小
 
     tmpCurrentPage?: number;
+
+    private tableComponent?: OurpalmTableComponent;
 
     constructor(optable: Object | OurpalmTable = {}) {
         this.changeOptions(optable);
@@ -170,6 +175,7 @@ export class OurpalmTable {
     changeColumns(columns: OurpalmTableColumn[]) {
         this.columns = columns.map(column => new OurpalmTableColumn(column));
         this.__columns = columns.map(column => new OurpalmTableColumn(column));
+        this.tableComponent && this.tableComponent.reflowTable();
     }
 
     /*跳转到第一页，触发重新加载数据*/
@@ -224,6 +230,7 @@ export class OurpalmTable {
         this.changeOptions(optable);
         if (this.autoLoadData) {
             this.invokeLoadData();
+            this.tableComponent && this.tableComponent.reflowTable();
         }
     }
 
@@ -283,6 +290,7 @@ export class OurpalmTable {
             currentPage: this.currentPage,
             onHeaderCheckBoxChange: this.onHeaderCheckBoxChange,
             onRowCheckBoxChange: this.onRowCheckBoxChange,
+            trackByFun: this.trackByFun,
             showRefreshBtn: this.showRefreshBtn,
             showSettingBtn: this.showSettingBtn,
             fixTop: this.fixTop,
@@ -312,6 +320,7 @@ export class OurpalmTable {
         this.currentPage = table.currentPage;
         this.onHeaderCheckBoxChange = table.onHeaderCheckBoxChange;
         this.onRowCheckBoxChange = table.onRowCheckBoxChange;
+        this.trackByFun = table.trackByFun;
         this.showRefreshBtn = table.showRefreshBtn;
         this.showSettingBtn = table.showSettingBtn;
         this.fixTop = table.fixTop;
@@ -321,5 +330,9 @@ export class OurpalmTable {
 
     invokeLoadData() {
         this.loadData(this, this.onLoadSuccess.bind(this));
+    }
+
+    setTableComponent(tableComponent: OurpalmTableComponent) {
+        this.tableComponent = tableComponent;
     }
 }

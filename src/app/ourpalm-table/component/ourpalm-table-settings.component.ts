@@ -59,12 +59,8 @@ import {OurpalmTableComponent} from "./ourpalm-table.component";
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="btn-group btn-group-sm" style="float:right;">
-                                    <button type="button" class="btn btn-default" data-toggle="tooltip" title="还原"
-                                            (click)="resetColumn()">还原
-                                    </button>
-                                    <button type="button" class="btn btn-default" data-toggle="tooltip" title="保存"
-                                            (click)="saveColumn()">保存
-                                    </button>
+                                    <button type="button" class="btn btn-default" (click)="resetColumn()">还原</button>
+                                    <button type="button" class="btn btn-default" (click)="saveColumn()">保存</button>
                                 </div>
                             </div>
                         </div>
@@ -159,7 +155,7 @@ export class OurpalmTableSettingsComponent implements OnInit {
 
 @Pipe({
     name: 'lcolumnFilter',
-    pure: false
+    pure: true
 })
 @Injectable()
 export class ColumnSettingsLeftFilter implements PipeTransform {
@@ -171,7 +167,7 @@ export class ColumnSettingsLeftFilter implements PipeTransform {
 
 @Pipe({
     name: 'rcolumnFilter',
-    pure: false
+    pure: true
 })
 @Injectable()
 export class ColumnSettingsRightFilter implements PipeTransform {
