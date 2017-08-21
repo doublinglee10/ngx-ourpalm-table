@@ -35,9 +35,16 @@ import {OurpalmTableStaticColumnComponent} from "./ourpalm-table-static-column.c
                         (dblclick)="table.onDbClickRow(i, row)"
                         (click)="table.onClickRow(i, row)">
                         <ng-container *ngFor="let column of table.columns; let j = index">
-                            <td ourpalm-table-dynamic-column [table]="table" [row]="row" [column]="column" [index]="i"
-                                [class.hidden]="!column.show" (dblclick)="table.onDbClickCell(i, j, row, column)"
-                                (click)="table.onClickCell(i, j, row, column)"></td>
+                            <td ourpalm-table-dynamic-column
+                                [table]="table"
+                                [row]="row"
+                                [column]="column"
+                                [index]="i"
+                                [class.hidden]="!column.show"
+                                (dblclick)="table.onDbClickCell(i, j, row, column)"
+                                (click)="table.onClickCell(i, j, row, column)"
+                                [ngStyle]="column.ngStyle(i,j,row)">
+                            </td>
                         </ng-container>
                     </tr>
                 </ng-container>
@@ -49,9 +56,13 @@ import {OurpalmTableStaticColumnComponent} from "./ourpalm-table-static-column.c
                         <td *ngFor="let col of table.columns; let j = index"
                             [class.hidden]="!col.show"
                             (dblclick)="table.onDbClickCell(i, j, row, col)"
-                            (click)="table.onClickCell(i, j, row, col)">
-                            <ourpalm-table-columnTemplateRenderer [table]="table" [column]="col" [row]="row"
-                                                                  [index]="i"></ourpalm-table-columnTemplateRenderer>
+                            (click)="table.onClickCell(i, j, row, col)"
+                            [ngStyle]="col.ngStyle(i,j,row)">
+                            <ourpalm-table-columnTemplateRenderer [table]="table"
+                                                                  [column]="col"
+                                                                  [row]="row"
+                                                                  [index]="i">
+                            </ourpalm-table-columnTemplateRenderer>
                         </td>
                     </tr>
                 </ng-container>

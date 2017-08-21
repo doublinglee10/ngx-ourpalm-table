@@ -18,6 +18,8 @@ export class OurpalmTableColumn {
     show?: boolean = true;
     /** 是否为多选列 */
     checkbox?: boolean = false;
+    /** td的宽 */
+    ngStyle?: (rowIndex: number, columnIndex: number, rowData: any) => any = (rowIndex, columnIndex, rowData) => '';
     /** 单元格formatter(格式化器)函数 */
     formatter?: (value: any, row: any) => {} = (value, row) => value;
     sorter?: (column: OurpalmTableColumn, row1: any, row2: any) => {} = (column, row1, row2) => {
@@ -41,6 +43,7 @@ export class OurpalmTableColumn {
             checkbox: this.checkbox,
             formatter: this.formatter,
             sorter: this.sorter,
+            ngStyle: this.ngStyle,
             __template__: this.__template__
         }, optcolumn);
 
@@ -53,6 +56,7 @@ export class OurpalmTableColumn {
         this.checkbox = table.checkbox;
         this.formatter = table.formatter;
         this.sorter = table.sorter;
+        this.ngStyle = table.ngStyle;
         this.__template__ = table.__template__;
     }
 }

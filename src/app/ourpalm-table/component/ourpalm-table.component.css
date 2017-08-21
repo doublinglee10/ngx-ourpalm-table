@@ -6,7 +6,12 @@ table {
     margin-bottom: 0px;
 }
 
-table >>> td, table >>> th {
+thead tr {
+    background-color: #eee;
+}
+
+tr td, tr th {
+    max-width: 400px !important;
     word-break: keep-all; /* 不换行 */
     white-space: nowrap; /* 不换行 */
     overflow: hidden;
