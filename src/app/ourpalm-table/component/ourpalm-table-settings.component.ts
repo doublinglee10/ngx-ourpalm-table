@@ -44,12 +44,22 @@ import {OurpalmTableComponent} from "./ourpalm-table.component";
                                 <span>已选列</span>
                                 <div class="col-con">
                                     <input type="text" placeholder="输入值..." [(ngModel)]="rmodel">
+                                    <!--
                                     <ul dnd-sortable-container [sortableData]="rcolumns">
                                         <li *ngFor="let col of rcolumns | rcolumnFilter:rmodel; let i = index;"
                                             dnd-sortable [sortableIndex]="i">
                                             <label>
                                                 <input type="checkbox" [(ngModel)]="col.__rshow__">
                                                 <span dnd-sortable-handle>{{col.header}}</span>
+                                            </label>
+                                        </li>
+                                    </ul>
+                                    -->
+                                    <ul [dragula]="'setting-columns'" [dragulaModel]="rcolumns">
+                                        <li *ngFor="let col of rcolumns | rcolumnFilter:rmodel; let i = index;">
+                                            <label>
+                                                <input type="checkbox" [(ngModel)]="col.__rshow__">
+                                                <span>{{col.header}}</span>
                                             </label>
                                         </li>
                                     </ul>

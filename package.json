@@ -1,6 +1,6 @@
 {
   "name": "ngx-ourpalm-table",
-  "version": "0.1.32",
+  "version": "0.1.33",
   "license": "MIT",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
@@ -34,7 +34,7 @@
     "floatthead": "^2.0.3",
     "font-awesome": "^4.7.0",
     "jquery": "^3.2.1",
-    "ng2-dnd": "^4.2.0"
+    "ng2-dragula": "^1.5.0"
   },
   "devDependencies": {
     "@angular/animations": "^4.0.0",

@@ -6,21 +6,22 @@ import {FormsModule} from "@angular/forms";
 import {OurpalmTablePagingComponent} from "./component/ourpalm-table-paging.component";
 import {OurpalmTableDynamicColumnComponent} from "./component/ourpalm-table-dynamic-column.component";
 import {
-    OurpalmTableStaticColumnComponent,
-    OurpalmTableColumnTemplateRenderer
+    OurpalmTableColumnTemplateRenderer,
+    OurpalmTableStaticColumnComponent
 } from "./component/ourpalm-table-static-column.component";
 import {
-    OurpalmTableSettingsComponent,
     ColumnSettingsLeftFilter,
-    ColumnSettingsRightFilter
+    ColumnSettingsRightFilter,
+    OurpalmTableSettingsComponent
 } from "./component/ourpalm-table-settings.component";
-import {DndModule} from 'ng2-dnd';
+import {DragulaModule} from "ng2-dragula";
 
 @NgModule({
     imports: [
         CommonModule,
         FormsModule,
-        DndModule.forRoot()
+        // DndModule.forRoot(),
+        DragulaModule
     ],
     declarations: [
         OurpalmTableComponent,

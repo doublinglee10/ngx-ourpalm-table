@@ -59,6 +59,7 @@
 }
 
 .ourpalm-table-settings ul li {
+    list-style: none !important;
     padding: 6px 10px;
 }
 
@@ -74,4 +75,32 @@
 .ourpalm-table-settings ul li label span {
     width: 160px;
     display: inline-block;
+}
+
+li.gu-transit {
+    list-style: none !important;
+    background-color: antiquewhite;
+    opacity: 0.7;
+    border: 1px dashed #aaaaaa;
+}
+
+.gu-mirror {
+    position: fixed !important;
+    list-style: none !important;
+    margin: 0 !important;
+    z-index: 9999 !important;
+    opacity: 0.8;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+    filter: alpha(opacity=80);
+}
+
+.gu-hide {
+    display: none !important;
+}
+
+.gu-unselectable {
+    -webkit-user-select: none !important;
+    -moz-user-select: none !important;
+    -ms-user-select: none !important;
+    user-select: none !important;
 }

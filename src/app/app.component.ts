@@ -12,6 +12,10 @@ export class AppComponent {
 
     table: OurpalmTable;
 
+    ngDoCheck() {
+        console.log('check');
+    }
+
     constructor() {
 
         let columns = oolumns.map((col: any) => {
