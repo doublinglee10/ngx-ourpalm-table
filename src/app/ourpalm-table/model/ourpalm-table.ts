@@ -38,7 +38,7 @@ export class OurpalmTable {
     /** 是否在客户端存在table的列隐藏信息,刷新的时候列的隐藏信息不变,保存在localStorage中,key为ourpalm-table-${cacheKey}-columns */
     cacheColumns?: boolean = false;
     /** 分页条在那里显示可取值 'bottom', 'top', 'both' */
-    pagePosition?: string = 'bottom';
+    pagePosition?: 'bottom' | 'top' | 'both' = 'bottom';
     /** 是否显示刷新按钮*/
     showRefreshBtn?: boolean = true;
     /** 是否显示设置按钮*/
@@ -93,6 +93,9 @@ export class OurpalmTable {
 
     constructor(optable: Object | OurpalmTable = {}) {
         this.changeOptions(optable);
+        this.reloadCacheColumns();
+        this.reloadCachePageSize();
+        this.tableComponent && this.tableComponent.reflowTable();
     }
 
     onLoadSuccess(page: Page) {
@@ -176,6 +179,10 @@ export class OurpalmTable {
         this.columns = columns.map(column => new OurpalmTableColumn(column));
         this.__columns = columns.map(column => new OurpalmTableColumn(column));
         this.tableComponent && this.tableComponent.reflowTable();
+
+        this.reloadCacheColumns();
+        this.reloadCachePageSize();
+        this.tableComponent && this.tableComponent.reflowTable();
     }
 
     /*跳转到第一页，触发重新加载数据*/
@@ -230,8 +237,12 @@ export class OurpalmTable {
         this.changeOptions(optable);
         if (this.autoLoadData) {
             this.invokeLoadData();
-            this.tableComponent && this.tableComponent.reflowTable();
         }
+
+        this.reloadCacheColumns();
+        this.reloadCachePageSize();
+        this.tableComponent && this.tableComponent.reflowTable();
+
     }
 
     /*勾选当前页中的所有行*/
@@ -334,5 +345,40 @@ export class OurpalmTable {
 
     setTableComponent(tableComponent: OurpalmTableComponent) {
         this.tableComponent = tableComponent;
+    }
+
+    reloadCacheColumns() {
+        if (this.cacheKey && this.cacheColumns && window.localStorage) {
+            let cache = window.localStorage.getItem(`ngx-ourpalm-table-${this.cacheKey}-columns`);
+            if (cache) {
+                let columnArr: Array<any> = JSON.parse(cache);
+                if (columnArr.length == this.columns.length) {
+                    let tmpColumns = [];
+                    columnArr.forEach((col1 => {
+                        this.columns.forEach(col2 => {
+                            if (col1.field == col2.field) {
+                                tmpColumns.push(Object.assign(col2, col1));
+                            }
+                        });
+                    }));
+                    this.columns.splice(0);
+                    tmpColumns.forEach(col => {
+                        this.columns.push(col);
+                    });
+                } else {
+                    window.localStorage.removeItem(`ngx-ourpalm-table-${this.cacheKey}-columns`);
+                }
+            }
+        }
+    }
+
+    reloadCachePageSize() {
+        if (this.cacheKey && this.cachePageSize && window.localStorage) {
+            let pageSize = window.localStorage.getItem(`ngx-ourpalm-table-${this.cacheKey}-pagesize`);
+            if (pageSize) {
+                this.defaultPageSize = +pageSize;
+                this.pageSize = this.defaultPageSize;
+            }
+        }
     }
 }

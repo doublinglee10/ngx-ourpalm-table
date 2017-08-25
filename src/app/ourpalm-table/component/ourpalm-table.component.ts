@@ -128,51 +128,15 @@ export class OurpalmTableComponent implements AfterContentInit, AfterViewInit, O
         //声明式列，不支持动态列特性
         if (this.columnDirs.toArray().length > 0) {
             this.dynamicColumn = false;
-            this.table.columns = this.columnDirs.toArray().map((columnDir: OurpalmTableStaticColumnComponent) => Object.assign(columnDir.column, {__template__: columnDir.template}));
+            let columns = this.columnDirs.toArray().map((columnDir: OurpalmTableStaticColumnComponent) => Object.assign(columnDir.column, {__template__: columnDir.template}));
             this.table.__columns = this.table.columns.map(col => Object.assign({}, col));
+            this.table.changeColumns(columns);
         } else {
             this.dynamicColumn = true;
         }
-        this.reloadCacheColumns();
-        this.reloadCachePageSize();
         //加载数据
         if (this.table.autoLoadData) {
             this.table.invokeLoadData();
-        }
-    }
-
-    private reloadCacheColumns() {
-        if (this.table.cacheKey && this.table.cacheColumns && window.localStorage) {
-            let cache = window.localStorage.getItem(`ngx-ourpalm-table-${this.table.cacheKey}-columns`);
-            if (cache) {
-                let columnArr: Array<any> = JSON.parse(cache);
-                if (columnArr.length == this.table.columns.length) {
-                    let tmpColumns = [];
-                    columnArr.forEach((col1 => {
-                        this.table.columns.forEach(col2 => {
-                            if (col1.field == col2.field) {
-                                tmpColumns.push(Object.assign(col2, col1));
-                            }
-                        });
-                    }));
-                    this.table.columns.splice(0);
-                    tmpColumns.forEach(col => {
-                        this.table.columns.push(col);
-                    });
-                } else {
-                    window.localStorage.removeItem(`ngx-ourpalm-table-${this.table.cacheKey}-columns`);
-                }
-            }
-        }
-    }
-
-    private reloadCachePageSize() {
-        if (this.table.cacheKey && this.table.cachePageSize && window.localStorage) {
-            let pageSize = window.localStorage.getItem(`ngx-ourpalm-table-${this.table.cacheKey}-pagesize`);
-            if (pageSize) {
-                this.table.defaultPageSize = +pageSize;
-                this.table.pageSize = this.table.defaultPageSize;
-            }
         }
     }
 }

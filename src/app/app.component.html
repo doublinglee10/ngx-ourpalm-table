@@ -1,12 +1,6 @@
-<h2>Hello Ngx Ourpalm Table</h2>
-<div class="container">
-    <button (click)="checkAll()">checkAll</button>
-    <button (click)="uncheckAll()">uncheckAll</button>
-    <button (click)="checkRow()">checkRow</button>
-    <button (click)="uncheckRow()">uncheckRow</button>
-    <button (click)="table.openSetting()">settings</button>
+<ul>
+    <li><a routerLink="/dynamic-table">动态表格</a></li>
+</ul>
 
-    <div class="table-responsive">
-        <ourpalm-table [table]="table"></ourpalm-table>
-    </div>
-</div>
+
+<router-outlet></router-outlet>
