@@ -121,7 +121,7 @@ export class AppComponent {
 |	singleSelect    	  |     boolean   	  |		false		   |	是否限制只能选中一行			|
 |	serverSort     		  |     boolean   	  |		true	   	   |	是否要服务器排序		|
 |	pageList     		  |     array 		  |	[10,20,30,40,50]   |	在设置分页属性的时候 初始化页面大小选择列表		|
-|	defaultPageSize       |     int   		  |		10			   |	在设置分页属性的时候初始化页面大小	|
+|	pageSize       |     int   		  |		10			   |	在设置分页属性的时候初始化页面大小	|
 |	skipPage              |     boolean   	  |		true		   |	在设置分页属性的时候是否允许用户跳转页面	|
 |	cacheKey              |     string   	  |		''  		   |	客户端存储table信息是对应存放在localStorage中的key	|
 |	cachePageSize         |     boolean   	  |		false		   |	是否在客户端存储table的页大小,刷新的时候页大小不变,保存在localStorage中,key为${cacheKey}-pageSize	|
@@ -148,7 +148,7 @@ export class AppComponent {
 |	show			      |     boolean		  |		true		   |	是否隐藏列				|
 |	checkbox		      |     boolean		  |		false		   |	是否为多选列				|
 |	sorter  		      |     function	  |		undefined      |	服务器排序不需要设置，客户端排序需要设置，`sorter: (column, row1, row2) => row1[column.field] - row2[column.field]`		|
-|	ngStyle  		      |     function	  |		undefined      |	设置表格cell的样式，`ngStyle: (rowIndex, columnIndex, rowData) => return { color: 'red' }`		|
+|	styler  		      |     function	  |		undefined      |	设置表格cell的样式，`styler: (rowIndex, columnIndex, rowData) => return { color: 'red' }`		|
 
 
 
@@ -190,3 +190,62 @@ export class AppComponent {
 |	onRowCheckBoxChange   | rowData, rowIndex |		 用户选中表格行时触发   |
 |	trackByFun            | rowIndex, rowData |		 ngFor tr trackBy    |
 
+#### 全局配置
+
+```
+@NgModule({
+    imports: [
+        OurpalmTableModule.forRoot()
+    ]
+})
+export class AppModule {
+
+    constructor(private tableConfig: TableConfig) {
+        this.tableConfig.config = {
+            pageSize: 50,
+            pageList: [50, 100, 200]
+        }
+    }
+}
+```
+
+#### 创建table
+
+```
+@Component({
+    selector: 'dynamic-table',
+    template: `
+        <button (click)="log()">click event test</button>
+        <button (click)="changeTable1()">table01</button>
+        <button (click)="changeTable2()">table02</button>
+        <ourpalm-table [table]="table"></ourpalm-table>
+    `
+})
+export class DynamicTableComponent {
+
+    table: OurpalmTable;
+
+    constructor(private tableConfig: TableConfig) {
+
+        //不继承全局配置
+        this.table = new Table({
+            cacheKey: 'table01',
+            cachePageSize: true,
+            cacheColumns: true,
+            loadData: () => {
+            }
+        });
+
+        //继承全局配置
+        this.table = this.tableConfig.create({
+            cacheKey: 'table01',
+            cachePageSize: true,
+            cacheColumns: true,
+            pagePosition: 'both',
+            loadData: () => {
+            }
+        });
+
+    }
+}
+```

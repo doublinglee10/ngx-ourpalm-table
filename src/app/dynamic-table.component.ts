@@ -1,5 +1,6 @@
 import {Component, NgZone} from "@angular/core";
 import {OurpalmTable, Page} from "./ourpalm-table/model/ourpalm-table";
+import {TableConfig} from "./ourpalm-table/model/table.config";
 
 @Component({
     selector: 'dynamic-table',
@@ -17,7 +18,8 @@ export class DynamicTableComponent {
     table1Columns: any[];
     table2Columns: any[];
 
-    constructor(private ngZone: NgZone) {
+    constructor(private ngZone: NgZone,
+                private tableConfig: TableConfig) {
 
         this.table1Columns = [];
         for (let i = 0; i < 10; i++) {
@@ -35,12 +37,11 @@ export class DynamicTableComponent {
             });
         }
 
-        this.table = new OurpalmTable({
+        this.table = this.tableConfig.create({
             cacheKey: 'table01',
             cachePageSize: true,
             cacheColumns: true,
             pagePosition: 'both',
-            pageList: [10, 20, 30, 40, 50, 100, 200, 500, 1000, 3000, 5000],
             columns: this.table1Columns,
             loadData: this.loadData
         });

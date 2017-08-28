@@ -8,7 +8,7 @@ import {OurpalmTableComponent} from "./ourpalm-table.component";
     template: `
         <td *ngIf="table.pagination" [attr.colspan]="table.columns.length">
             <span class="page-left">
-                <select class="form-control input-sm" [(ngModel)]="table.defaultPageSize" (change)="changePageSize()">
+                <select class="form-control input-sm" [(ngModel)]="table.pageSize" (change)="changePageSize()">
                     <option *ngFor="let val of table.pageList" [value]="val">{{val}}</option>
                 </select>
                 <button class="glyphicon glyphicon-step-backward ourpalm-table-pager" (click)="firstPage()"
@@ -51,14 +51,13 @@ export class OurpalmTablePagingComponent implements OnInit {
     }
 
     changePageSize() {
-        this.table.defaultPageSize = +this.table.defaultPageSize;
-        this.table.changePageSize(this.table.defaultPageSize);
+        this.table.changePageSize(this.table.pageSize);
         this.saveCachePageSize();
     }
 
     saveCachePageSize() {
         if (this.table.cacheKey && this.table.cachePageSize && window.localStorage) {
-            window.localStorage.setItem(`ngx-ourpalm-table-${this.table.cacheKey}-pagesize`, `${this.table.defaultPageSize}`);
+            window.localStorage.setItem(`ngx-ourpalm-table-${this.table.cacheKey}-pagesize`, `${this.table.pageSize}`);
         }
     }
 

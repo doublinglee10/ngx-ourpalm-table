@@ -1,4 +1,4 @@
-import {NgModule} from "@angular/core";
+import {NgModule, ModuleWithProviders} from "@angular/core";
 import {CommonModule} from "@angular/common";
 import {OurpalmTableComponent} from "./component/ourpalm-table.component";
 import {OurpalmTableHeaderComponent} from "./component/ourpalm-table-header.component";
@@ -17,6 +17,7 @@ import {
 import {DragulaModule} from "ng2-dragula";
 import {OurpalmTableRowComponent} from "./component/ourpalm-table-rows.component";
 import {DynamicEventDirective} from "./component/dynamic-event.directive";
+import {TableConfig} from "./model/table.config";
 
 @NgModule({
     imports: [
@@ -44,4 +45,12 @@ import {DynamicEventDirective} from "./component/dynamic-event.directive";
     providers: []
 })
 export class OurpalmTableModule {
+
+    static forRoot(): ModuleWithProviders {
+        return {
+            ngModule: OurpalmTableModule,
+            providers: [TableConfig]
+        };
+    }
+
 }

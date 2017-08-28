@@ -27,8 +27,6 @@ export class OurpalmTable {
     serverSort?: boolean = true;
     /** 在设置分页属性的时候 初始化页面大小选择列表 */
     pageList?: number[] = [10, 20, 30, 40, 50];
-    /** 在设置分页属性的时候初始化页面大小 */
-    defaultPageSize?: number = 10;
     /** 在设置分页属性的时候是否允许用户跳转页面 */
     skipPage?: boolean = true;
     /** 客户端存储table信息是对应存放在localStorage中的key */
@@ -83,6 +81,7 @@ export class OurpalmTable {
 
     constructor(table?: OurpalmTable | Object) {
         Object.assign(this, table);
+        this.columns = this.columns.map((column) => new OurpalmTableColumn(column));
         this.__columns = this.columns.map(column => new OurpalmTableColumn(column));
         this.reloadCacheColumns();
         this.reloadCachePageSize();
@@ -91,7 +90,6 @@ export class OurpalmTable {
 
     onLoadSuccess(page: Page) {
         this.pageSize = page.pageSize || this.pageSize;
-        this.defaultPageSize = this.pageSize;
         this.total = page.total;
         this.rows = page.rows;
         this.currentPage = page.currentPage || this.currentPage;
@@ -156,7 +154,6 @@ export class OurpalmTable {
             singleSelect: this.singleSelect,
             serverSort: this.serverSort,
             pageList: [].concat(this.pageList),
-            defaultPageSize: this.defaultPageSize,
             skipPage: this.skipPage,
             cacheKey: this.cacheKey,
             cachePageSize: this.cachePageSize,
@@ -226,6 +223,7 @@ export class OurpalmTable {
     /*重新配置table属性，触发重新加载数据*/
     setOptions(table: OurpalmTable | Object) {
         Object.assign(this, table);
+        this.columns = this.columns.map((column) => new OurpalmTableColumn(column));
         this.__columns = this.columns.map(column => new OurpalmTableColumn(column));
         if (this.autoLoadData) {
             this.invokeLoadData();
@@ -307,8 +305,7 @@ export class OurpalmTable {
         if (this.cacheKey && this.cachePageSize && window.localStorage) {
             let pageSize = window.localStorage.getItem(`ngx-ourpalm-table-${this.cacheKey}-pagesize`);
             if (pageSize) {
-                this.defaultPageSize = +pageSize;
-                this.pageSize = this.defaultPageSize;
+                this.pageSize = +pageSize;
             }
         }
     }
