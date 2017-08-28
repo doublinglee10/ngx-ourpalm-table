@@ -32,7 +32,10 @@ import {OurpalmTableComponent} from "./ourpalm-table.component";
             <span class="page-right">显示{{table.start}}-{{table.end}}条记录,共{{table.total}}条记录</span>
 
             <div *ngIf="table?.openSettings">
-                <ourpalm-table-settings [table]="table" [tableComponent]="tableComponent"></ourpalm-table-settings>
+                <ourpalm-table-settings [table]="table"
+                                        [tableComponent]="tableComponent"
+                                        [columns]="table.columns">
+                </ourpalm-table-settings>
             </div>
         </td>
     `

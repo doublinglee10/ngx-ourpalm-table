@@ -15,12 +15,13 @@ import {
     OurpalmTableSettingsComponent
 } from "./component/ourpalm-table-settings.component";
 import {DragulaModule} from "ng2-dragula";
+import {OurpalmTableRowComponent} from "./component/ourpalm-table-rows.component";
+import {DynamicEventDirective} from "./component/dynamic-event.directive";
 
 @NgModule({
     imports: [
         CommonModule,
         FormsModule,
-        // DndModule.forRoot(),
         DragulaModule
     ],
     declarations: [
@@ -29,6 +30,8 @@ import {DragulaModule} from "ng2-dragula";
         OurpalmTableStaticColumnComponent,
         OurpalmTableHeaderComponent,
         OurpalmTableSettingsComponent,
+        OurpalmTableRowComponent,
+        DynamicEventDirective,
         OurpalmTablePagingComponent,
         OurpalmTableColumnTemplateRenderer,
         ColumnSettingsLeftFilter,

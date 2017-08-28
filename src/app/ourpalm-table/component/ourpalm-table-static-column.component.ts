@@ -4,7 +4,7 @@ import {OurpalmTable} from "../model/ourpalm-table";
 
 @Component({
     selector: 'ourpalm-table-column',
-    template: ``
+    template: ` `
 })
 export class OurpalmTableStaticColumnComponent implements OnInit {
 
@@ -24,7 +24,7 @@ export class OurpalmTableStaticColumnComponent implements OnInit {
     template: `
         <!-- 排序列 -->
         <ng-container *ngIf="column.sort">
-            <ng-template [ngTemplateOutlet]="column.__template__"
+            <ng-template [ngTemplateOutlet]="column.template"
                          [ngOutletContext]="{'$implicit': column, '$row': row}"></ng-template>
         </ng-container>
         <!-- checkbox列 -->
@@ -37,7 +37,7 @@ export class OurpalmTableStaticColumnComponent implements OnInit {
         </ng-container>
         <!-- 正常列 -->
         <ng-container *ngIf="!column.sort && !column.checkbox && !column.rownumbers">
-            <ng-template [ngTemplateOutlet]="column.__template__"
+            <ng-template [ngTemplateOutlet]="column.template"
                          [ngOutletContext]="{'$implicit': column, '$row': row}"></ng-template>
         </ng-container>
     `

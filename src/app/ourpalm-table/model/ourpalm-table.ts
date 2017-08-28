@@ -54,27 +54,17 @@ export class OurpalmTable {
         return null;
     };
     /** 用户点击一行的时候触发 */
-    onClickRow: (rowIndex: number, rowData: any) => {} = () => {
-        return null;
-    };
+    onClickRow: (rowIndex: number, rowData: any) => {};
     /** 用户双击一行的时候触发 */
-    onDbClickRow: (rowIndex: number, rowData: any) => {} = () => {
-        return null;
-    };
+    onDbClickRow: (rowIndex: number, rowData: any) => {};
     /** 用户点击单元格的时候触发 */
-    onClickCell: (rowIndex: number, cellIndex: number, rowData: any, column: OurpalmTableColumn) => {} = () => {
-        return null;
-    };
+    onClickCell: (rowIndex: number, cellIndex: number, rowData: any, column: OurpalmTableColumn) => {};
     /** 用户双击单元格的时候触发 */
-    onDbClickCell: (rowIndex: number, cellIndex: number, rowData: any, column: OurpalmTableColumn) => {} = () => {
-        return null;
-    };
+    onDbClickCell: (rowIndex: number, cellIndex: number, rowData: any, column: OurpalmTableColumn) => {};
     /** 用户选择头部checkbox时触发 */
-    onHeaderCheckBoxChange: () => void = () => {
-    };
+    onHeaderCheckBoxChange: () => void;
     /** 用户选择列表行checkbox时触发 */
-    onRowCheckBoxChange: (rowData, rowIndex) => void = () => {
-    };
+    onRowCheckBoxChange: (rowData, rowIndex) => void;
     /** ngFor trackBy row */
     trackByFun: (rowIndex, rowData) => string = (rowIndex, rowData) => rowIndex;
 
@@ -91,8 +81,9 @@ export class OurpalmTable {
 
     private tableComponent?: OurpalmTableComponent;
 
-    constructor(optable: Object | OurpalmTable = {}) {
-        this.changeOptions(optable);
+    constructor(table?: OurpalmTable | Object) {
+        Object.assign(this, table);
+        this.__columns = this.columns.map(column => new OurpalmTableColumn(column));
         this.reloadCacheColumns();
         this.reloadCachePageSize();
         this.tableComponent && this.tableComponent.reflowTable();
@@ -233,8 +224,9 @@ export class OurpalmTable {
     }
 
     /*重新配置table属性，触发重新加载数据*/
-    setOptions(optable: Object | OurpalmTable) {
-        this.changeOptions(optable);
+    setOptions(table: OurpalmTable | Object) {
+        Object.assign(this, table);
+        this.__columns = this.columns.map(column => new OurpalmTableColumn(column));
         if (this.autoLoadData) {
             this.invokeLoadData();
         }
@@ -242,7 +234,6 @@ export class OurpalmTable {
         this.reloadCacheColumns();
         this.reloadCachePageSize();
         this.tableComponent && this.tableComponent.reflowTable();
-
     }
 
     /*勾选当前页中的所有行*/
@@ -277,66 +268,6 @@ export class OurpalmTable {
 
     openSetting() {
         this.openSettings = true;
-    }
-
-    private changeOptions(optable: Object | OurpalmTable) {
-        let table = Object.assign({}, {
-            autoLoadData: this.autoLoadData,
-            columns: this.columns,
-            pagination: this.pagination,
-            singleSelect: this.singleSelect,
-            serverSort: this.serverSort,
-            pageList: this.pageList,
-            defaultPageSize: this.defaultPageSize,
-            skipPage: this.skipPage,
-            cacheKey: this.cacheKey,
-            cachePageSize: this.cachePageSize,
-            cacheColumns: this.cacheColumns,
-            pagePosition: this.pagePosition,
-            loadData: this.loadData,
-            onClickRow: this.onClickRow,
-            onDbClickRow: this.onDbClickRow,
-            onClickCell: this.onClickCell,
-            onDbClickCell: this.onDbClickCell,
-            currentPage: this.currentPage,
-            onHeaderCheckBoxChange: this.onHeaderCheckBoxChange,
-            onRowCheckBoxChange: this.onRowCheckBoxChange,
-            trackByFun: this.trackByFun,
-            showRefreshBtn: this.showRefreshBtn,
-            showSettingBtn: this.showSettingBtn,
-            fixTop: this.fixTop,
-            distanceTop: this.distanceTop,
-            theadZIndex: this.theadZIndex
-        }, optable);
-
-        this.autoLoadData = table.autoLoadData;
-        this.columns = table.columns.map(column => new OurpalmTableColumn(column));
-        this.__columns = table.columns.map(column => new OurpalmTableColumn(column));
-        this.pagination = table.pagination;
-        this.singleSelect = table.singleSelect;
-        this.serverSort = table.serverSort;
-        this.pageList = table.pageList;
-        this.pageSize = table.defaultPageSize;
-        this.defaultPageSize = table.defaultPageSize;
-        this.skipPage = table.skipPage;
-        this.cacheKey = table.cacheKey;
-        this.cachePageSize = table.cachePageSize;
-        this.cacheColumns = table.cacheColumns;
-        this.pagePosition = table.pagePosition;
-        this.loadData = table.loadData;
-        this.onClickRow = table.onClickRow;
-        this.onDbClickRow = table.onDbClickRow;
-        this.onClickCell = table.onClickCell;
-        this.onDbClickCell = table.onDbClickCell;
-        this.currentPage = table.currentPage;
-        this.onHeaderCheckBoxChange = table.onHeaderCheckBoxChange;
-        this.onRowCheckBoxChange = table.onRowCheckBoxChange;
-        this.trackByFun = table.trackByFun;
-        this.showRefreshBtn = table.showRefreshBtn;
-        this.showSettingBtn = table.showSettingBtn;
-        this.fixTop = table.fixTop;
-        this.distanceTop = table.distanceTop;
-        this.theadZIndex = table.theadZIndex;
     }
 
     invokeLoadData() {

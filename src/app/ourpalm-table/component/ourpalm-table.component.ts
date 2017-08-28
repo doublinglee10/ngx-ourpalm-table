@@ -28,44 +28,7 @@ import {OurpalmTableStaticColumnComponent} from "./ourpalm-table-static-column.c
                 </ng-container>
                 <tr ourpalm-table-header [table]="table"></tr>
             </thead>
-            <tbody>
-                <!--动态列-->
-                <ng-container *ngIf="dynamicColumn">
-                    <tr *ngFor="let row of table.rows; trackBy: table?.trackByFun; let i = index;"
-                        (dblclick)="table.onDbClickRow(i, row)"
-                        (click)="table.onClickRow(i, row)">
-                        <ng-container *ngFor="let column of table.columns; let j = index">
-                            <td ourpalm-table-dynamic-column
-                                [table]="table"
-                                [row]="row"
-                                [column]="column"
-                                [index]="i"
-                                [class.hidden]="!column.show"
-                                (dblclick)="table.onDbClickCell(i, j, row, column)"
-                                (click)="table.onClickCell(i, j, row, column)"
-                                [ngStyle]="column.ngStyle(i,j,row)">
-                            </td>
-                        </ng-container>
-                    </tr>
-                </ng-container>
-                <!--静态列-->
-                <ng-container *ngIf="!dynamicColumn">
-                    <tr *ngFor="let row of table.rows; trackBy: table?.trackByFun ; let i = index;"
-                        (dblclick)="table.onDbClickRow(i, row)"
-                        (click)="table.onClickRow(i, row)">
-                        <td *ngFor="let col of table.columns; let j = index"
-                            [class.hidden]="!col.show"
-                            (dblclick)="table.onDbClickCell(i, j, row, col)"
-                            (click)="table.onClickCell(i, j, row, col)"
-                            [ngStyle]="col.ngStyle(i,j,row)">
-                            <ourpalm-table-columnTemplateRenderer [table]="table"
-                                                                  [column]="col"
-                                                                  [row]="row"
-                                                                  [index]="i">
-                            </ourpalm-table-columnTemplateRenderer>
-                        </td>
-                    </tr>
-                </ng-container>
+            <tbody ourpalm-table-rows [table]="table" [rows]="table.rows" [dynamicColumn]="dynamicColumn" [columns]="table.columns">
             </tbody>
             <tfoot>
                 <ng-container *ngIf="table.pagination && table.pagePosition != 'top' ">

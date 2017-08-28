@@ -4,6 +4,7 @@ import {OurpalmTable, Page} from "./ourpalm-table/model/ourpalm-table";
 @Component({
     selector: 'dynamic-table',
     template: `
+        <button (click)="log()">click event test</button>
         <button (click)="changeTable1()">table01</button>
         <button (click)="changeTable2()">table02</button>
         <ourpalm-table [table]="table"></ourpalm-table>
@@ -39,6 +40,7 @@ export class DynamicTableComponent {
             cachePageSize: true,
             cacheColumns: true,
             pagePosition: 'both',
+            pageList: [10, 20, 30, 40, 50, 100, 200, 500, 1000, 3000, 5000],
             columns: this.table1Columns,
             loadData: this.loadData
         });
@@ -48,15 +50,19 @@ export class DynamicTableComponent {
         setTimeout(() => {
             let rows = [];
             if (table.cacheKey == 'table01') {
-                for (let i = 0; i < 50; i++) {
+                let start = (table.currentPage - 1) * table.pageSize + 1;
+                let end = start + table.pageSize;
+                for (let i = start; i < end; i++) {
                     let row: any = {};
                     for (let j = 0; j < 10; j++) {
-                        row['field1-' + j] = 'data1' + i;
+                        row['field1-' + j] = 'data1-' + i;
                     }
                     rows.push(row);
                 }
             } else if (table.cacheKey == 'table02') {
-                for (let i = 0; i < 50; i++) {
+                let start = (table.currentPage - 1) * table.pageSize + 1;
+                let end = start + table.pageSize;
+                for (let i = start; i < end; i++) {
                     let row: any = {};
                     for (let j = 0; j < 20; j++) {
                         row['field2-' + j] = 'data2' + i;
@@ -91,5 +97,12 @@ export class DynamicTableComponent {
         })
     }
 
+    ngDoCheck() {
+        console.log('dynamic table check');
+    }
+
+    log() {
+        console.log('click test');
+    }
 
 }

@@ -19,7 +19,7 @@ export class OurpalmTableColumn {
     /** 是否为多选列 */
     checkbox?: boolean = false;
     /** td的宽 */
-    ngStyle?: (rowIndex: number, columnIndex: number, rowData: any) => any = (rowIndex, columnIndex, rowData) => '';
+    styler?: (rowIndex: number, columnIndex: number, rowData: any) => any;
     /** 单元格formatter(格式化器)函数 */
     formatter?: (value: any, row: any) => {} = (value, row) => value;
     sorter?: (column: OurpalmTableColumn, row1: any, row2: any) => {} = (column, row1, row2) => {
@@ -29,34 +29,9 @@ export class OurpalmTableColumn {
     __fshow__?: any;
     __lshow__?: any;
     __rshow__?: any;
-    __template__?: TemplateRef<any>;
+    template?: TemplateRef<any>;
 
     constructor(optcolumn: OurpalmTableColumn) {
-        // this = table;
-        let table = Object.assign({}, {
-            header: this.header,
-            field: this.field,
-            sort: this.sort,
-            sortOrder: this.sortOrder,
-            rownumbers: this.rownumbers,
-            show: this.show,
-            checkbox: this.checkbox,
-            formatter: this.formatter,
-            sorter: this.sorter,
-            ngStyle: this.ngStyle,
-            __template__: this.__template__
-        }, optcolumn);
-
-        this.header = table.header;
-        this.field = table.field;
-        this.sort = table.sort;
-        this.sortOrder = table.sortOrder;
-        this.rownumbers = table.rownumbers;
-        this.show = table.show;
-        this.checkbox = table.checkbox;
-        this.formatter = table.formatter;
-        this.sorter = table.sorter;
-        this.ngStyle = table.ngStyle;
-        this.__template__ = table.__template__;
+        Object.assign(this, optcolumn);
     }
 }

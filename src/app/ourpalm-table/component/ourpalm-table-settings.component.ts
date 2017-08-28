@@ -1,10 +1,11 @@
-import {Component, Injectable, Input, OnInit, Pipe, PipeTransform} from "@angular/core";
+import {ChangeDetectionStrategy, Component, Injectable, Input, OnInit, Pipe, PipeTransform} from "@angular/core";
 import {OurpalmTable} from "../model/ourpalm-table";
 import {OurpalmTableColumn} from "../model/ourpalm-table-column";
 import {OurpalmTableComponent} from "./ourpalm-table.component";
 
 @Component({
     selector: 'ourpalm-table-settings',
+    changeDetection: ChangeDetectionStrategy.OnPush,
     styleUrls: ['ourpalm-table-settings.component.css'],
     template: `
         <div>
@@ -19,7 +20,7 @@ import {OurpalmTableComponent} from "./ourpalm-table.component";
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-md-5">
-                                <span>所有列</span>
+                                <span>备选列</span>
                                 <div class="col-con">
                                     <input type="text" placeholder="输入值..." [(ngModel)]="lmodel">
                                     <ul>
@@ -44,17 +45,6 @@ import {OurpalmTableComponent} from "./ourpalm-table.component";
                                 <span>已选列</span>
                                 <div class="col-con">
                                     <input type="text" placeholder="输入值..." [(ngModel)]="rmodel">
-                                    <!--
-                                    <ul dnd-sortable-container [sortableData]="rcolumns">
-                                        <li *ngFor="let col of rcolumns | rcolumnFilter:rmodel; let i = index;"
-                                            dnd-sortable [sortableIndex]="i">
-                                            <label>
-                                                <input type="checkbox" [(ngModel)]="col.__rshow__">
-                                                <span dnd-sortable-handle>{{col.header}}</span>
-                                            </label>
-                                        </li>
-                                    </ul>
-                                    -->
                                     <ul [dragula]="'setting-columns'" [dragulaModel]="rcolumns">
                                         <li *ngFor="let col of rcolumns | rcolumnFilter:rmodel; let i = index;">
                                             <label>
@@ -85,66 +75,51 @@ export class OurpalmTableSettingsComponent implements OnInit {
     lmodel: string;
     rmodel: string;
 
-    @Input()
-    table: OurpalmTable;
-    @Input()
-    tableComponent: OurpalmTableComponent;
+    @Input() table: OurpalmTable;
+    @Input() tableComponent: OurpalmTableComponent;
+    @Input() columns: OurpalmTableColumn[] = [];
 
-    columns: OurpalmTableColumn[] = [];
-
+    tempcolumns: OurpalmTableColumn[] = [];
     lcolumns: OurpalmTableColumn[] = [];
     rcolumns: OurpalmTableColumn[] = [];
 
     ngOnInit(): void {
-        this.lcolumns = [...this.table.columns.map(column => Object.assign({}, column))];
-        this.rcolumns = [...this.lcolumns.filter((column: OurpalmTableColumn) => column.show)];
-    }
-
-    existsColumn(column: any, columns: any[]): boolean {
-        for (let i = 0; i < columns.length; i++) {
-            let col = columns[i];
-            if (col.field == column.field) return true;
-        }
-        return false;
+        this.tempcolumns = [...this.columns.map(column => Object.assign({}, column))];
+        this.lcolumns = [...this.tempcolumns.filter((column: OurpalmTableColumn) => !column.show)];
+        this.rcolumns = [...this.tempcolumns.filter((column: OurpalmTableColumn) => column.show)];
     }
 
     showColumn() {
-        let addcolumns: any[] = this.lcolumns.filter((column: any) => column.__lshow__);
-        addcolumns.forEach((col1: any) => {
-            if (!this.existsColumn(col1, this.rcolumns)) {
-                let column = {...col1};
-                delete column.__lshow__;
-                delete column.__rshow__;
-                console.log(column);
-                this.rcolumns.push(column);
-            }
+        this.lcolumns.filter((column: any) => column.__lshow__).forEach((column) => {
+            column.show = true;
+            delete column.__lshow__;
+            delete column.__rshow__;
         });
+
+        this.lcolumns = [...this.tempcolumns.filter((column: OurpalmTableColumn) => !column.show)];
+        this.rcolumns = [...this.tempcolumns.filter((column: OurpalmTableColumn) => column.show)];
     }
 
     hideColumn() {
-        this.rcolumns = this.rcolumns.filter((column: any) => !column.__rshow__);
+        this.rcolumns.filter((column: any) => column.__rshow__).forEach((column) => {
+            column.show = false;
+            delete column.__lshow__;
+            delete column.__rshow__;
+        });
+
+        this.lcolumns = [...this.tempcolumns.filter((column: OurpalmTableColumn) => !column.show)];
+        this.rcolumns = [...this.tempcolumns.filter((column: OurpalmTableColumn) => column.show)];
     }
 
     resetColumn() {
-        let columns: any[] = this.table.__columns.map(column => Object.assign({}, column));
-        this.rcolumns = [...columns.filter((column: any) => column.show)];
+        console.log('reset', this.table.__columns.map(col => col.header + ' - ' + col.show).join(' , '));
+        this.tempcolumns = [...this.table.__columns.map(column => Object.assign({}, column))];
+        this.lcolumns = [...this.tempcolumns.filter((column: OurpalmTableColumn) => !column.show)];
+        this.rcolumns = [...this.tempcolumns.filter((column: OurpalmTableColumn) => column.show)];
     }
 
     saveColumn() {
-        let tmpColumns = [];
-        this.rcolumns.forEach((col: any) => {
-            tmpColumns.push({...col, ...{show: true}})
-        });
-        this.table.columns.forEach((col1: any) => {
-            if (!this.existsColumn(col1, this.rcolumns)) {
-                tmpColumns.push({...col1, ...{show: false}})
-            }
-        });
-
-        this.table.columns.splice(0);
-        tmpColumns.forEach(col => {
-            this.table.columns.push(col);
-        });
+        this.table.columns = this.tempcolumns.map(column => Object.assign({}, column));
 
         if (this.table.cacheKey && this.table.cacheColumns && window.localStorage) {
             let columnArr: Array<any> = [];
@@ -169,7 +144,7 @@ export class OurpalmTableSettingsComponent implements OnInit {
 })
 @Injectable()
 export class ColumnSettingsLeftFilter implements PipeTransform {
-    transform(columns: OurpalmTableColumn[], name: string): any {
+    transform(columns: OurpalmTableColumn[], name: string): OurpalmTableColumn[] {
         return !name ? columns : columns.filter(column => column.header.includes(name));
     }
 }
@@ -181,7 +156,7 @@ export class ColumnSettingsLeftFilter implements PipeTransform {
 })
 @Injectable()
 export class ColumnSettingsRightFilter implements PipeTransform {
-    transform(columns: OurpalmTableColumn[], name: string): any {
+    transform(columns: OurpalmTableColumn[], name: string): OurpalmTableColumn[] {
         return name ? columns.filter(column => column.header.includes(name)) : columns;
     }
 }
