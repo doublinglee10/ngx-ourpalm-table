@@ -1,4 +1,4 @@
-import {Component, ContentChild, Input, OnInit, TemplateRef} from "@angular/core";
+import {Component, ContentChild, Input, OnInit, TemplateRef, ChangeDetectionStrategy} from "@angular/core";
 import {OurpalmTableColumn} from "../model/ourpalm-table-column";
 import {OurpalmTable} from "../model/ourpalm-table";
 
@@ -21,6 +21,7 @@ export class OurpalmTableStaticColumnComponent implements OnInit {
 
 @Component({
     selector: 'ourpalm-table-columnTemplateRenderer',
+    changeDetection: ChangeDetectionStrategy.OnPush,
     template: `
         <!-- 排序列 -->
         <ng-container *ngIf="column.sort">

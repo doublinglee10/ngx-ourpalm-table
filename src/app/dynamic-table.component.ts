@@ -43,6 +43,8 @@ export class DynamicTableComponent {
             cacheColumns: true,
             pagePosition: 'both',
             columns: this.table1Columns,
+            pageSize: 50,
+            pageList: [50, 100, 200, 500, 1000, 2000, 5000],
             loadData: this.loadData
         });
     }
@@ -52,7 +54,7 @@ export class DynamicTableComponent {
             let rows = [];
             if (table.cacheKey == 'table01') {
                 let start = (table.currentPage - 1) * table.pageSize + 1;
-                let end = start + table.pageSize;
+                let end = +start + table.pageSize;
                 for (let i = start; i < end; i++) {
                     let row: any = {};
                     for (let j = 0; j < 10; j++) {
@@ -76,7 +78,7 @@ export class DynamicTableComponent {
                 total: 486000,
                 rows: rows
             });
-        }, 300);
+        }, 10);
     }
 
     changeTable1() {

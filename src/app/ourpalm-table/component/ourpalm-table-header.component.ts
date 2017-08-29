@@ -1,12 +1,13 @@
-import {Component, Input, OnInit} from "@angular/core";
+import {Component, Input, OnInit, ChangeDetectionStrategy} from "@angular/core";
 import {OurpalmTable} from "../model/ourpalm-table";
 import {OurpalmTableColumn} from "../model/ourpalm-table-column";
 
 @Component({
     selector: '[ourpalm-table-header]',
     styleUrls: ['ourpalm-table-header.component.css'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
     template: `
-        <th *ngFor="let column of table.columns; let i = index" [class.hidden]="!column.show"><!-- 隐藏列 -->
+        <th *ngFor="let column of columns; let i = index" [class.hidden]="!column.show"><!-- 隐藏列 -->
             <!-- 排序列 -->
             <span *ngIf="column.sort" (click)="sortColumn(column)">
                 {{column.header}}
@@ -30,8 +31,8 @@ import {OurpalmTableColumn} from "../model/ourpalm-table-column";
 })
 export class OurpalmTableHeaderComponent implements OnInit {
 
-    @Input()
-    table: OurpalmTable;
+    @Input() table: OurpalmTable;
+    @Input() columns: OurpalmTableColumn[];
 
     checkAll: boolean = false;
 

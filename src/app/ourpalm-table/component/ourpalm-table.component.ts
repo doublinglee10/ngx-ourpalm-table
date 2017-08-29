@@ -26,7 +26,7 @@ import {OurpalmTableStaticColumnComponent} from "./ourpalm-table-static-column.c
                 <ng-container *ngIf="table.pagination && table.pagePosition != 'bottom' ">
                     <tr class="ourpalm-table-pageing" ourpalm-table-paging [table]="table"></tr>
                 </ng-container>
-                <tr ourpalm-table-header [table]="table"></tr>
+                <tr ourpalm-table-header [table]="table" [columns]="table.columns"></tr>
             </thead>
             <tbody ourpalm-table-rows [table]="table" [rows]="table.rows" [dynamicColumn]="dynamicColumn" [columns]="table.columns">
             </tbody>

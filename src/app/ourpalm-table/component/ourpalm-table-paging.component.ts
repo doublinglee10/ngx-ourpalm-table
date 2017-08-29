@@ -51,7 +51,7 @@ export class OurpalmTablePagingComponent implements OnInit {
     }
 
     changePageSize() {
-        this.table.changePageSize(this.table.pageSize);
+        this.table.changePageSize(+this.table.pageSize);
         this.saveCachePageSize();
     }
 

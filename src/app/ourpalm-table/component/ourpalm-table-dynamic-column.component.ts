@@ -1,9 +1,10 @@
-import {Input, Component, OnInit} from "@angular/core";
+import {Input, Component, OnInit, ChangeDetectionStrategy} from "@angular/core";
 import {OurpalmTableColumn} from "../model/ourpalm-table-column";
 import {OurpalmTable} from "../model/ourpalm-table";
 
 @Component({
     selector: '[ourpalm-table-dynamic-column]',
+    changeDetection: ChangeDetectionStrategy.OnPush,
     template: `
         <!-- 隐藏列 -->
         <ng-container [class.hidden]="!column.show">
