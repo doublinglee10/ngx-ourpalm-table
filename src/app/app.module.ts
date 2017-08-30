@@ -5,11 +5,13 @@ import {OurpalmTableModule} from "./ourpalm-table";
 import {AppRoutingModule} from "./app-routing.module";
 import {DynamicTableComponent} from "./dynamic-table.component";
 import {TableConfig} from "./ourpalm-table/model/table.config";
+import {StaticTableComponent} from "./static-table.component";
 
 @NgModule({
     declarations: [
         AppComponent,
-        DynamicTableComponent
+        DynamicTableComponent,
+        StaticTableComponent
     ],
     imports: [
         BrowserModule,

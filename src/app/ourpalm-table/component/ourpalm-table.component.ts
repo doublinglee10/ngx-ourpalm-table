@@ -91,7 +91,7 @@ export class OurpalmTableComponent implements AfterContentInit, AfterViewInit, O
         //声明式列，不支持动态列特性
         if (this.columnDirs.toArray().length > 0) {
             this.dynamicColumn = false;
-            let columns = this.columnDirs.toArray().map((columnDir: OurpalmTableStaticColumnComponent) => Object.assign(columnDir.column, {__template__: columnDir.template}));
+            let columns = this.columnDirs.toArray().map((columnDir: OurpalmTableStaticColumnComponent) => Object.assign(columnDir.column, {template: columnDir.template}));
             this.table.__columns = this.table.columns.map(col => Object.assign({}, col));
             this.table.changeColumns(columns);
         } else {

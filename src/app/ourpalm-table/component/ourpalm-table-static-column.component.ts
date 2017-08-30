@@ -1,4 +1,4 @@
-import {Component, ContentChild, Input, OnInit, TemplateRef, ChangeDetectionStrategy} from "@angular/core";
+import {ChangeDetectionStrategy, Component, ContentChild, Input, OnInit, TemplateRef} from "@angular/core";
 import {OurpalmTableColumn} from "../model/ourpalm-table-column";
 import {OurpalmTable} from "../model/ourpalm-table";
 
