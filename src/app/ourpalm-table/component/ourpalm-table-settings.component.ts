@@ -119,7 +119,13 @@ export class OurpalmTableSettingsComponent implements OnInit {
     }
 
     saveColumn() {
-        this.table.columns = this.tempcolumns.map(column => Object.assign({}, column));
+        let columns = [...this.rcolumns, ...this.lcolumns].map((column) => {
+            delete column.__lshow__;
+            delete column.__rshow__;
+            return Object.assign({}, column);
+        });
+
+        this.table.columns = columns;
 
         if (this.table.cacheKey && this.table.cacheColumns && window.localStorage) {
             let columnArr: Array<any> = [];
