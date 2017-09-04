@@ -116,6 +116,7 @@ export class AppComponent {
 
 |	属性名				  |	 属性值类型 		  | 	   默认值 	   |		描述 					|
 |-------------------------|-------------------|--------------------|-----------------------------|
+|	customClass   		  |     string   	  |		''   		   |	自定义表格的class		|
 |	autoLoadData   		  |     boolean   	  |		true		   |	初始化表格的时候是否自动加载第一页		|
 |	pagination     		  |     boolean   	  |		true		   |	是否显示分页控件		|
 |	singleSelect    	  |     boolean   	  |		false		   |	是否限制只能选中一行			|

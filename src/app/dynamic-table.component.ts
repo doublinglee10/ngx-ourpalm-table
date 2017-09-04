@@ -8,7 +8,9 @@ import {TableConfig} from "./ourpalm-table/model/table.config";
         <button (click)="log()">click event test</button>
         <button (click)="changeTable1()">table01</button>
         <button (click)="changeTable2()">table02</button>
-        <ourpalm-table [table]="table"></ourpalm-table>
+        <div class="table-responsive" style="height:300px;">
+            <ourpalm-table [table]="table"></ourpalm-table>
+        </div>
     `
 })
 export class DynamicTableComponent {
@@ -39,6 +41,7 @@ export class DynamicTableComponent {
 
         this.table = this.tableConfig.create({
             cacheKey: 'table01',
+            customClass: 'mytable',
             cachePageSize: true,
             cacheColumns: true,
             pagePosition: 'both',
@@ -58,7 +61,7 @@ export class DynamicTableComponent {
                 for (let i = start; i < end; i++) {
                     let row: any = {};
                     for (let j = 0; j < 10; j++) {
-                        row['field1-' + j] = 'data1-' + i;
+                        row['field1-' + j] = 'data1-ssssssssssssssssssssssss' + i;
                     }
                     rows.push(row);
                 }
@@ -68,7 +71,7 @@ export class DynamicTableComponent {
                 for (let i = start; i < end; i++) {
                     let row: any = {};
                     for (let j = 0; j < 20; j++) {
-                        row['field2-' + j] = 'data2' + i;
+                        row['field2-' + j] = 'data2-fffffffffffffffffffffffffffffffffffffffff' + i;
                     }
                     rows.push(row);
                 }

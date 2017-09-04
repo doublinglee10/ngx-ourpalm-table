@@ -22,7 +22,7 @@ export class OurpalmTableColumn {
     styler?: (rowIndex: number, columnIndex: number, rowData: any) => any;
     /** 单元格formatter(格式化器)函数 */
     formatter?: (value: any, row: any) => {} = (value, row) => value;
-    sorter?: (column: OurpalmTableColumn, row1: any, row2: any) => {} = (column, row1, row2) => {
+    sorter?: (column: OurpalmTableColumn, row1: any, row2: any) => {} | any = (column, row1, row2) => {
         return row1[column.field] - row2[column.field];
     };
 

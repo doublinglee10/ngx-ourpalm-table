@@ -15,6 +15,8 @@ export class OurpalmTable {
     /** 用户配置的原始的列信息 */
     __columns?: OurpalmTableColumn[] = [];
 
+    /** 自定义表格的class */
+    customClass: string = '';
     /** 初始化table的时候是否自动加载数据 */
     autoLoadData?: boolean = true;
     /** 表格列属性 */
