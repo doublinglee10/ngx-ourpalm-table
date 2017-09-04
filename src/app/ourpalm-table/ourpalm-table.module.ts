@@ -1,4 +1,4 @@
-import {NgModule, ModuleWithProviders} from "@angular/core";
+import {ModuleWithProviders, NgModule} from "@angular/core";
 import {CommonModule} from "@angular/common";
 import {OurpalmTableComponent} from "./component/ourpalm-table.component";
 import {OurpalmTableHeaderComponent} from "./component/ourpalm-table-header.component";
@@ -18,6 +18,7 @@ import {DragulaModule} from "ng2-dragula";
 import {OurpalmTableRowComponent} from "./component/ourpalm-table-rows.component";
 import {DynamicEventDirective} from "./component/dynamic-event.directive";
 import {TableConfig} from "./model/table.config";
+import {SafeHtmlPipe} from "./component/safe-html.pipe";
 
 @NgModule({
     imports: [
@@ -36,11 +37,13 @@ import {TableConfig} from "./model/table.config";
         OurpalmTablePagingComponent,
         OurpalmTableColumnTemplateRenderer,
         ColumnSettingsLeftFilter,
-        ColumnSettingsRightFilter
+        ColumnSettingsRightFilter,
+        SafeHtmlPipe
     ],
     exports: [
         OurpalmTableComponent,
-        OurpalmTableStaticColumnComponent
+        OurpalmTableStaticColumnComponent,
+        SafeHtmlPipe
     ],
     providers: []
 })

@@ -9,7 +9,9 @@ import {OurpalmTable} from "../model/ourpalm-table";
         <!-- 隐藏列 -->
         <ng-container [class.hidden]="!column.show">
             <!-- 排序列 -->
-            <ng-container *ngIf="column.sort">{{value()}}</ng-container>
+            <ng-container *ngIf="column.sort">
+                <span [innerHTML]="value | safeHtml"></span>
+            </ng-container>
             <!-- checkbox列 -->
             <ng-container *ngIf="column.checkbox">
                 <input type="checkbox" [(ngModel)]="row.__checked__" (change)="onCheckBoxChange()">
@@ -20,7 +22,7 @@ import {OurpalmTable} from "../model/ourpalm-table";
             </ng-container>
             <!-- 正常列 -->
             <ng-container *ngIf="!column.sort && !column.checkbox && !column.rownumbers">
-                {{value()}}
+                <span [innerHTML]="value | safeHtml"></span>
             </ng-container>
         </ng-container>
     `
@@ -42,7 +44,7 @@ export class OurpalmTableDynamicColumnComponent implements OnInit {
     ngOnInit(): void {
     }
 
-    private value(): any {
+    get value(): any {
         return this.column.formatter ? this.column.formatter(this.row[this.column.field], this.row) : this.row[this.column.field];
     }
 
