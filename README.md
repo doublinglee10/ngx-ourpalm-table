@@ -148,7 +148,7 @@ export class AppComponent {
 |	show			      |     boolean		  |		true		   |	是否隐藏列				|
 |	checkbox		      |     boolean		  |		false		   |	是否为多选列				|
 |	sorter  		      |     function	  |		undefined      |	服务器排序不需要设置，客户端排序需要设置，`sorter: (column, row1, row2) => row1[column.field] - row2[column.field]`		|
-|	styler  		      |     function	  |		undefined      |	设置表格cell的样式，`styler: (rowIndex, columnIndex, rowData) => return { color: 'red' }`		|
+|	styler  		      |     function \| any	  |		''      |	设置表格cell的样式，`styler: (rowIndex, columnIndex, rowData) => return { color: 'red' }`	  or  `styler: { color: 'red' }`	|
 
 
 

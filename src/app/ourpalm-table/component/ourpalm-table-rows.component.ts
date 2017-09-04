@@ -22,7 +22,7 @@ import {OurpalmTable} from "../model/ourpalm-table";
                             [column]="column"
                             [index]="i"
                             [class.hidden]="!column.show"
-                            [ngStyle]="column.styler && column?.styler(i,j,row)"
+                            [ngStyle]="getStyler(column, i, j, row)"
                             dynamic-event-directive
                             [listenClickEvent]="table.onClickCell"
                             (onClick)="table.onClickCell(i, j, row, column)"
@@ -42,7 +42,7 @@ import {OurpalmTable} from "../model/ourpalm-table";
                     (onDbClick)="table.onDbClickRow(i, row)">
                     <td *ngFor="let col of table.columns; let j = index"
                         [class.hidden]="!col.show"
-                        [ngStyle]="col.styler && col?.styler(i,j,row)"
+                        [ngStyle]="getStyler(col, i, j, row)"
                         dynamic-event-directive
                         [listenClickEvent]="table.onClickCell"
                         (onClick)="table.onClickCell(i, j, row, col)"
@@ -68,4 +68,12 @@ export class OurpalmTableRowComponent {
     @Input() table: OurpalmTable;
 
     @Input() dynamicColumn: boolean;
+
+    getStyler(columns: OurpalmTableColumn, rowIndex: number, columnIndex: number, rowData: any) {
+        if (typeof columns.styler == 'function') {
+            return columns.styler(rowIndex, columnIndex, rowData);
+        } else {
+            return columns.styler;
+        }
+    }
 }
