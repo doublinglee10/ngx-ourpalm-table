@@ -48,6 +48,10 @@ export class OurpalmTable {
     /** 固定到顶部的距离,单位像素*/
     distanceTop?: number = 0;
     theadZIndex?: number = 10;
+    /** 勾选时选中 */
+    checkOnSelect?: boolean = true;
+    /** 选中时勾选 */
+    selectOnCheck?: boolean = true;
 
     /** 加载数据成功回调 */
     loadData: (table: OurpalmTable, callback: (page: Page) => {}) => {} = () => {

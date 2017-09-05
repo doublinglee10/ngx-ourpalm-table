@@ -5,16 +5,20 @@ import {OurpalmTable} from "../model/ourpalm-table";
 @Component({
     selector: '[ourpalm-table-rows]',
     changeDetection: ChangeDetectionStrategy.OnPush,
+    styleUrls: ['ourpalm-table-rows.component.css'],
     template: `
         <ng-container [ngSwitch]="dynamicColumn">
             <ng-container *ngSwitchCase="true">
                 <!--动态列-->
                 <tr *ngFor="let row of rows; trackBy: table.trackByFun; let i = index;"
+                    [ngClass]="{'row-selected': row.__checkrow__}"
+                    (click)="onClickRow(i, row)"
+
                     dynamic-event-directive
-                    [listenClickEvent]="table.onClickRow"
-                    (onClick)="table.onClickRow(i, row)"
                     [listenDbClickEvent]="table.onDbClickRow"
                     (onDbClick)="table.onDbClickRow(i, row)">
+                    <!--[listenClickEvent]="table.onClickRow"-->
+                    <!--(onClick)="table.onClickRow(i, row)"-->
                     <ng-container *ngFor="let column of table.columns; let j = index">
                         <td ourpalm-table-dynamic-column
                             [table]="table"
@@ -23,9 +27,9 @@ import {OurpalmTable} from "../model/ourpalm-table";
                             [index]="i"
                             [class.hidden]="!column.show"
                             [ngStyle]="getStyler(column, i, j, row)"
-                            dynamic-event-directive
                             [listenClickEvent]="table.onClickCell"
                             (onClick)="table.onClickCell(i, j, row, column)"
+                            dynamic-event-directive
                             [listenDbClickEvent]="table.onDbClickCell"
                             (onDbClick)="table.onDbClickCell(i, j, row, column)">
                         </td>
@@ -35,11 +39,14 @@ import {OurpalmTable} from "../model/ourpalm-table";
             <ng-container *ngSwitchCase="false">
                 <!--静态列-->
                 <tr *ngFor="let row of rows; trackBy: table.trackByFun ; let i = index;"
+                    [ngClass]="{'row-selected': row.__checkrow__}"
+                    (click)="onClickRow(i, row)"
+
                     dynamic-event-directive
-                    [listenClickEvent]="table.onClickRow"
-                    (onClick)="table.onClickRow(i, row)"
                     [listenDbClickEvent]="table.onDbClickRow"
                     (onDbClick)="table.onDbClickRow(i, row)">
+                    <!--[listenClickEvent]="table.onClickRow"-->
+                    <!--(onClick)="table.onClickRow(i, row)"-->
                     <td *ngFor="let col of table.columns; let j = index"
                         [class.hidden]="!col.show"
                         [ngStyle]="getStyler(col, i, j, row)"
@@ -69,11 +76,41 @@ export class OurpalmTableRowComponent {
 
     @Input() dynamicColumn: boolean;
 
-    getStyler(columns: OurpalmTableColumn, rowIndex: number, columnIndex: number, rowData: any) {
-        if (typeof columns.styler == 'function') {
-            return columns.styler(rowIndex, columnIndex, rowData);
+    getStyler(column: OurpalmTableColumn, rowIndex: number, columnIndex: number, rowData: any) {
+        if (typeof column.styler == 'function') {
+            return column.styler(rowIndex, columnIndex, rowData);
         } else {
-            return columns.styler;
+            return column.styler;
+        }
+    }
+
+    onClickRow(rowIndex: number, rowData: any) {
+        if (this.table.onClickRow) {
+            this.table.onClickRow(rowIndex, rowData);
+        }
+
+        if (this.table.singleSelect) {
+            this.table.rows = this.table.rows.map((row) => {
+                if (row != rowData) {
+                    if (row.__checkrow__) {
+                        return {...row, ...{__checkrow__: false}}
+                    } else {
+                        return row;
+                    }
+                } else {
+                    return {...row, ...{__checkrow__: !row.__checkrow__}}
+                }
+            });
+        } else {
+            Object.assign(rowData, {__checkrow__: !rowData.__checkrow__});
+        }
+
+        if (this.table.selectOnCheck) {
+            this.table.rows = this.table.rows.map((row: any) => {
+                if (row.__checked__ != row.__checkrow__)
+                    return {...row, ...{__checked__: !!row.__checkrow__}};
+                return row;
+            });
         }
     }
 }

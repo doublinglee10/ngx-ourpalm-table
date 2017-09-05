@@ -133,6 +133,8 @@ export class AppComponent {
 |	fixTop                |     boolean   	  |		false		   |	是否固定到顶部,依赖jquery	|
 |	distanceTop           |     number   	  |		0   		   |	固定到顶部的距离,单位像素	|
 |	theadZIndex           |     number   	  |		10   		   |	固定到顶部的zindex	|
+|	checkOnSelect         |     boolean   	  |		true   		   |	If true, the checkbox is checked/unchecked when the user clicks on a row. If false, the checkbox is only checked/unchecked when the user clicks exactly on the checkbox.	|
+|	selectOnCheck         |     boolean   	  |		true   		   |	If set to true, clicking a checkbox will always select the row. If false, selecting a row will not check the checkbox.	|
 
 
 

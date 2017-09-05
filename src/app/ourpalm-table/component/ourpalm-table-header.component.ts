@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, ChangeDetectionStrategy} from "@angular/core";
+import {ChangeDetectionStrategy, Component, Input, OnInit} from "@angular/core";
 import {OurpalmTable} from "../model/ourpalm-table";
 import {OurpalmTableColumn} from "../model/ourpalm-table-column";
 
@@ -40,13 +40,27 @@ export class OurpalmTableHeaderComponent implements OnInit {
     }
 
     private onCheckBoxChange() {
+        console.log('check box change');
+
         if (!this.table.singleSelect) {
-            this.table.rows.forEach((row: any) => row.__checked__ = this.checkAll);
+            this.table.rows = this.table.rows.map((row: any) => {
+                return {...row, ...{__checked__: this.checkAll}}
+            });
         } else if (!this.checkAll) {
-            this.table.rows.forEach((row: any) => row.__checked__ = false);
+            this.table.rows = this.table.rows.map((row: any) => {
+                return {...row, ...{__checked__: false}}
+            });
         }
 
-        this.table.onHeaderCheckBoxChange();
+        if (this.table.checkOnSelect) {
+            this.table.rows = this.table.rows.map((row: any) => {
+                if (row.__checked__ != row.__checkrow__)
+                    return {...row, ...{__checkrow__: !!row.__checked__}};
+                return row;
+            });
+        }
+
+        this.table.onHeaderCheckBoxChange && this.table.onHeaderCheckBoxChange();
     }
 
     private sortColumn(column: OurpalmTableColumn) {

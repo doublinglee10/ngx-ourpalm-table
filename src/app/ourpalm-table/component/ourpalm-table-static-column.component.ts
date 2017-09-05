@@ -30,7 +30,8 @@ export class OurpalmTableStaticColumnComponent implements OnInit {
         </ng-container>
         <!-- checkbox列 -->
         <ng-container *ngIf="column.checkbox">
-            <input type="checkbox" [(ngModel)]="row.__checked__" (change)="onCheckBoxChange()">
+            <input type="checkbox" [(ngModel)]="row.__checked__" (change)="onCheckBoxChange($event)"
+                   (click)="onClickCheckBox($event)">
         </ng-container>
         <!-- 序号列 -->
         <ng-container *ngIf="column.rownumbers">
@@ -58,12 +59,22 @@ export class OurpalmTableColumnTemplateRenderer {
     @Input()
     column: OurpalmTableColumn;
 
-    onCheckBoxChange() {
+    onClickCheckBox(event: Event) {
+        event.stopPropagation();
+    }
+
+    onCheckBoxChange(event: Event) {
+        event.stopPropagation();
+
         if (this.row.__checked__ && this.table.singleSelect) {
             this.table.rows.forEach(row => row.__checked__ = false);
             this.row.__checked__ = true;
         }
 
-        this.table.onRowCheckBoxChange(this.row, this.index);
+        if (this.table.checkOnSelect) {
+            this.row.__checkrow__ = !!this.row.__checked__;
+        }
+
+        this.table.onRowCheckBoxChange && this.table.onRowCheckBoxChange(this.row, this.index);
     }
 }

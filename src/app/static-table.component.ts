@@ -26,10 +26,15 @@ export class StaticTableComponent {
 
     constructor() {
         this.table = new OurpalmTable({
+            singleSelect: false,
+            selectOnCheck: true,
+            checkOnSelect: true,
+            pageSize: 100,
+            pageList: [10, 100, 200],
             loadData: (table: OurpalmTable, callback: (page: Page) => {}) => {
                 var start = (table.currentPage - 1) * table.pageSize + 1;
                 var end = start + table.pageSize;
-                end = end > 86 ? 86 : end;
+                end = end > 286 ? 286 : end;
                 //构造服务器假数据
                 var rows = [];
                 for (; start < end; start++) {
@@ -42,10 +47,10 @@ export class StaticTableComponent {
 
                 setTimeout(function () {
                     callback({
-                        total: 86,
+                        total: 286,
                         rows: rows
                     });
-                }, 300);
+                }, 100);
             }
         });
     }
