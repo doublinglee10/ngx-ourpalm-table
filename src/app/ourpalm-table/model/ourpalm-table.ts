@@ -52,6 +52,8 @@ export class OurpalmTable {
     checkOnSelect?: boolean = true;
     /** 选中时勾选 */
     selectOnCheck?: boolean = true;
+    /** 按住ctrl时为多选 */
+    ctrlSelect?: boolean = false;
 
     /** 加载数据成功回调 */
     loadData: (table: OurpalmTable, callback: (page: Page) => {}) => {} = () => {

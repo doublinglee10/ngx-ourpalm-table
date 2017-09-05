@@ -12,7 +12,7 @@ import {OurpalmTable} from "../model/ourpalm-table";
                 <!--动态列-->
                 <tr *ngFor="let row of rows; trackBy: table.trackByFun; let i = index;"
                     [ngClass]="{'row-selected': row.__checkrow__}"
-                    (click)="onClickRow(i, row)"
+                    (click)="onClickRow(i, row, $event)"
 
                     dynamic-event-directive
                     [listenDbClickEvent]="table.onDbClickRow"
@@ -40,7 +40,7 @@ import {OurpalmTable} from "../model/ourpalm-table";
                 <!--静态列-->
                 <tr *ngFor="let row of rows; trackBy: table.trackByFun ; let i = index;"
                     [ngClass]="{'row-selected': row.__checkrow__}"
-                    (click)="onClickRow(i, row)"
+                    (click)="onClickRow(i, row, $event)"
 
                     dynamic-event-directive
                     [listenDbClickEvent]="table.onDbClickRow"
@@ -84,12 +84,14 @@ export class OurpalmTableRowComponent {
         }
     }
 
-    onClickRow(rowIndex: number, rowData: any) {
+    onClickRow(rowIndex: number, rowData: any, event: any) {
+        console.log('on click row', event.ctrlKey);
+
         if (this.table.onClickRow) {
             this.table.onClickRow(rowIndex, rowData);
         }
 
-        if (this.table.singleSelect) {
+        if (this.table.singleSelect || (!this.table.singleSelect && this.table.ctrlSelect && !event.ctrlKey)) {
             this.table.rows = this.table.rows.map((row) => {
                 if (row != rowData) {
                     if (row.__checkrow__) {

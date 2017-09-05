@@ -27,6 +27,7 @@ export class StaticTableComponent {
     constructor() {
         this.table = new OurpalmTable({
             singleSelect: false,
+            ctrlSelect: true,
             selectOnCheck: true,
             checkOnSelect: true,
             pageSize: 100,

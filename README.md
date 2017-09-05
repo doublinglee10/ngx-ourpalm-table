@@ -135,6 +135,7 @@ export class AppComponent {
 |	theadZIndex           |     number   	  |		10   		   |	固定到顶部的zindex	|
 |	checkOnSelect         |     boolean   	  |		true   		   |	If true, the checkbox is checked/unchecked when the user clicks on a row. If false, the checkbox is only checked/unchecked when the user clicks exactly on the checkbox.	|
 |	selectOnCheck         |     boolean   	  |		true   		   |	If set to true, clicking a checkbox will always select the row. If false, selecting a row will not check the checkbox.	|
+|	ctrlSelect            |     boolean   	  |		false  		   |	True to only allow multi-selection when ctrl+click is used	|
 
 
 
