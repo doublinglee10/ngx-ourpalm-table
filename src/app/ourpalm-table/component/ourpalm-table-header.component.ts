@@ -40,8 +40,6 @@ export class OurpalmTableHeaderComponent implements OnInit {
     }
 
     private onCheckBoxChange() {
-        console.log('check box change');
-
         if (!this.table.singleSelect) {
             this.table.rows = this.table.rows.map((row: any) => {
                 return {...row, ...{__checked__: this.checkAll}}
@@ -88,6 +86,7 @@ export class OurpalmTableHeaderComponent implements OnInit {
                         return -column.sorter(column, row1, row2) as number;
                 }
             });
+            this.table.rows = [...this.table.rows];
         }
     }
 

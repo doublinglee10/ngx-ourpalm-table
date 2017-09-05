@@ -44,10 +44,14 @@ export class OurpalmTable {
     /** 是否显示设置按钮*/
     showSettingBtn?: boolean = true;
     /** 是否固定到顶部,依赖jquery*/
-    fixTop?: boolean = false;
+    enabledFloatThead?: boolean = false;
     /** 固定到顶部的距离,单位像素*/
-    distanceTop?: number = 0;
-    theadZIndex?: number = 10;
+    floatTheadConfig?: any = {
+        zIndex: 10,
+        responsiveContainer: function ($table) {
+            return $table.closest('.table-responsive');
+        }
+    };
     /** 勾选时选中 */
     checkOnSelect?: boolean = true;
     /** 选中时勾选 */
@@ -93,6 +97,10 @@ export class OurpalmTable {
         this.__columns = this.columns.map(column => new OurpalmTableColumn(column));
         this.reloadCacheColumns();
         this.reloadCachePageSize();
+        this.reflowTable();
+    }
+
+    reflowTable() {
         this.tableComponent && this.tableComponent.reflowTable();
     }
 
@@ -102,6 +110,7 @@ export class OurpalmTable {
         this.rows = page.rows;
         this.currentPage = page.currentPage || this.currentPage;
         this.tmpCurrentPage = this.allPage > 0 ? (page.currentPage || this.currentPage) : 0;
+        this.reflowTable();
     }
 
     /**
@@ -174,11 +183,11 @@ export class OurpalmTable {
     changeColumns(columns: OurpalmTableColumn[]) {
         this.columns = columns.map(column => new OurpalmTableColumn(column));
         this.__columns = columns.map(column => new OurpalmTableColumn(column));
-        this.tableComponent && this.tableComponent.reflowTable();
+        // this.reflowTable();
 
         this.reloadCacheColumns();
         this.reloadCachePageSize();
-        this.tableComponent && this.tableComponent.reflowTable();
+        this.reflowTable();
     }
 
     /*跳转到第一页，触发重新加载数据*/
@@ -239,7 +248,7 @@ export class OurpalmTable {
 
         this.reloadCacheColumns();
         this.reloadCachePageSize();
-        this.tableComponent && this.tableComponent.reflowTable();
+        this.reflowTable();
     }
 
     /*勾选当前页中的所有行*/

@@ -10,7 +10,7 @@ thead tr {
     background-color: #eceaea;
 }
 
-tr td, tr th {
+table /deep/ tr td, table /deep/ tr th {
     max-width: 400px !important;
     word-break: keep-all; /* 不换行 */
     white-space: nowrap; /* 不换行 */

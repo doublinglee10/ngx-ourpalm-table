@@ -3,14 +3,12 @@ import {
     AfterViewInit,
     ChangeDetectionStrategy,
     Component,
-    ContentChild,
     ContentChildren,
     ElementRef,
     Input,
     NgZone,
     OnDestroy,
     QueryList,
-    TemplateRef,
     ViewChild
 } from "@angular/core";
 import {OurpalmTable} from "../model/ourpalm-table";
@@ -28,7 +26,8 @@ import {OurpalmTableStaticColumnComponent} from "./ourpalm-table-static-column.c
                 </ng-container>
                 <tr ourpalm-table-header [table]="table" [columns]="table.columns"></tr>
             </thead>
-            <tbody ourpalm-table-rows [table]="table" [rows]="table.rows" [dynamicColumn]="dynamicColumn" [columns]="table.columns">
+            <tbody ourpalm-table-rows [table]="table" [rows]="table.rows" [dynamicColumn]="dynamicColumn"
+                   [columns]="table.columns">
             </tbody>
             <tfoot>
                 <ng-container *ngIf="table.pagination && table.pagePosition != 'top' ">
@@ -51,9 +50,6 @@ export class OurpalmTableComponent implements AfterContentInit, AfterViewInit, O
     @ContentChildren(OurpalmTableStaticColumnComponent)
     private columnDirs: QueryList<OurpalmTableStaticColumnComponent>;
 
-    @ContentChild(TemplateRef)
-    private template: TemplateRef<any>;
-
     private $table: any;
 
     constructor(private zone: NgZone) {
@@ -62,29 +58,22 @@ export class OurpalmTableComponent implements AfterContentInit, AfterViewInit, O
     ngAfterViewInit(): void {
         this.table && this.table.setTableComponent(this);
 
-        if (this.table.fixTop) {
+        if (this.table.enabledFloatThead) {
             this.zone.runOutsideAngular(() => {
                 this.$table = $(this.el.nativeElement);
-                this.$table.floatThead({
-                    responsiveContainer: function ($table) {
-                        return $table.closest('.table-responsive');
-                    },
-                    zIndex: this.table.theadZIndex,
-                    top: this.table.distanceTop
-                });
-
-                $(window).resize(() => {
-                    this.$table.floatThead('reflow');
-                });
+                this.$table.floatThead(this.table.floatTheadConfig || {});
             });
         }
     }
 
     reflowTable() {
-        this.$table && this.$table.floatThead('reflow');
+        this.table.enabledFloatThead && this.$table.floatThead('reflow');
     }
 
     ngOnDestroy(): void {
+        if (this.table.enabledFloatThead) {
+            this.$table.floatThead('destroy');
+        }
     }
 
     ngAfterContentInit(): void {

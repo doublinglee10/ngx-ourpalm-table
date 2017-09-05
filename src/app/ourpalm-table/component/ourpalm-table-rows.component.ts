@@ -85,8 +85,6 @@ export class OurpalmTableRowComponent {
     }
 
     onClickRow(rowIndex: number, rowData: any, event: any) {
-        console.log('on click row', event.ctrlKey);
-
         if (this.table.onClickRow) {
             this.table.onClickRow(rowIndex, rowData);
         }

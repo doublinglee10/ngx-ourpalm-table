@@ -1,4 +1,13 @@
-import {ChangeDetectionStrategy, Component, Injectable, Input, OnInit, Pipe, PipeTransform} from "@angular/core";
+import {
+    ChangeDetectionStrategy,
+    Component,
+    Injectable,
+    Input,
+    NgZone,
+    OnInit,
+    Pipe,
+    PipeTransform
+} from "@angular/core";
 import {OurpalmTable} from "../model/ourpalm-table";
 import {OurpalmTableColumn} from "../model/ourpalm-table-column";
 import {OurpalmTableComponent} from "./ourpalm-table.component";
@@ -83,6 +92,9 @@ export class OurpalmTableSettingsComponent implements OnInit {
     lcolumns: OurpalmTableColumn[] = [];
     rcolumns: OurpalmTableColumn[] = [];
 
+    constructor(private ngZone: NgZone) {
+    }
+
     ngOnInit(): void {
         this.tempcolumns = [...this.columns.map(column => Object.assign({}, column))];
         this.lcolumns = [...this.tempcolumns.filter((column: OurpalmTableColumn) => !column.show)];
@@ -112,30 +124,34 @@ export class OurpalmTableSettingsComponent implements OnInit {
     }
 
     resetColumn() {
-        console.log('reset', this.table.__columns.map(col => col.header + ' - ' + col.show).join(' , '));
         this.tempcolumns = [...this.table.__columns.map(column => Object.assign({}, column))];
         this.lcolumns = [...this.tempcolumns.filter((column: OurpalmTableColumn) => !column.show)];
         this.rcolumns = [...this.tempcolumns.filter((column: OurpalmTableColumn) => column.show)];
     }
 
     saveColumn() {
-        let columns = [...this.rcolumns, ...this.lcolumns].map((column) => {
-            delete column.__lshow__;
-            delete column.__rshow__;
-            return Object.assign({}, column);
-        });
-
-        this.table.columns = columns;
-
-        if (this.table.cacheKey && this.table.cacheColumns && window.localStorage) {
-            let columnArr: Array<any> = [];
-            this.table.columns.forEach((column: OurpalmTableColumn) => {
-                columnArr.push({field: column.field, show: column.show});
-            });
-            window.localStorage.setItem(`ngx-ourpalm-table-${this.table.cacheKey}-columns`, JSON.stringify(columnArr));
-        }
-        this.tableComponent.reflowTable();
         this.close();
+        this.ngZone.runOutsideAngular(() => {
+            setTimeout(() => {
+                this.ngZone.run(() => {
+                    let columns = [...this.rcolumns, ...this.lcolumns].map((column) => {
+                        delete column.__lshow__;
+                        delete column.__rshow__;
+                        return Object.assign({}, column);
+                    });
+
+                    if (this.table.cacheKey && this.table.cacheColumns && window.localStorage) {
+                        let columnArr: Array<any> = [];
+                        this.table.columns.forEach((column: OurpalmTableColumn) => {
+                            columnArr.push({field: column.field, show: column.show});
+                        });
+                        window.localStorage.setItem(`ngx-ourpalm-table-${this.table.cacheKey}-columns`, JSON.stringify(columnArr));
+                    }
+                    this.table.columns = columns;
+                    this.table.reflowTable();
+                });
+            });
+        });
     }
 
     close() {

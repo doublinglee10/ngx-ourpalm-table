@@ -122,7 +122,7 @@ export class AppComponent {
 |	singleSelect    	  |     boolean   	  |		false		   |	是否限制只能选中一行			|
 |	serverSort     		  |     boolean   	  |		true	   	   |	是否要服务器排序		|
 |	pageList     		  |     array 		  |	[10,20,30,40,50]   |	在设置分页属性的时候 初始化页面大小选择列表		|
-|	pageSize       |     int   		  |		10			   |	在设置分页属性的时候初始化页面大小	|
+|	pageSize              |     int   		  |		10			   |	在设置分页属性的时候初始化页面大小	|
 |	skipPage              |     boolean   	  |		true		   |	在设置分页属性的时候是否允许用户跳转页面	|
 |	cacheKey              |     string   	  |		''  		   |	客户端存储table信息是对应存放在localStorage中的key	|
 |	cachePageSize         |     boolean   	  |		false		   |	是否在客户端存储table的页大小,刷新的时候页大小不变,保存在localStorage中,key为${cacheKey}-pageSize	|
@@ -130,9 +130,8 @@ export class AppComponent {
 |	pagePosition          |     string   	  |		bottom		   |	分页条在那里显示可取值 'bottom', 'top', 'both'	|
 |	showRefreshBtn        |     boolean   	  |		true		   |	是否显示刷新按钮        	|
 |	showSettingBtn        |     boolean   	  |		true		   |	是否显示设置按钮        	|
-|	fixTop                |     boolean   	  |		false		   |	是否固定到顶部,依赖jquery	|
-|	distanceTop           |     number   	  |		0   		   |	固定到顶部的距离,单位像素	|
-|	theadZIndex           |     number   	  |		10   		   |	固定到顶部的zindex	|
+|	enabledFloatThead     |     boolean   	  |		false		   |	是否固定到顶部,依赖jquery 和 jquery.floatThead.js	|
+|	floatTheadConfig      |     any   	      |		`{ zIndex: 10, responsiveContainer: ($table) =>  $table.closest('.table-responsive') }`  |	floatThead配置项	|
 |	checkOnSelect         |     boolean   	  |		true   		   |	If true, the checkbox is checked/unchecked when the user clicks on a row. If false, the checkbox is only checked/unchecked when the user clicks exactly on the checkbox.	|
 |	selectOnCheck         |     boolean   	  |		true   		   |	If set to true, clicking a checkbox will always select the row. If false, selecting a row will not check the checkbox.	|
 |	ctrlSelect            |     boolean   	  |		false  		   |	True to only allow multi-selection when ctrl+click is used	|
