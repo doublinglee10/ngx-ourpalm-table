@@ -139,7 +139,7 @@ export class OurpalmTableSettingsComponent implements OnInit {
                         delete column.__rshow__;
                         return Object.assign({}, column);
                     });
-
+                    this.table.columns = columns;
                     if (this.table.cacheKey && this.table.cacheColumns && window.localStorage) {
                         let columnArr: Array<any> = [];
                         this.table.columns.forEach((column: OurpalmTableColumn) => {
@@ -147,7 +147,6 @@ export class OurpalmTableSettingsComponent implements OnInit {
                         });
                         window.localStorage.setItem(`ngx-ourpalm-table-${this.table.cacheKey}-columns`, JSON.stringify(columnArr));
                     }
-                    this.table.columns = columns;
                     this.table.reflowTable();
                 });
             });
