@@ -1,6 +1,6 @@
 {
   "name": "ngx-ourpalm-table",
-  "version": "0.1.49",
+  "version": "0.2.1",
   "license": "MIT",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
@@ -69,6 +69,7 @@
     "protractor": "~5.1.2",
     "rxjs": "^5.1.0",
     "sass-loader": "^6.0.6",
+    "screenfull": "^3.3.1",
     "ts-node": "~3.0.4",
     "tslint": "~5.3.2",
     "typescript": "~2.3.3",

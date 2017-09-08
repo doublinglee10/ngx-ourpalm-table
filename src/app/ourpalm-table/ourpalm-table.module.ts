@@ -19,6 +19,7 @@ import {OurpalmTableRowComponent} from "./component/ourpalm-table-rows.component
 import {DynamicEventDirective} from "./component/dynamic-event.directive";
 import {TableConfig} from "./model/table.config";
 import {SafeHtmlPipe} from "./component/safe-html.pipe";
+import {RowContextMenuComponent} from "./component/row-context-menu.component";
 
 @NgModule({
     imports: [
@@ -33,6 +34,7 @@ import {SafeHtmlPipe} from "./component/safe-html.pipe";
         OurpalmTableHeaderComponent,
         OurpalmTableSettingsComponent,
         OurpalmTableRowComponent,
+        RowContextMenuComponent,
         DynamicEventDirective,
         OurpalmTablePagingComponent,
         OurpalmTableColumnTemplateRenderer,

@@ -135,6 +135,7 @@ export class AppComponent {
 |	checkOnSelect         |     boolean   	  |		true   		   |	If true, the checkbox is checked/unchecked when the user clicks on a row. If false, the checkbox is only checked/unchecked when the user clicks exactly on the checkbox.	|
 |	selectOnCheck         |     boolean   	  |		true   		   |	If set to true, clicking a checkbox will always select the row. If false, selecting a row will not check the checkbox.	|
 |	ctrlSelect            |     boolean   	  |		false  		   |	True to only allow multi-selection when ctrl+click is used	|
+|	rowMenus              |     any[]         |		null  		   |	右键上下文菜单 	|
 
 
 
@@ -152,6 +153,20 @@ export class AppComponent {
 |	checkbox		      |     boolean		  |		false		   |	是否为多选列				|
 |	sorter  		      |     function	  |		undefined      |	服务器排序不需要设置，客户端排序需要设置，`sorter: (column, row1, row2) => row1[column.field] - row2[column.field]`		|
 |	styler  		      |     function \| any	  |		''      |	设置表格cell的样式，`styler: (rowIndex, columnIndex, rowData) => return { color: 'red' }`	  or  `styler: { color: 'red' }`	|
+|	disabledContextMenu   |     boolean		  |		false		   |	是否在当前列上禁用上下文菜单			|
+
+
+
+#### 右键菜单属性
+
+|	属性名				  |	 属性值类型 		  | 	   默认值 	   |		描述 					|
+|-------------------------|-------------------|--------------------|-----------------------------|
+|	text     		 	  |     string   	  |		''			   |	菜单名字					|
+|	iconCls		    	  |     string   	  |		''			   |	菜单icon		      	    |
+|	separator	     	  |     boolean   	  |		false	   	   |	分割线			        |
+|	show     		      |     boolean		  |		true		   |	是否显示                 |
+|	onclick		          |     function	  |		false		   |	点击时触发				|
+|	submenus			  |     any[]		  |		null		   |	子菜单     				|
 
 
 
@@ -162,6 +177,7 @@ export class AppComponent {
 |	getDisplayedColumns   |                   |		 获取显示的列信息				   |
 |	getDisplayedRows      |                   |		 获取显示的行信息				   |
 |	getSelectedRows       |                   |		 获取选中的行信息				   |
+|	getCheck edRows       |                   |		 获取勾选中的行信息				   |
 |	getSortColumns        |                   |		 获取排序的列信息				   |
 |	getOptions            |                   |		 获取表格的实时信息,如 currentPage, pageSize  |
 |	changeColumns         |   columns[]       |		 动态修改表的列定义，只支持编程方式，不支持声明式方式  |

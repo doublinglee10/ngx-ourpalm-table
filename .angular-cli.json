@@ -23,7 +23,8 @@
       ],
       "scripts": [
         "../node_modules/jquery/dist/jquery.js",
-        "../node_modules/floatthead/dist/jquery.floatThead.js"
+        "../node_modules/floatthead/dist/jquery.floatThead.js",
+        "../node_modules/screenfull/dist/screenfull.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {

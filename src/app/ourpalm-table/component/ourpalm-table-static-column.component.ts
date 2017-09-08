@@ -72,7 +72,7 @@ export class OurpalmTableColumnTemplateRenderer {
         }
 
         if (this.table.checkOnSelect) {
-            this.row.__checkrow__ = !!this.row.__checked__;
+            this.row.__selected__ = !!this.row.__checked__;
         }
 
         this.table.onRowCheckBoxChange && this.table.onRowCheckBoxChange(this.row, this.index);

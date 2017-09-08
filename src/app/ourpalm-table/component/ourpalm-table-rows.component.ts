@@ -1,6 +1,7 @@
-import {ChangeDetectionStrategy, Component, Input} from "@angular/core";
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Input, ViewChild} from "@angular/core";
 import {OurpalmTableColumn} from "../model/ourpalm-table-column";
 import {OurpalmTable} from "../model/ourpalm-table";
+import {RowContextMenuComponent} from "./row-context-menu.component";
 
 @Component({
     selector: '[ourpalm-table-rows]',
@@ -11,7 +12,7 @@ import {OurpalmTable} from "../model/ourpalm-table";
             <ng-container *ngSwitchCase="true">
                 <!--动态列-->
                 <tr *ngFor="let row of rows; trackBy: table.trackByFun; let i = index;"
-                    [ngClass]="{'row-selected': row.__checkrow__}"
+                    [ngClass]="{'row-selected': row.__selected__}"
                     (click)="onClickRow(i, row, $event)"
 
                     dynamic-event-directive
@@ -31,7 +32,9 @@ import {OurpalmTable} from "../model/ourpalm-table";
                             (onClick)="table.onClickCell(i, j, row, column)"
                             dynamic-event-directive
                             [listenDbClickEvent]="table.onDbClickCell"
-                            (onDbClick)="table.onDbClickCell(i, j, row, column)">
+                            (onDbClick)="table.onDbClickCell(i, j, row, column)"
+                            [listenContextMenuEvent]="!!table.rowMenus"
+                            (onContextMenu)="showContextMenu($event, i, j, row, column)">
                         </td>
                     </ng-container>
                 </tr>
@@ -39,7 +42,7 @@ import {OurpalmTable} from "../model/ourpalm-table";
             <ng-container *ngSwitchCase="false">
                 <!--静态列-->
                 <tr *ngFor="let row of rows; trackBy: table.trackByFun ; let i = index;"
-                    [ngClass]="{'row-selected': row.__checkrow__}"
+                    [ngClass]="{'row-selected': row.__selected__}"
                     (click)="onClickRow(i, row, $event)"
 
                     dynamic-event-directive
@@ -54,7 +57,9 @@ import {OurpalmTable} from "../model/ourpalm-table";
                         [listenClickEvent]="table.onClickCell"
                         (onClick)="table.onClickCell(i, j, row, col)"
                         [listenDbClickEvent]="table.onDbClickCell"
-                        (onDbClick)="table.onDbClickCell(i, j, row, col)">
+                        (onDbClick)="table.onDbClickCell(i, j, row, col)"
+                        [listenContextMenuEvent]="!!table.rowMenus"
+                        (onContextMenu)="showContextMenu($event, i, j, row, col)">
                         <ourpalm-table-columnTemplateRenderer [table]="table"
                                                               [column]="col"
                                                               [row]="row"
@@ -63,6 +68,7 @@ import {OurpalmTable} from "../model/ourpalm-table";
                     </td>
                 </tr>
             </ng-container>
+            <row-context-menu [menus]="table.rowMenus" [rowComponent]="this"></row-context-menu>
         </ng-container>
     `
 })
@@ -75,6 +81,12 @@ export class OurpalmTableRowComponent {
     @Input() table: OurpalmTable;
 
     @Input() dynamicColumn: boolean;
+
+    @ViewChild(RowContextMenuComponent) contextMenu: RowContextMenuComponent;
+
+    constructor(public changeDetectorRef: ChangeDetectorRef,
+                public el: ElementRef) {
+    }
 
     getStyler(column: OurpalmTableColumn, rowIndex: number, columnIndex: number, rowData: any) {
         if (typeof column.styler == 'function') {
@@ -92,25 +104,41 @@ export class OurpalmTableRowComponent {
         if (this.table.singleSelect || (!this.table.singleSelect && this.table.ctrlSelect && !event.ctrlKey)) {
             this.table.rows = this.table.rows.map((row) => {
                 if (row != rowData) {
-                    if (row.__checkrow__) {
-                        return {...row, ...{__checkrow__: false}}
+                    if (row.__selected__) {
+                        return {...row, ...{__selected__: false}}
                     } else {
                         return row;
                     }
                 } else {
-                    return {...row, ...{__checkrow__: !row.__checkrow__}}
+                    return {...row, ...{__selected__: !row.__selected__}}
                 }
             });
         } else {
-            Object.assign(rowData, {__checkrow__: !rowData.__checkrow__});
+            Object.assign(rowData, {__selected__: !rowData.__selected__});
         }
 
         if (this.table.selectOnCheck) {
             this.table.rows = this.table.rows.map((row: any) => {
-                if (row.__checked__ != row.__checkrow__)
-                    return {...row, ...{__checked__: !!row.__checkrow__}};
+                if (row.__checked__ != row.__selected__)
+                    return {...row, ...{__checked__: !!row.__selected__}};
                 return row;
             });
+        }
+    }
+
+    showContextMenu(event: any, rowIndex: number, cellIndex: number, rowData: any, column: OurpalmTableColumn) {
+        if (!column.disabledContextMenu) {
+            event.preventDefault();
+            if (!rowData.__selected__) {
+                this.onClickRow(rowIndex, rowData, event);
+            }
+            this.contextMenu.styler = {
+                display: 'block',
+                position: 'absolute',
+                left: `${event.pageX}px`,
+                top: `${event.pageY}px`
+            };
+            this.contextMenu.changeDetectorRef.markForCheck();
         }
     }
 }

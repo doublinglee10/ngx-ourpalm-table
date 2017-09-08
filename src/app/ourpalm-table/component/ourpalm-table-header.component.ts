@@ -52,8 +52,8 @@ export class OurpalmTableHeaderComponent implements OnInit {
 
         if (this.table.checkOnSelect) {
             this.table.rows = this.table.rows.map((row: any) => {
-                if (row.__checked__ != row.__checkrow__)
-                    return {...row, ...{__checkrow__: !!row.__checked__}};
+                if (row.__checked__ != row.__selected__)
+                    return {...row, ...{__selected__: !!row.__checked__}};
                 return row;
             });
         }

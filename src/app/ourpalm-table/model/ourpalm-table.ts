@@ -1,5 +1,6 @@
 import {OurpalmTableColumn} from "./ourpalm-table-column";
 import {OurpalmTableComponent} from "../component/ourpalm-table.component";
+import {RowContextMenu} from "./row-content-menu";
 
 export interface Page {
     currentPage?: number;
@@ -58,6 +59,8 @@ export class OurpalmTable {
     selectOnCheck?: boolean = true;
     /** 按住ctrl时为多选 */
     ctrlSelect?: boolean = false;
+    /** 行上下文菜单 */
+    rowMenus: RowContextMenu[];
 
     /** 加载数据成功回调 */
     loadData: (table: OurpalmTable, callback: (page: Page) => {}) => {} = () => {
@@ -154,6 +157,11 @@ export class OurpalmTable {
 
     /*获取选中的行信息*/
     getSelectedRows() {
+        return this.rows.filter(row => row.__selected__).map(row => Object.assign({}, row));
+    }
+
+    /*获取勾选中的行信息*/
+    getCheckedRows() {
         return this.rows.filter(row => row.__checked__).map(row => Object.assign({}, row));
     }
 
