@@ -164,7 +164,7 @@ export class AppComponent {
 |	text     		 	  |     string   	  |		''			   |	菜单名字					|
 |	iconCls		    	  |     string   	  |		''			   |	菜单icon		      	    |
 |	separator	     	  |     boolean   	  |		false	   	   |	分割线			        |
-|	show     		      |     boolean		  |		true		   |	是否显示                 |
+|	show     		      |     boolean \| ()=>boolean		  |		true		   |	是否显示                 |
 |	onclick		          |     function	  |		false		   |	点击时触发				|
 |	submenus			  |     any[]		  |		null		   |	子菜单     				|
 

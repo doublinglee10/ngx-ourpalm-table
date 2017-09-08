@@ -61,24 +61,9 @@ export class OurpalmTableComponent implements AfterContentInit, AfterViewInit, O
         if (this.table.enabledFloatThead) {
             this.zone.runOutsideAngular(() => {
                 this.$table = $(this.el.nativeElement);
-                this.$table.floatThead(this.table.floatTheadConfig || {});
-                this.floatThead_ = this.floatThead1.bind(this);
-                $(document).on('ngx-ourpalm-table:floatThead', this.floatThead_);
+                this.$table.floatThead({...this.table.floatTheadConfig});
             });
         }
-    }
-
-    private floatThead_: any;
-
-    private floatThead1(event: any, config: any = {}) {
-        this.floatThead(config);
-    }
-
-    floatThead(config: any = {}) {
-        this.$table.floatThead('destroy');
-        this.zone.runOutsideAngular(() => {
-            this.$table.floatThead({...this.table.floatTheadConfig, ...config});
-        });
     }
 
     reflowTable() {
@@ -88,7 +73,6 @@ export class OurpalmTableComponent implements AfterContentInit, AfterViewInit, O
     ngOnDestroy(): void {
         if (this.table.enabledFloatThead) {
             this.$table.floatThead('destroy');
-            $(document).off('ngx-ourpalm-table:floatThead', this.floatThead_);
         }
     }
 

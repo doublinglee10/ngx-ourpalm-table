@@ -35,25 +35,6 @@ export class DynamicTableComponent {
     margin: number = 800;
 
     ngOnInit() {
-        // if ((<any>window).screenfull && (<any>window).screenfull.enabled) {
-        //     (<any>window).screenfull.on('change', () => {
-        //         if ((<any>window).screenfull.isFullscreen) {
-        //             // this.tb.floatThead({
-        //             //     top: 100
-        //             // });
-        //             $(document).trigger('ngx-ourpalm-table:floatThead', {
-        //                 top: 100
-        //             });
-        //         } else {
-        //             // this.tb.floatThead({
-        //             //     top: 50
-        //             // });
-        //             $(document).trigger('ngx-ourpalm-table:floatThead', {
-        //                 top: 50
-        //             });
-        //         }
-        //     });
-        // }
     }
 
     addWidth() {
@@ -122,6 +103,20 @@ export class DynamicTableComponent {
             cacheKey: 'table01',
             customClass: 'mytable',
             enabledFloatThead: true,
+            floatTheadConfig: {
+                zIndex: 10,
+                // position: 'absolute',
+                responsiveContainer: function ($table) {
+                    return $table.closest('.table-responsive');
+                },
+                top: function () {
+                    if ((<any>window).screenfull.isFullscreen) {
+                        return 0;
+                    } else {
+                        return 50;
+                    }
+                }
+            },
             autoLoadData: true,
             cachePageSize: true,
             cacheColumns: true,
