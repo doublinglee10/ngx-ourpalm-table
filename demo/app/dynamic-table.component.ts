@@ -1,7 +1,7 @@
 import {Component, ElementRef, NgZone, ViewChild} from "@angular/core";
-import {OurpalmTable, Page} from "./ourpalm-table/model/ourpalm-table";
-import {TableConfig} from "./ourpalm-table/model/table.config";
-import {OurpalmTableComponent} from "./ourpalm-table/component/ourpalm-table.component";
+import {OurpalmTable, Page} from "../../src/model/ourpalm-table";
+import {TableConfig} from "../../src/model/table.config";
+import {OurpalmTableComponent} from "../../src/component/ourpalm-table.component";
 
 @Component({
     selector: 'dynamic-table',

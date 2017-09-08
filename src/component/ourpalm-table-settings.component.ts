@@ -15,7 +15,7 @@ import {OurpalmTableComponent} from "./ourpalm-table.component";
 @Component({
     selector: 'ourpalm-table-settings',
     changeDetection: ChangeDetectionStrategy.OnPush,
-    styleUrls: ['ourpalm-table-settings.component.css'],
+    styleUrls: ['./ourpalm-table-settings.component.css'],
     template: `
         <div>
             <div class="ourpalm-mask"></div>

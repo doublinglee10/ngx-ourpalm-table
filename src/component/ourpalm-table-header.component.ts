@@ -4,7 +4,7 @@ import {OurpalmTableColumn} from "../model/ourpalm-table-column";
 
 @Component({
     selector: '[ourpalm-table-header]',
-    styleUrls: ['ourpalm-table-header.component.css'],
+    styleUrls: ['./ourpalm-table-header.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     template: `
         <th *ngFor="let column of columns; let i = index" [class.hidden]="!column.show"><!-- 隐藏列 -->

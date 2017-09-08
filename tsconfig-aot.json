@@ -13,7 +13,7 @@
     "suppressImplicitAnyIndexErrors": true,
     "declaration": true,
     "outDir": "lib",
-    "rootDir": "src/app/ourpalm-table",
+    "rootDir": "src",
     "typeRoots": [
       "./node_modules/@types/"
     ],
@@ -23,7 +23,7 @@
     ]
   },
   "include": [
-    "src/app/ourpalm-table/**/*"
+    "src/**/*"
   ],
   "angularCompilerOptions": {
     "genDir": "aot",

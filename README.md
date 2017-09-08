@@ -211,7 +211,7 @@ export class AppComponent {
 
 #### 全局配置
 
-```
+```js
 @NgModule({
     imports: [
         OurpalmTableModule.forRoot()
@@ -230,7 +230,7 @@ export class AppModule {
 
 #### 创建table
 
-```
+```js
 @Component({
     selector: 'dynamic-table',
     template: `

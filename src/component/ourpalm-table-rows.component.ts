@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Input, ViewChild} from "@angular/core";
+import {ChangeDetectionStrategy, Component, ElementRef, Input, ViewChild} from "@angular/core";
 import {OurpalmTableColumn} from "../model/ourpalm-table-column";
 import {OurpalmTable} from "../model/ourpalm-table";
 import {RowContextMenuComponent} from "./row-context-menu.component";
@@ -6,7 +6,7 @@ import {RowContextMenuComponent} from "./row-context-menu.component";
 @Component({
     selector: '[ourpalm-table-rows]',
     changeDetection: ChangeDetectionStrategy.OnPush,
-    styleUrls: ['ourpalm-table-rows.component.css'],
+    styleUrls: ['./ourpalm-table-rows.component.css'],
     template: `
         <ng-container [ngSwitch]="dynamicColumn">
             <ng-container *ngSwitchCase="true">
@@ -84,8 +84,7 @@ export class OurpalmTableRowComponent {
 
     @ViewChild(RowContextMenuComponent) contextMenu: RowContextMenuComponent;
 
-    constructor(public changeDetectorRef: ChangeDetectorRef,
-                public el: ElementRef) {
+    constructor(public el: ElementRef) {
     }
 
     getStyler(column: OurpalmTableColumn, rowIndex: number, columnIndex: number, rowData: any) {

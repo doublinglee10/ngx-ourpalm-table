@@ -6,17 +6,12 @@ var sass = require('gulp-sass');
 gulp.task('copy-and-inline-resource', copyHtml);
 
 function copyHtml() {
-    gulp.src('/src/app/ourpalm-table/**/*.html')
+    gulp.src('/src/**/*.html')
         .pipe(gulp.dest('./lib/')).on('end', copyScss);
 }
 
-function copyAssets() {
-    gulp.src('./src/assets/**/*')
-        .pipe(gulp.dest('./dist/assets')).on('end', copyScss);
-}
-
 function copyScss() {
-    gulp.src('./src/app/ourpalm-table/**/*.css')
+    gulp.src('./src/**/*.css')
         .pipe(gulp.dest('./lib')).on('end', inlineResource);
 }
 

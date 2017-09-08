@@ -4,7 +4,7 @@ import {OurpalmTableComponent} from "./ourpalm-table.component";
 
 @Component({
     selector: '[ourpalm-table-paging]',
-    styleUrls: ['ourpalm-table-paging.component.css'],
+    styleUrls: ['./ourpalm-table-paging.component.css'],
     template: `
         <td *ngIf="table.pagination" [attr.colspan]="table.columns.length">
             <span class="page-left">
