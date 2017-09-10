@@ -1,6 +1,17 @@
-import {ChangeDetectionStrategy, Component, ContentChild, Input, OnInit, TemplateRef} from "@angular/core";
+import {
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    ContentChild,
+    DoCheck,
+    Input,
+    OnChanges,
+    OnInit,
+    TemplateRef
+} from "@angular/core";
 import {OurpalmTableColumn} from "../model/ourpalm-table-column";
 import {OurpalmTable} from "../model/ourpalm-table";
+import {uuid} from "../model/uuid";
 
 @Component({
     selector: 'ourpalm-table-column',
@@ -45,7 +56,7 @@ export class OurpalmTableStaticColumnComponent implements OnInit {
     `
 })
 
-export class OurpalmTableColumnTemplateRenderer {
+export class OurpalmTableColumnTemplateRenderer implements OnChanges, DoCheck {
 
     @Input()
     row: any;
@@ -59,7 +70,11 @@ export class OurpalmTableColumnTemplateRenderer {
     @Input()
     column: OurpalmTableColumn;
 
+    constructor(public changeDetectorRef: ChangeDetectorRef) {
+    }
+
     onClickCheckBox(event: Event) {
+        //会触发cell的点击事件和row的select事件，所以这里需要阻止事件冒泡
         event.stopPropagation();
     }
 
@@ -76,5 +91,25 @@ export class OurpalmTableColumnTemplateRenderer {
         }
 
         this.table.onRowCheckBoxChange && this.table.onRowCheckBoxChange(this.row, this.index);
+    }
+
+    /**
+     * 记录上次的唯一标示
+     */
+    private lastUuid: string;
+
+    ngOnChanges() {
+        // 每次对象改变是记录对象的uuid
+        if (!this.row.__uuid__) {
+            this.row.__uuid__ = uuid();
+        }
+        this.lastUuid = this.row.__uuid__;
+    }
+
+    ngDoCheck() {
+        // 每次DoCheck时检查对象的uuid是否改变
+        if (this.lastUuid !== this.row.__uuid__) {
+            this.changeDetectorRef.markForCheck();
+        }
     }
 }

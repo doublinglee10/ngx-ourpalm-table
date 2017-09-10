@@ -9,7 +9,7 @@ import {OurpalmTableComponent} from "./ourpalm-table.component";
         <td *ngIf="table.pagination" [attr.colspan]="table.columns.length">
             <span class="page-left">
                 <select class="form-control input-sm" [(ngModel)]="table.pageSize" (change)="changePageSize()">
-                    <option *ngFor="let val of table.pageList" [value]="val">{{val}}</option>
+                    <option *simpleNgFor="let val of table.pageList" [value]="val">{{val}}</option>
                 </select>
                 <button class="glyphicon glyphicon-step-backward ourpalm-table-pager" (click)="firstPage()"
                         [disabled]="table.currentPage <= 1"></button>

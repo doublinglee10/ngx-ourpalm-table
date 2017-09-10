@@ -11,6 +11,7 @@ import {
 import {OurpalmTable} from "../model/ourpalm-table";
 import {OurpalmTableColumn} from "../model/ourpalm-table-column";
 import {OurpalmTableComponent} from "./ourpalm-table.component";
+import {uuid} from "../model/uuid";
 
 @Component({
     selector: 'ourpalm-table-settings',
@@ -33,7 +34,7 @@ import {OurpalmTableComponent} from "./ourpalm-table.component";
                                 <div class="col-con">
                                     <input type="text" placeholder="输入值..." [(ngModel)]="lmodel">
                                     <ul>
-                                        <li *ngFor="let col of lcolumns | lcolumnFilter:lmodel">
+                                        <li *simpleNgFor="let col of lcolumns | lcolumnFilter:lmodel">
                                             <label>
                                                 <input type="checkbox" [(ngModel)]="col.__lshow__">
                                                 <span>{{col.header}}</span>
@@ -44,18 +45,20 @@ import {OurpalmTableComponent} from "./ourpalm-table.component";
                             </div>
                             <div class="col-md-2" style="padding:0px;margin:0px;text-align:center;">
                                 <div style="margin-top:130px;margin-bottom:10px;">
-                                    <button type="button" class="btn btn-default btn-sm" (click)="showColumn()"><i
-                                            class="fa fa-long-arrow-right"></i></button>
+                                    <button type="button" class="btn btn-default btn-sm" (click)="showColumn()">
+                                        <i class="glyphicon glyphicon-arrow-right"></i>
+                                    </button>
                                 </div>
-                                <button type="button" class="btn btn-default btn-sm" (click)="hideColumn()"><i
-                                        class="fa fa-long-arrow-left"></i></button>
+                                <button type="button" class="btn btn-default btn-sm" (click)="hideColumn()">
+                                    <i class="glyphicon glyphicon-arrow-left"></i>
+                                </button>
                             </div>
                             <div class="col-md-5">
                                 <span>已选列</span>
                                 <div class="col-con">
                                     <input type="text" placeholder="输入值..." [(ngModel)]="rmodel">
                                     <ul [dragula]="'setting-columns'" [dragulaModel]="rcolumns">
-                                        <li *ngFor="let col of rcolumns | rcolumnFilter:rmodel; let i = index;">
+                                        <li *simpleNgFor="let col of rcolumns | rcolumnFilter:rmodel; let i = index;">
                                             <label>
                                                 <input type="checkbox" [(ngModel)]="col.__rshow__">
                                                 <span>{{col.header}}</span>
@@ -139,7 +142,27 @@ export class OurpalmTableSettingsComponent implements OnInit {
                         delete column.__rshow__;
                         return Object.assign({}, column);
                     });
-                    this.table.columns = columns;
+
+                    let distColumns = [];
+                    for (let i = 0; i < columns.length; i++) {
+                        let originColumn = this.table.columns[i];
+                        let newColumn = columns[i];
+                        if (originColumn.field === newColumn.field) {
+                            if (originColumn.show != newColumn.show) {
+                                originColumn.show = newColumn.show;
+                                originColumn.__uuid__ = uuid();
+                            }
+                            distColumns.push(originColumn);
+                        } else {
+                            let sortedOriginColumn = this.getTableColumn(newColumn.field);
+                            sortedOriginColumn.show = newColumn.show;
+                            sortedOriginColumn.__uuid__ = uuid();
+                            distColumns.push(sortedOriginColumn);
+                        }
+                    }
+
+                    this.table.columns = distColumns;
+
                     if (this.table.cacheKey && this.table.cacheColumns && window.localStorage) {
                         let columnArr: Array<any> = [];
                         this.table.columns.forEach((column: OurpalmTableColumn) => {
@@ -147,6 +170,7 @@ export class OurpalmTableSettingsComponent implements OnInit {
                         });
                         window.localStorage.setItem(`ngx-ourpalm-table-${this.table.cacheKey}-columns`, JSON.stringify(columnArr));
                     }
+
                     this.table.reflowTable();
                 });
             });
@@ -155,6 +179,15 @@ export class OurpalmTableSettingsComponent implements OnInit {
 
     close() {
         this.table.openSettings = false;
+    }
+
+    private getTableColumn(field: string): OurpalmTableColumn {
+        for (let i = 0; i < this.table.columns.length; i++) {
+            let column = this.table.columns[i];
+            if (column.field === field) {
+                return column;
+            }
+        }
     }
 }
 

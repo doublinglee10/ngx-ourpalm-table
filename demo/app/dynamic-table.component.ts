@@ -7,15 +7,13 @@ import {OurpalmTableComponent} from "../../src/component/ourpalm-table.component
     selector: 'dynamic-table',
     template: `
         <div style="z-index:1;width:800px;margin:0 50px;">
-            <button (click)="log()">click event test</button>
+            <button (click)="log($event)">click event test</button>
             <button (click)="changeTable1()">table01</button>
             <button (click)="changeTable2()">table02</button>
             <button (click)="changeTable3()">table03</button>
-            <button (click)="addWidth()">+ width</button>
-            <button (click)="subWidth()">- width</button>
             <button (click)="toggle()">toggle</button>
         </div>
-        <div #container class="table-responsive" style="margin:10px 50px;width:800px;">
+        <div #container class="table-responsive" style="margin:10px 50px;">
             <ourpalm-table [table]="table"></ourpalm-table>
         </div>
     `
@@ -32,20 +30,6 @@ export class DynamicTableComponent {
 
     @ViewChild(OurpalmTableComponent) tb: OurpalmTableComponent;
 
-    margin: number = 800;
-
-    ngOnInit() {
-    }
-
-    addWidth() {
-        this.margin += 100;
-        $(this.container.nativeElement).css('width', `${this.margin}px`);
-    }
-
-    subWidth() {
-        this.margin -= 100;
-        $(this.container.nativeElement).css('width', `${this.margin}px`);
-    }
 
     toggle() {
         if ((<any>window).screenfull.enabled) {
@@ -55,7 +39,6 @@ export class DynamicTableComponent {
 
     constructor(private ngZone: NgZone,
                 private tableConfig: TableConfig) {
-
         this.table1Columns = [];
         for (let i = 0; i < 10; i++) {
             this.table1Columns.push({
@@ -64,6 +47,10 @@ export class DynamicTableComponent {
             });
         }
         this.table1Columns.unshift({
+            field: 'checkbox',
+            header: '选择列',
+            checkbox: true
+        }, {
             field: 'rownumbers',
             header: '序号',
             rownumbers: true,
@@ -79,6 +66,10 @@ export class DynamicTableComponent {
             });
         }
         this.table2Columns.unshift({
+            field: 'checkbox',
+            header: '选择列',
+            checkbox: true
+        }, {
             field: 'rownumbers',
             header: '序号',
             rownumbers: true,
@@ -93,6 +84,10 @@ export class DynamicTableComponent {
             });
         }
         this.table3Columns.unshift({
+            field: 'checkbox',
+            header: '选择列',
+            checkbox: true
+        }, {
             field: 'rownumbers',
             header: '序号',
             rownumbers: true,
@@ -113,7 +108,7 @@ export class DynamicTableComponent {
                     if ((<any>window).screenfull.isFullscreen) {
                         return 0;
                     } else {
-                        return 50;
+                        return 0;
                     }
                 }
             },
@@ -121,11 +116,14 @@ export class DynamicTableComponent {
             cachePageSize: true,
             cacheColumns: true,
             singleSelect: false,
-            // pagePosition: 'both',
+            ctrlSelect: true,
+            selectOnCheck: true,
+            checkOnSelect: true,
+            pagePosition: 'both',
             columns: this.table1Columns,
             pageSize: 100,
             pageList: [10, 50, 100, 200, 500, 1000, 2000, 5000],
-            loadData: this.loadData,
+            loadData: this.loadData.bind(this),
             rowMenus: [
                 {
                     text: '新建',
@@ -166,45 +164,49 @@ export class DynamicTableComponent {
     }
 
     loadData(table: OurpalmTable, callback: (page: Page) => {}) {
-        setTimeout(() => {
-            let rows = [];
-            if (table.cacheKey == 'table01') {
-                let start = (table.currentPage - 1) * table.pageSize + 1;
-                let end = +start + table.pageSize;
-                for (let i = start; i < end; i++) {
-                    let row: any = {};
-                    for (let j = 0; j < 10; j++) {
-                        row['field1-' + j] = 'data1-ssssssssssssssssssssssss' + i;
-                    }
-                    rows.push(row);
+        let rows = [];
+        if (table.cacheKey == 'table01') {
+            let start = (table.currentPage - 1) * table.pageSize + 1;
+            let end = +start + table.pageSize;
+            for (let i = start; i < end; i++) {
+                let row: any = {};
+                for (let j = 0; j < 10; j++) {
+                    row['field1-' + j] = `data1-${i}-${this.randomStr()}`;
                 }
-            } else if (table.cacheKey == 'table02') {
-                let start = (table.currentPage - 1) * table.pageSize + 1;
-                let end = start + table.pageSize;
-                for (let i = start; i < end; i++) {
-                    let row: any = {};
-                    for (let j = 0; j < 20; j++) {
-                        row['field2-' + j] = 'data2-fffffffffffffffffffffffffffffffffffffffff' + i;
-                    }
-                    rows.push(row);
-                }
-            } else if (table.cacheKey == 'table03') {
-                let start = (table.currentPage - 1) * table.pageSize + 1;
-                let end = start + table.pageSize;
-                for (let i = start; i < end; i++) {
-                    let row: any = {};
-                    for (let j = 0; j < 50; j++) {
-                        row['field3-' + j] = 'data3-fffffffffffffffffffffffffffffffffffffffff' + i;
-                    }
-                    rows.push(row);
-                }
+                rows.push(row);
             }
+        } else if (table.cacheKey == 'table02') {
+            let start = (table.currentPage - 1) * table.pageSize + 1;
+            let end = start + table.pageSize;
+            for (let i = start; i < end; i++) {
+                let row: any = {};
+                for (let j = 0; j < 20; j++) {
+                    row['field2-' + j] = `data2-${i}-${this.randomStr()}`;
+                }
+                rows.push(row);
+            }
+        } else if (table.cacheKey == 'table03') {
+            let start = (table.currentPage - 1) * table.pageSize + 1;
+            let end = start + table.pageSize;
+            for (let i = start; i < end; i++) {
+                let row: any = {};
+                for (let j = 0; j < 50; j++) {
+                    row['field3-' + j] = `data3-${i}-${this.randomStr()}`;
+                }
+                rows.push(row);
+            }
+        }
 
-            callback({
-                total: 486000,
-                rows: rows
-            });
-        }, 1000);
+        console.log('load data success');
+
+        callback({
+            total: 486000,
+            rows: rows
+        });
+    }
+
+    randomStr() {
+        return Math.random().toString(36).substring(2, 15);
     }
 
     changeTable1() {
@@ -242,7 +244,8 @@ export class DynamicTableComponent {
         console.log('dynamic table check');
     }
 
-    log() {
+    log(event: Event) {
+        event.preventDefault();
         console.log('click test');
     }
 

@@ -1,0 +1,19 @@
+.ourpalm-table-pageing {
+    background-color: #f9f9f9 !important;
+}
+
+table {
+    margin-bottom: 0px;
+}
+
+thead tr {
+    background-color: #eceaea;
+}
+
+table /deep/ tr td, table /deep/ tr th {
+    max-width: 400px !important;
+    word-break: keep-all; /* 不换行 */
+    white-space: nowrap; /* 不换行 */
+    overflow: hidden;
+    text-overflow: ellipsis; /*省略号*/
+}

@@ -56,7 +56,47 @@ export class StaticTableComponent {
                         rows: rows
                     });
                 }, 100);
-            }
+            },
+            rowMenus: [
+                {
+                    text: '新建',
+                    submenus: [{
+                        text: '文件',
+                        iconCls: 'fa fa-file'
+                    }, {
+                        text: '文件夹',
+                        iconCls: 'fa fa-folder'
+                    }, {
+                        text: '.ignore file',
+                        submenus: [{
+                            text: '.gitignore file(Git)'
+                        }, {
+                            text: '.cvsignore file(Cvs)'
+                        }]
+                    }]
+                },
+                {
+                    text: '打开',
+                    onclick: function () {
+                        alert('打开')
+                    },
+                    show: () => {
+                        return this.table.getSelectedRows().length % 2 == 0;
+                    }
+                },
+                {
+                    separator: true
+                }, {
+                    text: '设置',
+                    onclick: function () {
+                        alert('设置')
+                    }
+                }
+            ]
         });
+    }
+
+    ngDoCheck() {
+        console.log('static table check');
     }
 }

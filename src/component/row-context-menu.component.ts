@@ -2,6 +2,10 @@ import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, Renderer2}
 import {RowContextMenu} from "../model/row-content-menu";
 import {OurpalmTableRowComponent} from "./ourpalm-table-rows.component";
 
+/**
+ * 优化思路
+ * 使用OnPush策略，菜单显示时注册全局监听事件，菜单隐藏时取消全局监听事件
+ */
 @Component({
     selector: 'row-context-menu',
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -9,7 +13,7 @@ import {OurpalmTableRowComponent} from "./ourpalm-table-rows.component";
     template: `
         <ng-template #menusTpl let-menus>
             <ul class="dropdown-menu">
-                <ng-container *ngFor="let menu of menus">
+                <ng-container *simpleNgFor="let menu of menus">
                     <ng-container *ngIf="menu.separator">
                         <li class="divider" [class.hidden]="!showMenu(menu)"></li>
                     </ng-container>
@@ -49,7 +53,8 @@ export class RowContextMenuComponent {
                 private renderer: Renderer2) {
     }
 
-    @Input('menus') set menus(_menus: RowContextMenu[]) {
+    @Input('menus')
+    set menus(_menus: RowContextMenu[]) {
         if (_menus) {
             this._menus = _menus.map((menu) => this.deepCloneMenu(menu));
         }
@@ -59,7 +64,8 @@ export class RowContextMenuComponent {
         return this._menus;
     }
 
-    @Input() set styler(styler: any) {
+    @Input()
+    set styler(styler: any) {
         this._styler = styler;
         if (styler && styler.display == 'none') {
             this.removeListener();

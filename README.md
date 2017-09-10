@@ -8,7 +8,7 @@
 npm install ngx-ourpalm-table --save
 ```
 
-#### Demo(声明式配置)
+#### Demo(声明式配置) [plnkr](https://plnkr.co/edit/tLLBpbIFuTVqQtMvei7g?p=preview)
 ```xml
 <ourpalm-table [table]="table">
     <ourpalm-table-column [column]="{header: '全选', field: 'checkAll', checkbox: true}"></ourpalm-table-column>
@@ -61,7 +61,7 @@ export class AppComponent {
 
 
 
-#### Demo(编程式配置)
+#### Demo(编程式配置) [plnkr](https://plnkr.co/edit/bKS9LLyH8nB85DyWyX7I?p=preview)
 ```xml
 <ourpalm-table [table]="table"></ourpalm-table>
 ```
@@ -116,7 +116,7 @@ export class AppComponent {
 
 |	属性名				  |	 属性值类型 		  | 	   默认值 	   |		描述 					|
 |-------------------------|-------------------|--------------------|-----------------------------|
-|	customClass   		  |     string   	  |		''   		   |	自定义表格的class		|
+|	tableClass   		  |     string   	  |		table table-bordered table-striped table-hover text-center   		   |	自定义表格的class		|
 |	autoLoadData   		  |     boolean   	  |		true		   |	初始化表格的时候是否自动加载第一页		|
 |	pagination     		  |     boolean   	  |		true		   |	是否显示分页控件		|
 |	singleSelect    	  |     boolean   	  |		false		   |	是否限制只能选中一行			|
@@ -132,9 +132,9 @@ export class AppComponent {
 |	showSettingBtn        |     boolean   	  |		true		   |	是否显示设置按钮        	|
 |	enabledFloatThead     |     boolean   	  |		false		   |	是否固定到顶部,依赖jquery 和 jquery.floatThead.js	|
 |	floatTheadConfig      |     any   	      |		`{ zIndex: 10, responsiveContainer: ($table) =>  $table.closest('.table-responsive') }`  |	floatThead配置项	|
-|	checkOnSelect         |     boolean   	  |		true   		   |	If true, the checkbox is checked/unchecked when the user clicks on a row. If false, the checkbox is only checked/unchecked when the user clicks exactly on the checkbox.	|
-|	selectOnCheck         |     boolean   	  |		true   		   |	If set to true, clicking a checkbox will always select the row. If false, selecting a row will not check the checkbox.	|
-|	ctrlSelect            |     boolean   	  |		false  		   |	True to only allow multi-selection when ctrl+click is used	|
+|	checkOnSelect         |     boolean   	  |		true   		   |	选择CheckBox时级联选中当前行	|
+|	selectOnCheck         |     boolean   	  |		true   		   |	选择当前行时级联选中checkbox	|
+|	ctrlSelect            |     boolean   	  |		false  		   |	多选时需要按住ctrl键	|
 |	rowMenus              |     any[]         |		null  		   |	右键上下文菜单 	|
 
 
@@ -152,7 +152,7 @@ export class AppComponent {
 |	show			      |     boolean		  |		true		   |	是否隐藏列				|
 |	checkbox		      |     boolean		  |		false		   |	是否为多选列				|
 |	sorter  		      |     function	  |		undefined      |	服务器排序不需要设置，客户端排序需要设置，`sorter: (column, row1, row2) => row1[column.field] - row2[column.field]`		|
-|	styler  		      |     function \| any	  |		''      |	设置表格cell的样式，`styler: (rowIndex, columnIndex, rowData) => return { color: 'red' }`	  or  `styler: { color: 'red' }`	|
+|	styler  		      |  ()=>any \| any	  |		''             |	设置表格cell的样式，`styler: (rowIndex, columnIndex, rowData) => return { color: 'red' }`	  or  `styler: { color: 'red' }`	|
 |	disabledContextMenu   |     boolean		  |		false		   |	是否在当前列上禁用上下文菜单			|
 
 
@@ -164,7 +164,7 @@ export class AppComponent {
 |	text     		 	  |     string   	  |		''			   |	菜单名字					|
 |	iconCls		    	  |     string   	  |		''			   |	菜单icon		      	    |
 |	separator	     	  |     boolean   	  |		false	   	   |	分割线			        |
-|	show     		      |     boolean \| ()=>boolean		  |		true		   |	是否显示                 |
+|	show     		      | boolean \| ()=>boolean |	true       |	是否显示                 |
 |	onclick		          |     function	  |		false		   |	点击时触发				|
 |	submenus			  |     any[]		  |		null		   |	子菜单     				|
 

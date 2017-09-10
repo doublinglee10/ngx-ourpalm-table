@@ -20,6 +20,7 @@ import {DynamicEventDirective} from "./component/dynamic-event.directive";
 import {TableConfig} from "./model/table.config";
 import {SafeHtmlPipe} from "./component/safe-html.pipe";
 import {RowContextMenuComponent} from "./component/row-context-menu.component";
+import {SimpleNgFor} from "./component/simple-ngfor.directive";
 
 @NgModule({
     imports: [
@@ -40,12 +41,14 @@ import {RowContextMenuComponent} from "./component/row-context-menu.component";
         OurpalmTableColumnTemplateRenderer,
         ColumnSettingsLeftFilter,
         ColumnSettingsRightFilter,
-        SafeHtmlPipe
+        SafeHtmlPipe,
+        SimpleNgFor
     ],
     exports: [
         OurpalmTableComponent,
         OurpalmTableStaticColumnComponent,
-        SafeHtmlPipe
+        SafeHtmlPipe,
+        SimpleNgFor
     ],
     providers: []
 })
