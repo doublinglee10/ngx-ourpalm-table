@@ -50,7 +50,10 @@ import {SimpleNgFor} from "./component/simple-ngfor.directive";
         SafeHtmlPipe,
         SimpleNgFor
     ],
-    providers: []
+    providers: [],
+    entryComponents: [
+        RowContextMenuComponent
+    ]
 })
 export class OurpalmTableModule {
 

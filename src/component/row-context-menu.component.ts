@@ -7,7 +7,7 @@ import {OurpalmTableRowComponent} from "./ourpalm-table-rows.component";
  * 使用OnPush策略，菜单显示时注册全局监听事件，菜单隐藏时取消全局监听事件
  */
 @Component({
-    selector: 'row-context-menu',
+    selector: 'ourpalm-table-row-context-menu',
     changeDetection: ChangeDetectionStrategy.OnPush,
     styleUrls: ['./row-context-menu.component.css'],
     template: `

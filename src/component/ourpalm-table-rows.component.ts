@@ -1,4 +1,16 @@
-import {ChangeDetectionStrategy, Component, ElementRef, Input, ViewChild} from "@angular/core";
+import {
+    ApplicationRef,
+    ChangeDetectionStrategy,
+    Component,
+    ComponentFactoryResolver,
+    ComponentRef,
+    ElementRef,
+    EmbeddedViewRef,
+    Injector,
+    Input,
+    OnDestroy,
+    OnInit
+} from "@angular/core";
 import {OurpalmTableColumn} from "../model/ourpalm-table-column";
 import {OurpalmTable} from "../model/ourpalm-table";
 import {RowContextMenuComponent} from "./row-context-menu.component";
@@ -69,11 +81,11 @@ import {uuid} from "../model/uuid";
                     </td>
                 </tr>
             </ng-container>
-            <row-context-menu [menus]="table.rowMenus" [rowComponent]="this"></row-context-menu>
+            <!--<row-context-menu [menus]="table.rowMenus" [rowComponent]="this"></row-context-menu>-->
         </ng-container>
     `
 })
-export class OurpalmTableRowComponent {
+export class OurpalmTableRowComponent implements OnInit, OnDestroy {
 
     @Input() rows: any[];
 
@@ -83,9 +95,50 @@ export class OurpalmTableRowComponent {
 
     @Input() dynamicColumn: boolean;
 
-    @ViewChild(RowContextMenuComponent) contextMenu: RowContextMenuComponent;
+    private contextMenu: RowContextMenuComponent;
+    private contextMenuRef: ComponentRef<RowContextMenuComponent>;
 
-    constructor(public el: ElementRef) {
+    constructor(public el: ElementRef,
+                private componentFactoryResolver: ComponentFactoryResolver,
+                private appRef: ApplicationRef,
+                private injector: Injector) {
+    }
+
+    ngOnInit(): void {
+        if (this.table.rowMenus && this.table.rowMenus.length > 0) {
+            this.appendRowContextMenuComponentToBody();
+        }
+    }
+
+    ngOnDestroy(): void {
+        if (this.contextMenuRef) {
+            // remove it from the component tree and from the DOM
+            this.appRef.detachView(this.contextMenuRef.hostView);
+            this.contextMenuRef.destroy();
+        }
+    }
+
+    appendRowContextMenuComponentToBody() {
+        // Create a component reference from the component
+        this.contextMenuRef = this.componentFactoryResolver
+            .resolveComponentFactory(RowContextMenuComponent)
+            .create(this.injector);
+
+        // Attach component to the appRef so that it's inside the ng component tree
+        this.appRef.attachView(this.contextMenuRef.hostView);
+
+        // Get DOM element from component
+        const domElem = (this.contextMenuRef.hostView as EmbeddedViewRef<any>)
+            .rootNodes[0] as HTMLElement;
+
+        // Append DOM element to the body
+        document.body.appendChild(domElem);
+
+        // set @Input() properties
+        this.contextMenu = this.contextMenuRef.instance;
+        this.contextMenu.rowComponent = this;
+        this.contextMenu.menus = this.table.rowMenus;
+        this.contextMenu.changeDetectorRef.detectChanges();
     }
 
     getStyler(column: OurpalmTableColumn, rowIndex: number, columnIndex: number, rowData: any) {
