@@ -85,16 +85,20 @@ export class OurpalmTableDynamicColumnComponent implements OnChanges, DoCheck {
 
     ngOnChanges() {
         // 每次对象改变是记录对象的uuid
-        if (!this.row.__uuid__) {
-            this.row.__uuid__ = uuid();
+        if (typeof this.row === 'object') {
+            if (!this.row.__uuid__) {
+                this.row.__uuid__ = uuid();
+            }
+            this.lastRowUuid = this.row.__uuid__;
         }
-        this.lastRowUuid = this.row.__uuid__;
         this.lastColumnUuid = this.column.__uuid__;
     }
 
     ngDoCheck() {
         // 每次DoCheck时检查对象的uuid是否改变
-        if (this.lastRowUuid !== this.row.__uuid__ || this.lastColumnUuid !== this.column.__uuid__) {
+        if (this.lastColumnUuid !== this.column.__uuid__) {
+            this.changeDetectorRef.markForCheck();
+        } else if (typeof this.row === 'object' && this.lastRowUuid !== this.row.__uuid__) {
             this.changeDetectorRef.markForCheck();
         }
     }

@@ -140,7 +140,10 @@ export class DynamicTableComponent {
                         }, {
                             text: '.cvsignore file(Cvs)'
                         }]
-                    }]
+                    }],
+                    show: () => {
+                        return this.table.getSelectedRows().length == 1;
+                    }
                 },
                 {
                     text: '打开',
@@ -148,7 +151,7 @@ export class DynamicTableComponent {
                         alert('打开')
                     },
                     show: () => {
-                        return this.table.getSelectedRows().length % 2 == 0;
+                        return this.table.getSelectedRows().length == 2;
                     }
                 },
                 {
@@ -157,6 +160,9 @@ export class DynamicTableComponent {
                     text: '设置',
                     onclick: function () {
                         alert('设置')
+                    },
+                    show: () => {
+                        return this.table.getSelectedRows().length == 3;
                     }
                 }
             ]

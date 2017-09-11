@@ -96,19 +96,25 @@ export class OurpalmTableColumnTemplateRenderer implements OnChanges, DoCheck {
     /**
      * 记录上次的唯一标示
      */
-    private lastUuid: string;
+    private lastRowUuid: string;
+    private lastColumnUuid: string;
 
     ngOnChanges() {
         // 每次对象改变是记录对象的uuid
-        if (!this.row.__uuid__) {
-            this.row.__uuid__ = uuid();
+        if (typeof this.row === 'object') {
+            if (!this.row.__uuid__) {
+                this.row.__uuid__ = uuid();
+            }
+            this.lastRowUuid = this.row.__uuid__;
         }
-        this.lastUuid = this.row.__uuid__;
+        this.lastColumnUuid = this.column.__uuid__;
     }
 
     ngDoCheck() {
         // 每次DoCheck时检查对象的uuid是否改变
-        if (this.lastUuid !== this.row.__uuid__) {
+        if (this.lastColumnUuid !== this.column.__uuid__) {
+            this.changeDetectorRef.markForCheck();
+        } else if (typeof this.row === 'object' && this.lastRowUuid !== this.row.__uuid__) {
             this.changeDetectorRef.markForCheck();
         }
     }

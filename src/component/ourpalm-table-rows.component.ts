@@ -15,6 +15,7 @@ import {OurpalmTableColumn} from "../model/ourpalm-table-column";
 import {OurpalmTable} from "../model/ourpalm-table";
 import {RowContextMenuComponent} from "./row-context-menu.component";
 import {uuid} from "../model/uuid";
+import {RowContextMenu} from "../model/row-content-menu";
 
 @Component({
     selector: '[ourpalm-table-rows]',
@@ -184,16 +185,31 @@ export class OurpalmTableRowComponent implements OnInit, OnDestroy {
     showContextMenu(event: any, rowIndex: number, cellIndex: number, rowData: any, column: OurpalmTableColumn) {
         if (!column.disabledContextMenu) {
             event.preventDefault();
+
             if (!rowData.__selected__) {
                 this.onClickRow(rowIndex, rowData, event);
             }
-            this.contextMenu.styler = {
-                display: 'block',
-                position: 'absolute',
-                left: `${event.pageX}px`,
-                top: `${event.pageY}px`
-            };
-            this.contextMenu.changeDetectorRef.markForCheck();
+
+            // 如果当前列没有禁用右键菜单，且 可显示的右键菜单数不为0
+            let length = this.table.rowMenus.filter((menu: RowContextMenu) => !menu.separator).filter((menu: RowContextMenu) => {
+                console.log(menu.text, typeof menu.show === 'function' ? menu.show() : menu.show);
+                return typeof menu.show === 'function' ? menu.show() : menu.show;
+            }).length;
+
+            if (length > 0) {
+                this.contextMenu.styler = {
+                    display: 'block',
+                    position: 'absolute',
+                    left: `${event.pageX}px`,
+                    top: `${event.pageY}px`
+                };
+                this.contextMenu.changeDetectorRef.markForCheck();
+            } else if (this.contextMenu.styler && this.contextMenu.styler.display != 'none') {
+                this.contextMenu.styler = {
+                    display: 'none'
+                };
+                this.contextMenu.changeDetectorRef.markForCheck();
+            }
         }
     }
 }

@@ -6,12 +6,14 @@ import {DynamicTableComponent} from "./dynamic-table.component";
 import {StaticTableComponent} from "./static-table.component";
 import {OurpalmTableModule} from "../../src/ourpalm-table.module";
 import {TableConfig} from "../../src/model/table.config";
+import {StringRowTableComponent} from "./string-row.component";
 
 @NgModule({
     declarations: [
         AppComponent,
         DynamicTableComponent,
-        StaticTableComponent
+        StaticTableComponent,
+        StringRowTableComponent
     ],
     imports: [
         BrowserModule,
