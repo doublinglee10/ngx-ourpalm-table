@@ -3,6 +3,7 @@ import {RouterModule, Routes} from "@angular/router";
 import {DynamicTableComponent} from "./dynamic-table.component";
 import {StaticTableComponent} from "./static-table.component";
 import {StringRowTableComponent} from "./string-row.component";
+import {ObjectRowTableComponent} from "./object-row.component";
 
 const routes: Routes = [
     {
@@ -16,6 +17,10 @@ const routes: Routes = [
     {
         path: 'string-row-table',
         component: StringRowTableComponent
+    },
+    {
+        path: 'object-row-table',
+        component: ObjectRowTableComponent
     }
 ];
 

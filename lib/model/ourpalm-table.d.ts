@@ -46,7 +46,7 @@ export declare class OurpalmTable {
     private tableComponent?;
     constructor(table?: OurpalmTable | Object);
     reflowTable(): void;
-    onLoadSuccess(page: Page): void;
+    onLoadSuccess(_page: Page): void;
     readonly allPage: number;
     readonly start: number;
     readonly end: number;

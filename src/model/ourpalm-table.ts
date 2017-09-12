@@ -107,7 +107,14 @@ export class OurpalmTable {
         this.tableComponent && this.tableComponent.reflowTable();
     }
 
-    onLoadSuccess(page: Page) {
+    onLoadSuccess(_page: Page) {
+        let page: Page = {
+            currentPage: _page.currentPage,
+            pageSize: _page.pageSize,
+            total: _page.total,
+            rows: [...(_page.rows || [])]
+        };
+
         this.pageSize = page.pageSize || this.pageSize;
         this.total = page.total;
         this.rows = page.rows;

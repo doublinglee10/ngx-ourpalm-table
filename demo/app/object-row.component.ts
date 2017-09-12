@@ -3,7 +3,7 @@ import {Component} from "@angular/core";
 import {uuid} from "../../src/model/uuid";
 
 @Component({
-    selector: 'string-row',
+    selector: 'object-row',
     template: `
         <div>
             <button (click)="change1()">change1</button>
@@ -18,14 +18,14 @@ import {uuid} from "../../src/model/uuid";
                         [column]="{header: '序号', field: 'number', rownumbers: true}"></ourpalm-table-column>
                 <ourpalm-table-column [column]="{header: 'uuid', field: 'age', sort: true}">
                     <ng-template let-row="$row">
-                        {{row}}
+                        {{row.text}}
                     </ng-template>
                 </ourpalm-table-column>
             </ourpalm-table>
         </div>
     `
 })
-export class StringRowTableComponent {
+export class ObjectRowTableComponent {
 
     table: OurpalmTable;
 
@@ -61,44 +61,34 @@ export class StringRowTableComponent {
         });
     }
 
-    rows: any[] = [];
+    row1 = {text: '1'};
+    row2 = {text: '2'};
+    row3 = {text: '3'};
 
     change1() {
-        this.rows.splice(0, this.rows.length);
-        this.rows.push('1');
-
         this.table.setPageData({
             currentPage: 1,
             pageSize: 1,
             total: 1,
-            rows: this.rows
+            rows: [this.row1]
         });
     }
 
     change2() {
-        this.rows.splice(0, this.rows.length);
-        this.rows.push('1');
-        this.rows.push('2');
-
         this.table.setPageData({
             currentPage: 1,
             pageSize: 1,
             total: 2,
-            rows: this.rows
+            rows: [this.row1, this.row2]
         });
     }
 
     change3() {
-        this.rows.splice(0, this.rows.length);
-        this.rows.push('1');
-        this.rows.push('2');
-        this.rows.push('3');
-
         this.table.setPageData({
             currentPage: 1,
             pageSize: 1,
             total: 3,
-            rows: this.rows
+            rows: [this.row1, this.row2, this.row3]
         });
     }
 

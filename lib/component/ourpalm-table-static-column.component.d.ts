@@ -15,7 +15,8 @@ export declare class OurpalmTableColumnTemplateRenderer implements OnChanges, Do
     constructor(changeDetectorRef: ChangeDetectorRef);
     onClickCheckBox(event: Event): void;
     onCheckBoxChange(event: Event): void;
-    private lastUuid;
+    private lastRowUuid;
+    private lastColumnUuid;
     ngOnChanges(): void;
     ngDoCheck(): void;
 }

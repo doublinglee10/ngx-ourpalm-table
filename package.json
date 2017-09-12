@@ -1,6 +1,6 @@
 {
   "name": "ngx-ourpalm-table",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "license": "MIT",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
@@ -24,6 +24,7 @@
     "angular2",
     "angular4",
     "ng2",
+    "ng4",
     "table"
   ],
   "bugs": {
