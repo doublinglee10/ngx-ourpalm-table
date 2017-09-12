@@ -121,6 +121,7 @@ export class AppComponent {
 |	pagination     		  |     boolean   	  |		true		   |	是否显示分页控件		|
 |	singleSelect    	  |     boolean   	  |		false		   |	是否限制只能选中一行			|
 |	serverSort     		  |     boolean   	  |		true	   	   |	是否要服务器排序		|
+|	multiSort     		  |     boolean   	  |		true	   	   |	是否允许多列排序		|
 |	pageList     		  |     array 		  |	[10,20,30,40,50]   |	在设置分页属性的时候 初始化页面大小选择列表		|
 |	pageSize              |     int   		  |		10			   |	在设置分页属性的时候初始化页面大小	|
 |	skipPage              |     boolean   	  |		true		   |	在设置分页属性的时候是否允许用户跳转页面	|

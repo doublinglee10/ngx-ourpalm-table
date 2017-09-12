@@ -3,7 +3,7 @@ export declare class OurpalmTableColumn {
     header: string;
     field: string;
     sort?: boolean;
-    sortOrder?: string;
+    sortOrder?: 'asc' | 'desc' | null;
     rownumbers?: boolean;
     show?: boolean;
     checkbox?: boolean;

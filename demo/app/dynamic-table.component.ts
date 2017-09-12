@@ -32,6 +32,7 @@ export class DynamicTableComponent {
 
 
     toggle() {
+        $('.navbar.navbar-fixed-top').toggleClass('hidden');
         if ((<any>window).screenfull.enabled) {
             (<any>window).screenfull.toggle();
         }
@@ -100,7 +101,6 @@ export class DynamicTableComponent {
             enabledFloatThead: true,
             floatTheadConfig: {
                 zIndex: 10,
-                // position: 'absolute',
                 responsiveContainer: function ($table) {
                     return $table.closest('.table-responsive');
                 },
@@ -108,7 +108,7 @@ export class DynamicTableComponent {
                     if ((<any>window).screenfull.isFullscreen) {
                         return 0;
                     } else {
-                        return 0;
+                        return 50;
                     }
                 }
             },
@@ -119,7 +119,7 @@ export class DynamicTableComponent {
             ctrlSelect: true,
             selectOnCheck: true,
             checkOnSelect: true,
-            pagePosition: 'both',
+            pagePosition: 'bottom',
             columns: this.table1Columns,
             pageSize: 100,
             pageList: [10, 50, 100, 200, 500, 1000, 2000, 5000],

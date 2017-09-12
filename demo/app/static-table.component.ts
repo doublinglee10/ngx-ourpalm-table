@@ -31,11 +31,20 @@ export class StaticTableComponent {
             selectOnCheck: true,
             checkOnSelect: true,
             enabledFloatThead: true,
-            serverSort: false,
+            floatTheadConfig: {
+                zIndex: 10,
+                top: 50,
+                responsiveContainer: function ($table) {
+                    return $table.closest('.table-responsive');
+                }
+            },
+            serverSort: true,
+            multiSort: true,
             pageSize: 100,
             pageList: [10, 100, 200],
             loadData: (table: OurpalmTable, callback: (page: Page) => {}) => {
-                console.log('load data');
+                let columns = this.table.getSortColumns();
+                console.log(columns.map(col => `${col.field} : ${col.sortOrder}`).join(' - '));
 
                 var start = (table.currentPage - 1) * table.pageSize + 1;
                 var end = start + table.pageSize;

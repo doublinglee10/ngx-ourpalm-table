@@ -15,6 +15,7 @@ export declare class OurpalmTable {
     pagination?: boolean;
     singleSelect?: boolean;
     serverSort?: boolean;
+    multiSort?: boolean;
     pageList?: number[];
     skipPage?: boolean;
     cacheKey?: string;

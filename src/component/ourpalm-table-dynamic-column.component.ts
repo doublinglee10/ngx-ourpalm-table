@@ -51,7 +51,11 @@ export class OurpalmTableDynamicColumnComponent implements OnChanges, DoCheck {
     }
 
     get value(): any {
-        return this.column.formatter ? this.column.formatter(this.row[this.column.field], this.row) : this.row[this.column.field];
+        if (typeof this.row === 'object') {
+            return this.column.formatter ? this.column.formatter(this.row[this.column.field], this.row) : this.row[this.column.field];
+        } else {
+            return this.value;
+        }
     }
 
     onClickCheckBox(event: Event) {

@@ -28,6 +28,8 @@ export class OurpalmTable {
     singleSelect?: boolean = false;
     /** 是否要服务器排序 */
     serverSort?: boolean = true;
+    /** 是否允许多列排序 */
+    multiSort?: boolean = true;
     /** 在设置分页属性的时候 初始化页面大小选择列表 */
     pageList?: number[] = [10, 20, 30, 40, 50];
     /** 在设置分页属性的时候是否允许用户跳转页面 */
@@ -90,7 +92,7 @@ export class OurpalmTable {
     currentPage: number = 1; //当前第几页
     pageSize: number = 10; //当前页大小
 
-    tmpCurrentPage?: number;
+    tmpCurrentPage?: number = 0;
 
     private tableComponent?: OurpalmTableComponent;
 

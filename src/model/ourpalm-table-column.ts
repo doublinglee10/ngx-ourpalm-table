@@ -12,7 +12,7 @@ export class OurpalmTableColumn {
     /** 是否列排序 */
     sort?: boolean = false;
     /** 列排序方向,取值 asc 或 desc 或 null*/
-    sortOrder?: string = null;
+    sortOrder?: 'asc' | 'desc' | null = null;
     /** 是否为行号列 1...* */
     rownumbers?: boolean = false;
     /** 是否隐藏列 */

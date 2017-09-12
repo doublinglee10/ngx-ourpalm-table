@@ -1,10 +1,22 @@
-<ul>
-    <li><a routerLink="/">首页</a></li>
-    <li><a routerLink="/static-table">静态表格</a></li>
-    <li><a routerLink="/dynamic-table">动态表格</a></li>
-    <li><a routerLink="/string-row-table">字符串数组</a></li>
-    <li><a routerLink="/object-row-table">对象数组</a></li>
-</ul>
-
-
-<router-outlet></router-outlet>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" routerLink="/">Ngx-Ourpalm-Table</a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li><a routerLink="/static-table">静态表格</a></li>
+                <li><a routerLink="/dynamic-table">动态表格</a></li>
+                <li><a routerLink="/string-row-table">字符串数组</a></li>
+                <li><a routerLink="/object-row-table">对象数组</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container">
+    <div class="row">
+        <div style="margin-top:50px;">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</div>

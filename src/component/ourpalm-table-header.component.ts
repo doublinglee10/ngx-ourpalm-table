@@ -74,6 +74,14 @@ export class OurpalmTableHeaderComponent implements OnInit {
                 break;
         }
 
+        if (!this.table.multiSort) {
+            this.columns.forEach(_column => {
+                if (_column !== column) {
+                    _column.sortOrder = null;
+                }
+            });
+        }
+
         if (this.table.serverSort) {
             this.table.invokeLoadData();
         } else {
