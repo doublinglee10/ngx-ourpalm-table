@@ -192,7 +192,6 @@ export class OurpalmTableRowComponent implements OnInit, OnDestroy {
 
             // 如果当前列没有禁用右键菜单，且 可显示的右键菜单数不为0
             let length = this.table.rowMenus.filter((menu: RowContextMenu) => !menu.separator).filter((menu: RowContextMenu) => {
-                console.log(menu.text, typeof menu.show === 'function' ? menu.show() : menu.show);
                 return typeof menu.show === 'function' ? menu.show() : menu.show;
             }).length;
 

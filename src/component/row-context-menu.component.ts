@@ -12,7 +12,7 @@ import {OurpalmTableRowComponent} from "./ourpalm-table-rows.component";
     styleUrls: ['./row-context-menu.component.css'],
     template: `
         <ng-template #menusTpl let-menus>
-            <ul class="dropdown-menu">
+            <ul class="dropdown-menu" *ngIf="showMenus(menus)">
                 <ng-container *simpleNgFor="let menu of menus">
                     <ng-container *ngIf="menu.separator">
                         <li class="divider" [class.hidden]="!showMenu(menu)"></li>
@@ -116,5 +116,9 @@ export class RowContextMenuComponent {
             return menu.show();
         }
         return menu.show;
+    }
+
+    showMenus(menus: RowContextMenu[]): boolean {
+        return menus && menus.filter((menu) => !menu.separator).filter(menu => this.showMenu(menu)).length > 0;
     }
 }
