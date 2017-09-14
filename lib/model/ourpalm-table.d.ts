@@ -45,7 +45,7 @@ export declare class OurpalmTable {
     pageSize: number;
     tmpCurrentPage?: number;
     private tableComponent?;
-    constructor(table?: OurpalmTable | Object);
+    constructor(table?: OurpalmTable | any);
     reflowTable(): void;
     onLoadSuccess(_page: Page): void;
     readonly allPage: number;
@@ -78,7 +78,7 @@ export declare class OurpalmTable {
     changePageSize(pageSize: number): void;
     gotoSkipPage(page: number): void;
     setPageData(page: Page): void;
-    setOptions(table: OurpalmTable | Object): void;
+    setOptions(table: OurpalmTable | any): void;
     checkAll(): void;
     uncheckAll(): void;
     checkRow(index: number): void;
@@ -88,4 +88,5 @@ export declare class OurpalmTable {
     setTableComponent(tableComponent: OurpalmTableComponent): void;
     reloadCacheColumns(): void;
     reloadCachePageSize(): void;
+    private _deepCloneMenus(menus);
 }

@@ -96,10 +96,18 @@ export class OurpalmTable {
 
     private tableComponent?: OurpalmTableComponent;
 
-    constructor(table?: OurpalmTable | Object) {
+    constructor(table?: OurpalmTable | any) {
         Object.assign(this, table);
-        this.columns = this.columns.map((column) => new OurpalmTableColumn(column));
-        this.__columns = this.columns.map(column => new OurpalmTableColumn(column));
+        if (table && table.columns) {
+            this.__columns = this.columns.map(column => new OurpalmTableColumn(column));
+            this.columns = this.columns.map((column) => new OurpalmTableColumn(column));
+        }
+        if (table && table.rowMenus) {
+            this.rowMenus = this._deepCloneMenus(this.rowMenus);
+        }
+        if (table && table.floatTheadConfig) {
+            Object.assign(this.floatTheadConfig, table.floatTheadConfig);
+        }
         this.reloadCacheColumns();
         this.reloadCachePageSize();
         this.reflowTable();
@@ -255,10 +263,19 @@ export class OurpalmTable {
     }
 
     /*重新配置table属性，触发重新加载数据*/
-    setOptions(table: OurpalmTable | Object) {
+    setOptions(table: OurpalmTable | any) {
         Object.assign(this, table);
-        this.columns = this.columns.map((column) => new OurpalmTableColumn(column));
-        this.__columns = this.columns.map(column => new OurpalmTableColumn(column));
+        if (table && table.columns) {
+            this.__columns = this.columns.map(column => new OurpalmTableColumn(column));
+            this.columns = this.columns.map((column) => new OurpalmTableColumn(column));
+        }
+        if (table && table.rowMenus) {
+            this.rowMenus = this._deepCloneMenus(this.rowMenus);
+        }
+        if (table && table.floatTheadConfig) {
+            Object.assign(this.floatTheadConfig, table.floatTheadConfig);
+        }
+
         if (this.autoLoadData) {
             this.invokeLoadData();
         }
@@ -342,5 +359,18 @@ export class OurpalmTable {
                 this.pageSize = +pageSize;
             }
         }
+    }
+
+    private _deepCloneMenus(menus: RowContextMenu[]): RowContextMenu[] {
+        if (!menus) return;
+
+        function deepCloneMenu(menu: RowContextMenu): RowContextMenu {
+            if (menu.submenus) {
+                menu.submenus = menu.submenus.map((submenu) => deepCloneMenu(submenu));
+            }
+            return new RowContextMenu(menu);
+        }
+
+        return menus.map(menu => deepCloneMenu(menu));
     }
 }

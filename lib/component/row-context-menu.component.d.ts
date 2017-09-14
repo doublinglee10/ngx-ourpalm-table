@@ -16,5 +16,4 @@ export declare class RowContextMenuComponent {
     removeListener(): void;
     onClickMenu(menu: RowContextMenu): void;
     showMenu(menu: RowContextMenu): boolean;
-    deepCloneMenu(menu: RowContextMenu): RowContextMenu;
 }

@@ -55,9 +55,7 @@ export class RowContextMenuComponent {
 
     @Input('menus')
     set menus(_menus: RowContextMenu[]) {
-        if (_menus) {
-            this._menus = _menus.map((menu) => this.deepCloneMenu(menu));
-        }
+        this._menus = _menus || [];
     }
 
     get menus() {
@@ -118,14 +116,5 @@ export class RowContextMenuComponent {
             return menu.show();
         }
         return menu.show;
-    }
-
-    deepCloneMenu(menu: RowContextMenu): RowContextMenu {
-        if (menu.submenus) {
-            menu.submenus = menu.submenus.map((submenu: RowContextMenu) => {
-                return this.deepCloneMenu(submenu);
-            });
-        }
-        return new RowContextMenu(menu);
     }
 }
