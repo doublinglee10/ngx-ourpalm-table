@@ -3,6 +3,7 @@ import {
     AfterViewInit,
     ChangeDetectionStrategy,
     Component,
+    ContentChild,
     ContentChildren,
     ElementRef,
     Input,
@@ -13,6 +14,7 @@ import {
 } from "@angular/core";
 import {OurpalmTable} from "../model/ourpalm-table";
 import {OurpalmTableStaticColumnComponent} from "./ourpalm-table-static-column.component";
+import {OurpalmTableRowViewComponent} from "./ourpalm-table-rowview.component";
 
 @Component({
     selector: 'ourpalm-table',
@@ -49,6 +51,8 @@ export class OurpalmTableComponent implements AfterContentInit, AfterViewInit, O
 
     @ContentChildren(OurpalmTableStaticColumnComponent)
     private columnDirs: QueryList<OurpalmTableStaticColumnComponent>;
+    @ContentChild(OurpalmTableRowViewComponent)
+    private rowViewComp: OurpalmTableRowViewComponent;
 
     private $table: any;
 
@@ -86,6 +90,11 @@ export class OurpalmTableComponent implements AfterContentInit, AfterViewInit, O
         } else {
             this.dynamicColumn = true;
         }
+
+        if (this.rowViewComp) {
+            this.table.rowViewTemplate = this.rowViewComp.template;
+        }
+
         //加载数据
         if (this.table.autoLoadData) {
             this.table.invokeLoadData();

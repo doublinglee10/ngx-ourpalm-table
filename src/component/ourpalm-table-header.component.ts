@@ -9,7 +9,7 @@ import {OurpalmTableColumn} from "../model/ourpalm-table-column";
     template: `
         <th *ngFor="let column of columns; let i = index" [class.hidden]="!column.show"><!-- 隐藏列 -->
             <!-- 排序列 -->
-            <span *ngIf="column.sort" (click)="sortColumn(column)">
+            <span *ngIf="column.sort" (click)="sortColumn(column)" [class.sortable]="column.sort">
                 {{column.header}}
                 <i class="fa"
                    [ngClass]="{'fa-sort-asc': column.sortOrder == 'asc', 'fa-sort-desc': column.sortOrder == 'desc', 'fa-sort': !column.sortOrder}"></i>

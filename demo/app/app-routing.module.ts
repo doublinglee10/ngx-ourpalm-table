@@ -1,9 +1,10 @@
 import {NgModule} from "@angular/core";
 import {RouterModule, Routes} from "@angular/router";
-import {DynamicTableComponent} from "./dynamic-table.component";
-import {StaticTableComponent} from "./static-table.component";
-import {StringRowTableComponent} from "./string-row.component";
-import {ObjectRowTableComponent} from "./object-row.component";
+import {DynamicTableComponent} from "./components/dynamic-table.component";
+import {StaticTableComponent} from "./components/static-table.component";
+import {StringRowTableComponent} from "./components/string-row.component";
+import {ObjectRowTableComponent} from "./components/object-row.component";
+import {CardViewComponent} from "./components/card-view.component";
 
 const routes: Routes = [
     {
@@ -21,6 +22,10 @@ const routes: Routes = [
     {
         path: 'object-row-table',
         component: ObjectRowTableComponent
+    },
+    {
+        path: 'card-view-table',
+        component: CardViewComponent
     }
 ];
 

@@ -21,6 +21,7 @@ import {TableConfig} from "./model/table.config";
 import {SafeHtmlPipe} from "./component/safe-html.pipe";
 import {RowContextMenuComponent} from "./component/row-context-menu.component";
 import {SimpleNgFor} from "./component/simple-ngfor.directive";
+import {OurpalmTableRowViewComponent} from "./component/ourpalm-table-rowview.component";
 
 @NgModule({
     imports: [
@@ -42,13 +43,15 @@ import {SimpleNgFor} from "./component/simple-ngfor.directive";
         ColumnSettingsLeftFilter,
         ColumnSettingsRightFilter,
         SafeHtmlPipe,
-        SimpleNgFor
+        SimpleNgFor,
+        OurpalmTableRowViewComponent
     ],
     exports: [
         OurpalmTableComponent,
         OurpalmTableStaticColumnComponent,
         SafeHtmlPipe,
-        SimpleNgFor
+        SimpleNgFor,
+        OurpalmTableRowViewComponent
     ],
     providers: [],
     entryComponents: [

@@ -1,12 +1,17 @@
 import {OurpalmTableColumn} from "./ourpalm-table-column";
 import {OurpalmTableComponent} from "../component/ourpalm-table.component";
 import {RowContextMenu} from "./row-content-menu";
+import {TemplateRef} from "@angular/core";
 
 export interface Page {
     currentPage?: number;
     pageSize?: number;
     total: number;
     rows: any[];
+}
+
+export interface RowView {
+    renderRow(rowIndex: number, rowData: any): string;
 }
 
 /**
@@ -63,6 +68,12 @@ export class OurpalmTable {
     ctrlSelect?: boolean = false;
     /** 行上下文菜单 */
     rowMenus: RowContextMenu[];
+    /** 自定义行渲染*/
+    rowView?: RowView;
+    /** 自定义行渲染模板*/
+    rowViewTemplate?: TemplateRef<any>;
+    /** 自定义行渲染模式 */
+    rowViewShowType: 'rowView' | 'column' | 'both' = 'rowView';
 
     /** 加载数据成功回调 */
     loadData: (table: OurpalmTable, callback: (page: Page) => {}) => {} = () => {

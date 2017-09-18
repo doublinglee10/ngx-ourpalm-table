@@ -5,3 +5,7 @@
 .fa-sort-desc {
     vertical-align: top;
 }
+
+.sortable {
+    cursor: pointer;
+}

@@ -25,64 +25,76 @@ import {RowContextMenu} from "../model/row-content-menu";
         <ng-container [ngSwitch]="dynamicColumn">
             <ng-container *ngSwitchCase="true">
                 <!--动态列-->
-                <tr *simpleNgFor="let row of rows; let i = index;"
-                    [ngClass]="{'row-selected': row.__selected__}"
-                    (click)="onClickRow(i, row, $event)"
-
-                    dynamic-event-directive
-                    [listenDbClickEvent]="table.onDbClickRow"
-                    (onDbClick)="table.onDbClickRow(i, row)">
-                    <!--[listenClickEvent]="table.onClickRow"-->
-                    <!--(onClick)="table.onClickRow(i, row)"-->
-                    <ng-container *simpleNgFor="let column of table.columns; let j = index">
-                        <td ourpalm-table-dynamic-column
-                            [table]="table"
-                            [row]="row"
-                            [column]="column"
-                            [index]="i"
-                            [class.hidden]="!column.show"
-                            [ngStyle]="getStyler(column, i, j, row)"
-                            [listenClickEvent]="table.onClickCell"
-                            (onClick)="table.onClickCell(i, j, row, column)"
+                <ng-container *ngFor="let row of rows; let i = index;">
+                    <ng-container *ngIf="!table.rowView || (table.rowView && table.rowViewShowType !== 'rowView')">
+                        <tr [ngClass]="{'row-selected': row.__selected__}"
+                            (click)="onClickRow(i, row, $event)"
                             dynamic-event-directive
-                            [listenDbClickEvent]="table.onDbClickCell"
-                            (onDbClick)="table.onDbClickCell(i, j, row, column)"
-                            [listenContextMenuEvent]="!!table.rowMenus"
-                            (onContextMenu)="showContextMenu($event, i, j, row, column)">
-                        </td>
+                            [listenDbClickEvent]="table.onDbClickRow"
+                            (onDbClick)="table.onDbClickRow(i, row)">
+                            <ng-container *ngFor="let column of table.columns; let j = index">
+                                <td ourpalm-table-dynamic-column
+                                    [table]="table"
+                                    [row]="row"
+                                    [column]="column"
+                                    [index]="i"
+                                    [class.hidden]="!column.show"
+                                    [ngStyle]="getStyler(column, i, j, row)"
+                                    [listenClickEvent]="table.onClickCell"
+                                    (onClick)="table.onClickCell(i, j, row, column)"
+                                    dynamic-event-directive
+                                    [listenDbClickEvent]="table.onDbClickCell"
+                                    (onDbClick)="table.onDbClickCell(i, j, row, column)"
+                                    [listenContextMenuEvent]="!!table.rowMenus"
+                                    (onContextMenu)="showContextMenu($event, i, j, row, column)">
+                                </td>
+                            </ng-container>
+                        </tr>
                     </ng-container>
-                </tr>
+                    <ng-container *ngIf="table.rowView && table.rowViewShowType !== 'column'">
+                        <span [innerHTML]="table.rowView.renderRow(i, row) | safeHtml"></span>
+                    </ng-container>
+                </ng-container>
             </ng-container>
             <ng-container *ngSwitchCase="false">
                 <!--静态列-->
-                <tr *simpleNgFor="let row of rows; let i = index;"
-                    [ngClass]="{'row-selected': row.__selected__}"
-                    (click)="onClickRow(i, row, $event)"
-
-                    dynamic-event-directive
-                    [listenDbClickEvent]="table.onDbClickRow"
-                    (onDbClick)="table.onDbClickRow(i, row)">
-                    <!--[listenClickEvent]="table.onClickRow"-->
-                    <!--(onClick)="table.onClickRow(i, row)"-->
-                    <td *simpleNgFor="let col of table.columns; let j = index"
-                        [class.hidden]="!col.show"
-                        [ngStyle]="getStyler(col, i, j, row)"
-                        dynamic-event-directive
-                        [listenClickEvent]="table.onClickCell"
-                        (onClick)="table.onClickCell(i, j, row, col)"
-                        [listenDbClickEvent]="table.onDbClickCell"
-                        (onDbClick)="table.onDbClickCell(i, j, row, col)"
-                        [listenContextMenuEvent]="!!table.rowMenus"
-                        (onContextMenu)="showContextMenu($event, i, j, row, col)">
-                        <ourpalm-table-columnTemplateRenderer [table]="table"
-                                                              [column]="col"
-                                                              [row]="row"
-                                                              [index]="i">
-                        </ourpalm-table-columnTemplateRenderer>
-                    </td>
-                </tr>
+                <ng-container *ngFor="let row of rows; let i = index;">
+                    <ng-container
+                            *ngIf="!table.rowViewTemplate || (table.rowViewTemplate && table.rowViewShowType !== 'rowView')">
+                        <tr [ngClass]="{'row-selected': row.__selected__}"
+                            (click)="onClickRow(i, row, $event)"
+                            dynamic-event-directive
+                            [listenDbClickEvent]="table.onDbClickRow"
+                            (onDbClick)="table.onDbClickRow(i, row)">
+                            <td *ngFor="let col of table.columns; let j = index"
+                                [class.hidden]="!col.show"
+                                [ngStyle]="getStyler(col, i, j, row)"
+                                dynamic-event-directive
+                                [listenClickEvent]="table.onClickCell"
+                                (onClick)="table.onClickCell(i, j, row, col)"
+                                [listenDbClickEvent]="table.onDbClickCell"
+                                (onDbClick)="table.onDbClickCell(i, j, row, col)"
+                                [listenContextMenuEvent]="!!table.rowMenus"
+                                (onContextMenu)="showContextMenu($event, i, j, row, col)">
+                                <ourpalm-table-columnTemplateRenderer [table]="table"
+                                                                      [column]="col"
+                                                                      [row]="row"
+                                                                      [index]="i">
+                                </ourpalm-table-columnTemplateRenderer>
+                            </td>
+                        </tr>
+                    </ng-container>
+                    <ng-container *ngIf="table.rowViewTemplate && table.rowViewShowType !== 'column'">
+                        <tr class="cardview">
+                            <td [attr.colspan]="table.columns.length">
+                                <ng-template [ngTemplateOutlet]="table.rowViewTemplate"
+                                             [ngOutletContext]="{'$implicit': column, '$row': row, '$index': i}">
+                                </ng-template>
+                            </td>
+                        </tr>
+                    </ng-container>
+                </ng-container>
             </ng-container>
-            <!--<row-context-menu [menus]="table.rowMenus" [rowComponent]="this"></row-context-menu>-->
         </ng-container>
     `
 })

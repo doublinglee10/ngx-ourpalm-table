@@ -1,3 +1,15 @@
+.dropdown-menu {
+    background-color: #545f70;
+}
+
+.dropdown-menu li a {
+    color: #fff !important;
+}
+
+ul li a:hover {
+    background-color: #657287 !important;
+}
+
 /** 多级菜单样式开始 */
 .dropdown-submenu {
     position: relative;
@@ -31,9 +43,9 @@
     margin-right: -10px;
 }
 
-/*.dropdown-submenu:hover > a:after {*/
-    /*border-left-color: #fff;*/
-/*}*/
+.dropdown-submenu:hover > a:after {
+    border-left-color: #1d1d1d;
+}
 
 .dropdown-submenu.pull-left {
     float: none;
@@ -50,8 +62,8 @@
 .dropdown-menu > li > a {
     padding: 3px 20px 3px 10px;
 }
-/** 多级菜单样式 结束 */
 
+/** 多级菜单样式 结束 */
 
 .row-context-menu {
     display: none;

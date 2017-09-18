@@ -2,12 +2,14 @@ import {BrowserModule} from "@angular/platform-browser";
 import {NgModule} from "@angular/core";
 import {AppComponent} from "./app.component";
 import {AppRoutingModule} from "./app-routing.module";
-import {DynamicTableComponent} from "./dynamic-table.component";
-import {StaticTableComponent} from "./static-table.component";
+import {DynamicTableComponent} from "./components/dynamic-table.component";
+import {StaticTableComponent} from "./components/static-table.component";
 import {OurpalmTableModule} from "../../src/ourpalm-table.module";
 import {TableConfig} from "../../src/model/table.config";
-import {StringRowTableComponent} from "./string-row.component";
-import {ObjectRowTableComponent} from "./object-row.component";
+import {StringRowTableComponent} from "./components/string-row.component";
+import {ObjectRowTableComponent} from "./components/object-row.component";
+import {CardViewComponent} from "./components/card-view.component";
+import {HttpModule} from "@angular/http";
 
 @NgModule({
     declarations: [
@@ -15,11 +17,13 @@ import {ObjectRowTableComponent} from "./object-row.component";
         DynamicTableComponent,
         StaticTableComponent,
         StringRowTableComponent,
-        ObjectRowTableComponent
+        ObjectRowTableComponent,
+        CardViewComponent
     ],
     imports: [
         BrowserModule,
         AppRoutingModule,
+        HttpModule,
         OurpalmTableModule.forRoot()
     ],
     providers: [],

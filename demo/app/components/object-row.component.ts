@@ -1,6 +1,6 @@
-import {OurpalmTable, Page} from "../../src/model/ourpalm-table";
+import {OurpalmTable, Page} from "../../../src/model/ourpalm-table";
 import {Component} from "@angular/core";
-import {uuid} from "../../src/model/uuid";
+import {uuid} from "../../../src/model/uuid";
 
 @Component({
     selector: 'object-row',

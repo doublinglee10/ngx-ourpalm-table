@@ -1,4 +1,4 @@
-import {OurpalmTable, Page} from "../../src/model/ourpalm-table";
+import {OurpalmTable, Page} from "../../../src/model/ourpalm-table";
 import {Component} from "@angular/core";
 
 @Component({
