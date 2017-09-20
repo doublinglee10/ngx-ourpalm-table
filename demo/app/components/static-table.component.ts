@@ -26,11 +26,14 @@ export class StaticTableComponent {
 
     constructor() {
         this.table = new OurpalmTable({
+            cacheKey: 'table001',
+            cacheColumns: true,
+            cachePageSize: true,
             singleSelect: false,
             ctrlSelect: true,
             selectOnCheck: true,
             checkOnSelect: true,
-            enabledFloatThead: true,
+            // enabledFloatThead: true,
             floatTheadConfig: {
                 zIndex: 10,
                 top: 50,

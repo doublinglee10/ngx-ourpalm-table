@@ -119,7 +119,12 @@ export class OurpalmTable {
         if (table && table.floatTheadConfig) {
             Object.assign(this.floatTheadConfig, table.floatTheadConfig);
         }
-        this.reloadCacheColumns();
+
+        if (this.columns && this.columns.length > 0) {
+            //如果不是静态列，就触发。因为静态列这会还没有设置上，设置静态列的时候也会触发 reloadCacheColumns
+            this.reloadCacheColumns();
+        }
+
         this.reloadCachePageSize();
         this.reflowTable();
     }

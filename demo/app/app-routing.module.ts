@@ -5,6 +5,7 @@ import {StaticTableComponent} from "./components/static-table.component";
 import {StringRowTableComponent} from "./components/string-row.component";
 import {ObjectRowTableComponent} from "./components/object-row.component";
 import {CardViewComponent} from "./components/card-view.component";
+import {NgForDemoComponent} from "./components/ngfor-demo.component";
 
 const routes: Routes = [
     {
@@ -26,6 +27,10 @@ const routes: Routes = [
     {
         path: 'card-view-table',
         component: CardViewComponent
+    },
+    {
+        path: 'ngfor',
+        component: NgForDemoComponent
     }
 ];
 

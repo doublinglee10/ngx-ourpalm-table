@@ -10,6 +10,7 @@ import {StringRowTableComponent} from "./components/string-row.component";
 import {ObjectRowTableComponent} from "./components/object-row.component";
 import {CardViewComponent} from "./components/card-view.component";
 import {HttpModule} from "@angular/http";
+import {NgForDemoComponent} from "./components/ngfor-demo.component";
 
 @NgModule({
     declarations: [
@@ -18,7 +19,8 @@ import {HttpModule} from "@angular/http";
         StaticTableComponent,
         StringRowTableComponent,
         ObjectRowTableComponent,
-        CardViewComponent
+        CardViewComponent,
+        NgForDemoComponent
     ],
     imports: [
         BrowserModule,
