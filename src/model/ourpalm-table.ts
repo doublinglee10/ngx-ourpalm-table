@@ -1,7 +1,7 @@
 import {OurpalmTableColumn} from "./ourpalm-table-column";
 import {OurpalmTableComponent} from "../component/ourpalm-table.component";
-import {RowContextMenu} from "./row-content-menu";
 import {TemplateRef} from "@angular/core";
+import {ContextMenu} from "glowworm/lib/context-menu";
 
 export interface Page {
     currentPage?: number;
@@ -67,7 +67,7 @@ export class OurpalmTable {
     /** 按住ctrl时为多选 */
     ctrlSelect?: boolean = false;
     /** 行上下文菜单 */
-    rowMenus: RowContextMenu[];
+    rowMenus: ContextMenu[];
     /** 自定义行渲染*/
     rowView?: RowView;
     /** 自定义行渲染模板*/
@@ -377,14 +377,14 @@ export class OurpalmTable {
         }
     }
 
-    private _deepCloneMenus(menus: RowContextMenu[]): RowContextMenu[] {
+    private _deepCloneMenus(menus: ContextMenu[]): ContextMenu[] {
         if (!menus) return;
 
-        function deepCloneMenu(menu: RowContextMenu): RowContextMenu {
+        function deepCloneMenu(menu: ContextMenu): ContextMenu {
             if (menu.submenus) {
                 menu.submenus = menu.submenus.map((submenu) => deepCloneMenu(submenu));
             }
-            return new RowContextMenu(menu);
+            return new ContextMenu(menu);
         }
 
         return menus.map(menu => deepCloneMenu(menu));

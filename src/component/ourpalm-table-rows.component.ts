@@ -1,21 +1,8 @@
-import {
-    ApplicationRef,
-    ChangeDetectionStrategy,
-    Component,
-    ComponentFactoryResolver,
-    ComponentRef,
-    ElementRef,
-    EmbeddedViewRef,
-    Injector,
-    Input,
-    OnDestroy,
-    OnInit
-} from "@angular/core";
+import {ChangeDetectionStrategy, Component, ElementRef, Input, OnDestroy, OnInit} from "@angular/core";
 import {OurpalmTableColumn} from "../model/ourpalm-table-column";
 import {OurpalmTable} from "../model/ourpalm-table";
-import {RowContextMenuComponent} from "./row-context-menu.component";
 import {uuid} from "../model/uuid";
-import {RowContextMenu} from "../model/row-content-menu";
+import {ContextMenu, ContextMenuService} from "glowworm/lib/context-menu";
 
 @Component({
     selector: '[ourpalm-table-rows]',
@@ -108,50 +95,20 @@ export class OurpalmTableRowComponent implements OnInit, OnDestroy {
 
     @Input() dynamicColumn: boolean;
 
-    private contextMenu: RowContextMenuComponent;
-    private contextMenuRef: ComponentRef<RowContextMenuComponent>;
-
     constructor(public el: ElementRef,
-                private componentFactoryResolver: ComponentFactoryResolver,
-                private appRef: ApplicationRef,
-                private injector: Injector) {
+                private contextMenuService: ContextMenuService) {
     }
 
     ngOnInit(): void {
         if (this.table.rowMenus && this.table.rowMenus.length > 0) {
-            this.appendRowContextMenuComponentToBody();
+            this.contextMenuService.onMenuDirectiveInit();
         }
     }
 
     ngOnDestroy(): void {
-        if (this.contextMenuRef) {
-            // remove it from the component tree and from the DOM
-            this.appRef.detachView(this.contextMenuRef.hostView);
-            this.contextMenuRef.destroy();
+        if (this.table.rowMenus && this.table.rowMenus.length > 0) {
+            this.contextMenuService.onMenuDirectiveDestroy();
         }
-    }
-
-    appendRowContextMenuComponentToBody() {
-        // Create a component reference from the component
-        this.contextMenuRef = this.componentFactoryResolver
-            .resolveComponentFactory(RowContextMenuComponent)
-            .create(this.injector);
-
-        // Attach component to the appRef so that it's inside the ng component tree
-        this.appRef.attachView(this.contextMenuRef.hostView);
-
-        // Get DOM element from component
-        const domElem = (this.contextMenuRef.hostView as EmbeddedViewRef<any>)
-            .rootNodes[0] as HTMLElement;
-
-        // Append DOM element to the body
-        document.body.appendChild(domElem);
-
-        // set @Input() properties
-        this.contextMenu = this.contextMenuRef.instance;
-        this.contextMenu.rowComponent = this;
-        this.contextMenu.menus = this.table.rowMenus;
-        this.contextMenu.changeDetectorRef.detectChanges();
     }
 
     getStyler(column: OurpalmTableColumn, rowIndex: number, columnIndex: number, rowData: any) {
@@ -204,23 +161,15 @@ export class OurpalmTableRowComponent implements OnInit, OnDestroy {
             }
 
             // 如果当前列没有禁用右键菜单，且 可显示的右键菜单数不为0
-            let length = this.table.rowMenus.filter((menu: RowContextMenu) => !menu.separator).filter((menu: RowContextMenu) => {
+            let length = this.table.rowMenus.filter((menu: ContextMenu) => !menu.separator).filter((menu: ContextMenu) => {
                 return typeof menu.show === 'function' ? menu.show() : menu.show;
             }).length;
 
             if (length > 0) {
-                this.contextMenu.styler = {
-                    display: 'block',
-                    position: 'absolute',
-                    left: `${event.pageX}px`,
-                    top: `${event.pageY}px`
-                };
-                this.contextMenu.changeDetectorRef.markForCheck();
-            } else if (this.contextMenu.styler && this.contextMenu.styler.display != 'none') {
-                this.contextMenu.styler = {
-                    display: 'none'
-                };
-                this.contextMenu.changeDetectorRef.markForCheck();
+                this.contextMenuService.show.next({
+                    event: event,
+                    menus: this.table.rowMenus
+                });
             }
         }
     }

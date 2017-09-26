@@ -85,7 +85,10 @@ export class StaticTableComponent {
                         }, {
                             text: '.cvsignore file(Cvs)'
                         }]
-                    }]
+                    }],
+                    show: () => {
+                        return this.table.getSelectedRows().length < 5 ? true : false;
+                    }
                 },
                 {
                     text: '打开',
@@ -93,7 +96,7 @@ export class StaticTableComponent {
                         alert('打开')
                     },
                     show: () => {
-                        return this.table.getSelectedRows().length % 2 == 0;
+                        return this.table.getSelectedRows().length < 5 ? true : false;
                     }
                 },
                 {
@@ -102,6 +105,9 @@ export class StaticTableComponent {
                     text: '设置',
                     onclick: function () {
                         alert('设置')
+                    },
+                    show: () => {
+                        return this.table.getSelectedRows().length < 5 ? true : false;
                     }
                 }
             ]

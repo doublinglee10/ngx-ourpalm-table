@@ -19,15 +19,16 @@ import {OurpalmTableRowComponent} from "./component/ourpalm-table-rows.component
 import {DynamicEventDirective} from "./component/dynamic-event.directive";
 import {TableConfig} from "./model/table.config";
 import {SafeHtmlPipe} from "./component/safe-html.pipe";
-import {RowContextMenuComponent} from "./component/row-context-menu.component";
 import {SimpleNgFor} from "./component/simple-ngfor.directive";
 import {OurpalmTableRowViewComponent} from "./component/ourpalm-table-rowview.component";
+import {GwContextMenuModule} from "glowworm/lib/context-menu";
 
 @NgModule({
     imports: [
         CommonModule,
         FormsModule,
-        DragulaModule
+        DragulaModule,
+        GwContextMenuModule.forRoot()
     ],
     declarations: [
         OurpalmTableComponent,
@@ -36,7 +37,6 @@ import {OurpalmTableRowViewComponent} from "./component/ourpalm-table-rowview.co
         OurpalmTableHeaderComponent,
         OurpalmTableSettingsComponent,
         OurpalmTableRowComponent,
-        RowContextMenuComponent,
         DynamicEventDirective,
         OurpalmTablePagingComponent,
         OurpalmTableColumnTemplateRenderer,
@@ -52,10 +52,6 @@ import {OurpalmTableRowViewComponent} from "./component/ourpalm-table-rowview.co
         SafeHtmlPipe,
         SimpleNgFor,
         OurpalmTableRowViewComponent
-    ],
-    providers: [],
-    entryComponents: [
-        RowContextMenuComponent
     ]
 })
 export class OurpalmTableModule {

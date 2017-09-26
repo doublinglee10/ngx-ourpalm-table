@@ -1,6 +1,6 @@
 {
   "name": "ngx-ourpalm-table",
-  "version": "0.2.13",
+  "version": "0.2.14",
   "license": "MIT",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
@@ -34,6 +34,7 @@
   "dependencies": {
     "floatthead": "^2.0.3",
     "font-awesome": "^4.7.0",
+    "glowworm": "^0.1.6",
     "jquery": "^3.2.1",
     "ng2-dragula": "^1.5.0"
   },
