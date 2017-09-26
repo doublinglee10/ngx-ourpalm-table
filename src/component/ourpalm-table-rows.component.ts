@@ -197,6 +197,7 @@ export class OurpalmTableRowComponent implements OnInit, OnDestroy {
     showContextMenu(event: any, rowIndex: number, cellIndex: number, rowData: any, column: OurpalmTableColumn) {
         if (!column.disabledContextMenu) {
             event.preventDefault();
+            event.stopPropagation();
 
             if (!rowData.__selected__) {
                 this.onClickRow(rowIndex, rowData, event);
