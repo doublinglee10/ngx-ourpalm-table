@@ -1,5 +1,4 @@
 import {TemplateRef} from "@angular/core";
-import {uuid} from "./uuid";
 
 /**
  * 表列属性
@@ -30,11 +29,6 @@ export class OurpalmTableColumn {
         return row1[column.field] - row2[column.field];
     };
 
-    /** uuid: 唯一标示,用来优化变更检测 */
-    __uuid__?: string = uuid();
-    __fshow__?: any;
-    __lshow__?: any;
-    __rshow__?: any;
     template?: TemplateRef<any>;
 
     constructor(optcolumn: OurpalmTableColumn) {

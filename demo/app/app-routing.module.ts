@@ -6,6 +6,7 @@ import {StringRowTableComponent} from "./components/string-row.component";
 import {ObjectRowTableComponent} from "./components/object-row.component";
 import {CardViewComponent} from "./components/card-view.component";
 import {NgForDemoComponent} from "./components/ngfor-demo.component";
+import {OurpalmTableV3Component} from "./components/ourpalm-table-v3.component";
 
 const routes: Routes = [
     {
@@ -31,6 +32,10 @@ const routes: Routes = [
     {
         path: 'ngfor',
         component: NgForDemoComponent
+    },
+    {
+        path: 'v3',
+        component: OurpalmTableV3Component
     }
 ];
 

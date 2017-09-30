@@ -23,11 +23,11 @@ import {ngfor_page2_rows} from "./ngfor-data/page2.data";
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let row of rows; let i = index;">
-                                <td>
+                            <tr *ngFor="let row of rows; let i = index;" (click)="log()" (dblclick)="log()">
+                                <td (click)="log()" (dblclick)="log()">
                                     {{i + 1}}
                                 </td>
-                                <td *ngFor="let column of columns">
+                                <td *ngFor="let column of columns" (click)="log()" (dblclick)="log()">
                                     {{ row[column.field] }}
                                 </td>
                             </tr>
@@ -64,5 +64,9 @@ export class NgForDemoComponent implements OnInit {
     ngAfterViewChecked() {
         console.timeEnd("check");
         console.log('check end');
+    }
+
+    log() {
+
     }
 }

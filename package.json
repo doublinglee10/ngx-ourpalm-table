@@ -35,6 +35,7 @@
     "floatthead": "^2.0.3",
     "font-awesome": "^4.7.0",
     "glowworm": "^0.1.6",
+    "immutable": "^3.8.1",
     "jquery": "^3.2.1",
     "ng2-dragula": "^1.5.0"
   },

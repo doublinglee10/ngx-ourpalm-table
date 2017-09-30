@@ -4811,5 +4811,6 @@ let _rows = {
     }
 };
 
+// export const ngfor_page1_rows = [..._rows.data.list];
 export const ngfor_page1_rows = [..._rows.data.list, ..._rows.data.list];
 // export const ngfor_page1_rows = [..._rows.data.list, ..._rows.data.list, ..._rows.data.list, ..._rows.data.list, ..._rows.data.list, ..._rows.data.list];

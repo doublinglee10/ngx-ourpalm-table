@@ -10,6 +10,8 @@ export interface Page {
     rows: any[];
 }
 
+export type RowViewShowType = 'rowView' | 'column' | 'both' ;
+
 export interface RowView {
     renderRow(rowIndex: number, rowData: any): string;
 }
@@ -73,7 +75,7 @@ export class OurpalmTable {
     /** 自定义行渲染模板*/
     rowViewTemplate?: TemplateRef<any>;
     /** 自定义行渲染模式 */
-    rowViewShowType: 'rowView' | 'column' | 'both' = 'rowView';
+    rowViewShowType: RowViewShowType = 'rowView';
 
     /** 加载数据成功回调 */
     loadData: (table: OurpalmTable, callback: (page: Page) => {}) => {} = () => {
@@ -130,7 +132,7 @@ export class OurpalmTable {
     }
 
     reflowTable() {
-        this.tableComponent && this.tableComponent.reflowTable();
+        // this.tableComponent && this.tableComponent.reflowTable(); TODO
     }
 
     onLoadSuccess(_page: Page) {

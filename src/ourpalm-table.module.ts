@@ -1,27 +1,17 @@
-import {ModuleWithProviders, NgModule} from "@angular/core";
-import {CommonModule} from "@angular/common";
-import {OurpalmTableComponent} from "./component/ourpalm-table.component";
-import {OurpalmTableHeaderComponent} from "./component/ourpalm-table-header.component";
 import {FormsModule} from "@angular/forms";
-import {OurpalmTablePagingComponent} from "./component/ourpalm-table-paging.component";
-import {OurpalmTableDynamicColumnComponent} from "./component/ourpalm-table-dynamic-column.component";
-import {
-    OurpalmTableColumnTemplateRenderer,
-    OurpalmTableStaticColumnComponent
-} from "./component/ourpalm-table-static-column.component";
-import {
-    ColumnSettingsLeftFilter,
-    ColumnSettingsRightFilter,
-    OurpalmTableSettingsComponent
-} from "./component/ourpalm-table-settings.component";
+import {CommonModule} from "@angular/common";
 import {DragulaModule} from "ng2-dragula";
-import {OurpalmTableRowComponent} from "./component/ourpalm-table-rows.component";
-import {DynamicEventDirective} from "./component/dynamic-event.directive";
-import {TableConfig} from "./model/table.config";
-import {SafeHtmlPipe} from "./component/safe-html.pipe";
-import {SimpleNgFor} from "./component/simple-ngfor.directive";
-import {OurpalmTableRowViewComponent} from "./component/ourpalm-table-rowview.component";
+import {ModuleWithProviders, NgModule} from "@angular/core";
 import {GwContextMenuModule} from "glowworm/lib/context-menu";
+import {TableConfig} from "./model/table.config";
+import {OurpalmTableComponent} from "./component/ourpalm-table.component";
+import {OurpalmTableBodyComponent} from "./component/body/ourpalm-table-body.component";
+import {OurpalmTableBodyCellComponent} from "./component/body/ourpalm-table-body-cell.component";
+import {OurpalmTableBodyRowViewComponent} from "./component/body/ourpalm-table-body-rowview.component";
+import {OurpalmTableHeaderComponent} from "./component/header/ourpalm-table-header.component";
+import {OurpalmTableHeaderCellComponent} from "./component/header/ourpalm-table-header-cell.component";
+import {OurpalmTableColumnComponent} from "./component/body/ourpalm-table-column.component";
+import {OurpalmTableRowViewComponent} from "./component/body/ourpalm-table-rowview.component";
 
 @NgModule({
     imports: [
@@ -31,26 +21,18 @@ import {GwContextMenuModule} from "glowworm/lib/context-menu";
         GwContextMenuModule.forRoot()
     ],
     declarations: [
-        OurpalmTableComponent,
-        OurpalmTableDynamicColumnComponent,
-        OurpalmTableStaticColumnComponent,
+        OurpalmTableBodyComponent,
+        OurpalmTableBodyCellComponent,
+        OurpalmTableBodyRowViewComponent,
+        OurpalmTableColumnComponent,
+        OurpalmTableRowViewComponent,
         OurpalmTableHeaderComponent,
-        OurpalmTableSettingsComponent,
-        OurpalmTableRowComponent,
-        DynamicEventDirective,
-        OurpalmTablePagingComponent,
-        OurpalmTableColumnTemplateRenderer,
-        ColumnSettingsLeftFilter,
-        ColumnSettingsRightFilter,
-        SafeHtmlPipe,
-        SimpleNgFor,
-        OurpalmTableRowViewComponent
+        OurpalmTableHeaderCellComponent,
+        OurpalmTableComponent
     ],
     exports: [
         OurpalmTableComponent,
-        OurpalmTableStaticColumnComponent,
-        SafeHtmlPipe,
-        SimpleNgFor,
+        OurpalmTableColumnComponent,
         OurpalmTableRowViewComponent
     ]
 })

@@ -11,6 +11,7 @@ import {ObjectRowTableComponent} from "./components/object-row.component";
 import {CardViewComponent} from "./components/card-view.component";
 import {HttpModule} from "@angular/http";
 import {NgForDemoComponent} from "./components/ngfor-demo.component";
+import {OurpalmTableV3Component} from "./components/ourpalm-table-v3.component";
 
 @NgModule({
     declarations: [
@@ -20,7 +21,8 @@ import {NgForDemoComponent} from "./components/ngfor-demo.component";
         StringRowTableComponent,
         ObjectRowTableComponent,
         CardViewComponent,
-        NgForDemoComponent
+        NgForDemoComponent,
+        OurpalmTableV3Component
     ],
     imports: [
         BrowserModule,
