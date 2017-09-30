@@ -391,7 +391,13 @@ export class DynamicTableComponent {
     }
 
     ngDoCheck() {
-        console.log('dynamic table check');
+        console.time("check");
+        console.log('check start');
+    }
+
+    ngAfterViewChecked() {
+        console.timeEnd("check");
+        console.log('check end');
     }
 
     log(event: Event) {
