@@ -1,5 +1,10 @@
 import {
-    ChangeDetectionStrategy, Component, EventEmitter, Input, Output, TemplateRef,
+    ChangeDetectionStrategy,
+    Component,
+    EventEmitter,
+    Input,
+    Output,
+    TemplateRef,
     ViewEncapsulation
 } from "@angular/core";
 import {OurpalmTableColumn} from "../../model/ourpalm-table-column";
@@ -15,7 +20,7 @@ import {OurpalmTableCell} from "../../model/ourpalm-table-cell";
         <ng-container *ngFor="let row of rows; let i = index;">
             <ng-container *ngIf="rowViewShowType !== 'rowView'">
                 <tr [ngClass]="{'row-selected': row.selected}"
-                    (click)="onClickRow.emit(row)"
+                    (click)="onClickRow.emit({row: row, event: $event})"
                     (dblclick)="onDbClickRow.emit(row)">
                     <ng-container *ngFor="let column of columns; let j = index">
                         <td ourpalm-table-body-cell
@@ -56,7 +61,7 @@ export class OurpalmTableBodyComponent {
     @Input() rowViewTemplate: TemplateRef<any>;
 
     /** 用户点击一行的时候触发 */
-    @Output() onClickRow: EventEmitter<OurpalmTableRow> = new EventEmitter();
+    @Output() onClickRow: EventEmitter<any> = new EventEmitter();
     /** 用户双击一行的时候触发 */
     @Output() onDbClickRow: EventEmitter<OurpalmTableRow> = new EventEmitter();
     /** 用户点击单元格的时候触发 */

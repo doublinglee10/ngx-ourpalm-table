@@ -21,7 +21,8 @@ import {OurpalmTableCell} from "../model/ourpalm-table-cell";
         <table [ngClass]="tableClass">
             <thead ourpalm-table-header
                    [columns]="columns"
-                   (onHeaderCheckBoxChange)="onHeaderCheckBoxChange.emit($event)"
+                   [checkAll]="checkAll"
+                   (checkAllChange)="onHeaderCheckBoxChangeEvent($event)"
                    (onSortColumn)="onSortColumn.emit($event)">
             </thead>
             <tbody ourpalm-table-body
@@ -30,24 +31,42 @@ import {OurpalmTableCell} from "../model/ourpalm-table-cell";
                    [rowView]="rowView"
                    [rowViewShowType]="rowViewShowType"
                    [rowViewTemplate]="rowViewTemplate"
-                   (onClickRow)="onClickRow.emit($event)"
+                   (onClickRow)="onClickRowEvent($event)"
                    (onDbClickRow)="onDbClickRow.emit($event)"
                    (onClickCell)="onClickCell.emit($event)"
                    (onDbClickCell)="onDbClickCell.emit($event)"
-                   (onRowCheckBoxChange)="onRowCheckBoxChange.emit($event)">
+                   (onRowCheckBoxChange)="onRowCheckBoxChangeEvent($event)">
             </tbody>
-            <tfoot>
-
+            <tfoot *ngIf="pagination"
+                   ourpalm-table-paging
+                   [currentPage]="currentPage"
+                   (currentPageChange)="currentPageChange.emit($event)"
+                   [pageSize]="pageSize"
+                   (pageSizeChange)="pageSizeChange.emit($event)"
+                   [total]="total"
+                   [rows]="rows.length"
+                   [skipPage]="skipPage"
+                   [pageList]="pageList"
+                   [showRefreshBtn]="showRefreshBtn"
+                   (onChange)="onPagingChange.emit($event)"
+                   (onRefresh)="onPagingRefresh.emit($event)">
             </tfoot>
         </table>
-    `
+    `,
+    styleUrls: [
+        '../styles/index.css'
+    ]
 })
 export class OurpalmTableComponent {
 
-    @Input() table;
+    @Input('table') _table; //TODO delete
 
     @Input() tableClass: string = 'table table-bordered table-striped table-hover text-center';
 
+    /** 当前页 */
+    @Input() currentPage: number = 1;
+    /** 每页显示数据条数 */
+    @Input() pageSize: number = 10;
     /** 是否显示分页控件 */
     @Input() pagination: boolean = true;
     /** 在设置分页属性的时候 初始化页面大小选择列表 */
@@ -62,6 +81,16 @@ export class OurpalmTableComponent {
     @Input() showSettingBtn: boolean = true;
     /** 是否打开自定义列表项 */
     @Input() openSettings: boolean = false;
+    /** 分页触发加载数据事件 */
+    @Output() onPagingChange: EventEmitter<void> = new EventEmitter<void>();
+    /** 分页刷新触发加载数据事件 */
+    @Output() onPagingRefresh: EventEmitter<void> = new EventEmitter<void>();
+    /** currentPage 双向绑定 */
+    @Output() currentPageChange: EventEmitter<number> = new EventEmitter();
+    /** pageSize 双向绑定 */
+    @Output() pageSizeChange: EventEmitter<number> = new EventEmitter();
+    /** check all rows */
+    @Input() checkAll: boolean = false;
 
     /** 客户端存储table信息是对应存放在localStorage中的key */
     @Input() cacheKey: string = '';
@@ -108,7 +137,7 @@ export class OurpalmTableComponent {
     @Output() onSortColumn: EventEmitter<OurpalmTableColumn> = new EventEmitter<OurpalmTableColumn>();
 
     /** 总共多少条数据用来计算分页 */
-    @Input() total: number;
+    @Input() total: number = 0;
 
     /** 表格数据 */
     rows: OurpalmTableRow[];
@@ -138,8 +167,27 @@ export class OurpalmTableComponent {
     }
 
     /** 用户点击一行的时候触发 */
-    onClickRowEvent(row: OurpalmTableRow) {
+    onClickRowEvent({row, event}) {
+        if (this.singleSelect || (!this.singleSelect && this.ctrlSelect && !event.ctrlKey)) {
+            this.rows.forEach((_row) => {
+                if (row !== _row) {
+                    _row.selected = false;
+                } else {
+                    _row.selected = !_row.selected;
+                }
+            });
+        } else {
+            row.selected = !row.selected;
+        }
 
+        if (this.selectOnCheck) {
+            this.rows.forEach((row) => {
+                if (row.checked != row.selected) {
+                    row.checked = row.selected;
+                }
+            });
+            console.log('row', row);
+        }
     }
 
     /** 用户双击一行的时候触发 */
@@ -159,16 +207,55 @@ export class OurpalmTableComponent {
 
     /** 用户选择列表行checkbox时触发 */
     onRowCheckBoxChangeEvent(row: OurpalmTableRow) {
+        if (this.singleSelect && row.checked) {
+            this.rows.forEach((row) => {
+                row.checked = false;
+            });
+            row.checked = true;
+        }
 
+        if (this.checkOnSelect) {
+            row.selected = row.checked;
+        }
+
+        this.onRowCheckBoxChange.emit(row);
     }
 
     /** 用户选择头部checkbox时触发 */
-    onHeaderCheckBoxChangeEvent() {
+    onHeaderCheckBoxChangeEvent(checkAll: boolean) {
+        if (!this.singleSelect) {
+            this.rows = this.rows.map((row) => {
+                return {
+                    ...row,
+                    checked: checkAll
+                }
+            });
+        } else if (!this.checkOnSelect) {
+            this.rows = this.rows.map((row) => {
+                return {
+                    ...row,
+                    checked: false
+                }
+            });
+        }
 
+        if (this.checkOnSelect) {
+            this.rows = this.rows.map((row) => {
+                if (row.checked != row.selected) {
+                    return {...row, ...{selected: row.checked}}
+                }
+                return row;
+            });
+        }
+        this.onHeaderCheckBoxChange.emit();
     }
 
     /** 用户点击头部排序时触发 */
     onSortColumnEvent(column: OurpalmTableColumn) {
 
+    }
+
+    onPagingChangeEvent() {
+        console.log('onPagingChange', this.currentPage, this.pageSize);
     }
 }

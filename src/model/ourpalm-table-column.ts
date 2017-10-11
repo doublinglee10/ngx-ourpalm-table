@@ -25,8 +25,27 @@ export class OurpalmTableColumn {
     /** 单元格formatter(格式化器)函数 */
     formatter?: (value: any, row: any) => {} = (value, row) => value;
     /** 列排序函数 */
-    sorter?: (column: OurpalmTableColumn, row1: any, row2: any) => {} | any = (column, row1, row2) => {
-        return row1[column.field] - row2[column.field];
+    sorter?: (column: OurpalmTableColumn, row1: any, row2: any) => any = (column, row1, row2) => {
+        let param1 = row1[column.field];
+        let param2 = row2[column.field];
+        //如果两个参数均为字符串类型
+        if (typeof param1 == "string" && typeof param2 == "string") {
+            return param1.localeCompare(param2);
+        }
+        //如果参数1为数字，参数2为字符串
+        if (typeof param1 == "number" && typeof param2 == "string") {
+            return -1;
+        }
+        //如果参数1为字符串，参数2为数字
+        if (typeof param1 == "string" && typeof param2 == "number") {
+            return 1;
+        }
+        //如果两个参数均为数字
+        if (typeof param1 == "number" && typeof param2 == "number") {
+            if (param1 > param2) return 1;
+            if (param1 == param2) return 0;
+            if (param1 < param2) return -1;
+        }
     };
 
     template?: TemplateRef<any>;

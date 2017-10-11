@@ -1,4 +1,14 @@
-import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewEncapsulation} from "@angular/core";
+import {
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    DoCheck,
+    EventEmitter,
+    Input,
+    OnChanges,
+    Output,
+    ViewEncapsulation
+} from "@angular/core";
 import {OurpalmTableColumn} from "../../model/ourpalm-table-column";
 import {OurpalmTableRow} from "../../model/ourpalm-table-row";
 
@@ -21,6 +31,7 @@ import {OurpalmTableRow} from "../../model/ourpalm-table-row";
             </ng-container>
             <!-- checkbox列 -->
             <ng-container *ngIf="column.checkbox">
+                {{row.checked}}
                 <input type="checkbox" [(ngModel)]="row.checked" (change)="onRowCheckBoxChange.emit($event)"
                        (click)="onClickCheckBox($event)">
             </ng-container>
@@ -31,12 +42,15 @@ import {OurpalmTableRow} from "../../model/ourpalm-table-row";
         </ng-container>
     `
 })
-export class OurpalmTableBodyCellComponent {
+export class OurpalmTableBodyCellComponent implements OnChanges, DoCheck {
 
     @Input() column: OurpalmTableColumn;
     @Input() row: OurpalmTableRow;
 
     @Output() onRowCheckBoxChange: EventEmitter<any> = new EventEmitter();
+
+    constructor(public changeDetectorRef: ChangeDetectorRef) {
+    }
 
     get value(): any {
         return this.column.formatter ? this.column.formatter(this.row.data[this.column.field], this.row.data) : this.row.data[this.column.field];
@@ -45,5 +59,23 @@ export class OurpalmTableBodyCellComponent {
     onClickCheckBox(event: Event) {
         //会触发cell的点击事件和row的select事件，所以这里需要阻止事件冒泡
         event.stopPropagation();
+    }
+
+    private _pre_selected: any;
+    private _pre_checked: any;
+
+    ngOnChanges() {
+        console.log('ngOnChanges', this.row);
+        if (this.row) {
+            this._pre_selected = this.row.selected;
+            this._pre_checked = this.row.checked;
+        }
+    }
+
+    ngDoCheck() {
+        if (this.row && (this.row.checked != this._pre_checked || this.row.selected != this._pre_selected)) {
+            console.log('ngDoCheck', this._pre_checked, this._pre_selected, this.row);
+            this.changeDetectorRef.markForCheck();
+        }
     }
 }

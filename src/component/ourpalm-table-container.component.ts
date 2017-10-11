@@ -5,38 +5,47 @@ import {OurpalmTableColumnComponent} from "./body/ourpalm-table-column.component
 import {OurpalmTableColumn} from "../model/ourpalm-table-column";
 import {OurpalmTableRow} from "../model/ourpalm-table-row";
 import {OurpalmTableCell} from "../model/ourpalm-table-cell";
+import {sortColumns} from "../utils/column-helpers";
 
 @Component({
     selector: 'ourpalm-table-container',
     template: `
         <ourpalm-table
                 [tableClass]="table?.tableClass"
+                [singleSelect]="table?.singleSelect"
+                [checkOnSelect]="table?.checkOnSelect"
+                [selectOnCheck]="table?.selectOnCheck"
+                [ctrlSelect]="table?.ctrlSelect"
+
                 [columns]="table?.columns"
-                [rows]=""
+                (onHeaderCheckBoxChange)="onHeaderCheckBoxChangeEvent($event)"
+                (onSortColumn)="onSortColumnEvent($event)"
 
-                [pagination]="table.pagination"
-                [pagePosition]="table.pagePosition"
-                [pageList]="table.pageList"
-                [skipPage]="table.skipPage"
-                [showRefreshBtn]="table.showRefreshBtn"
-                [showSettingBtn]="table.showSettingBtn"
-                [openSettings]="table.openSettings"
-
+                [rows]="table?.rows"
+                [rowView]="table?.rowView"
+                [rowViewShowType]="table?.rowViewShowType"
+                [rowViewTemplate]="table?.rowViewTemplate"
                 (onClickRow)="onClickRowEvent($event)"
                 (onDbClickRow)="onDblClickRowEvent($event)"
                 (onClickCell)="onClickCellEvent($event)"
                 (onDbClickCell)="onDblClickCellEvent($event)"
                 (onRowCheckBoxChange)="onRowCheckBoxChangeEvent($event)"
-                (onHeaderCheckBoxChange)="onHeaderCheckBoxChangeEvent($event)"
-                (onSortColumn)="onSortColumnEvent($event)">
+
+                [pagination]="table?.pagination"
+                [(currentPage)]="table.currentPage"
+                [(pageSize)]="table.pageSize"
+                [total]="table?.total"
+                [skipPage]="table?.skipPage"
+                [pageList]="table?.pageList"
+                [showRefreshBtn]="table?.showRefreshBtn"
+                (onPagingChange)="onPagingChangeEvent($event)"
+                (onPagingRefresh)="onPagingChangeEvent($event)">
         </ourpalm-table>
     `
 })
-export class OurpalmTableHeaderComponent implements AfterContentInit {
+export class OurpalmTableContainerComponent implements AfterContentInit {
 
-    @Input('table') _table: OurpalmTable;
-
-    table: OurpalmTable;
+    @Input('table') table: OurpalmTable;
 
     @ContentChildren(OurpalmTableColumnComponent)
     private columnComponents: QueryList<OurpalmTableColumnComponent>;
@@ -50,7 +59,15 @@ export class OurpalmTableHeaderComponent implements AfterContentInit {
             return new OurpalmTableColumn(column);
         });
 
+        if (staticColumns.length > 0) {
+            this.table.columns = staticColumns;
+        }
 
+        if (this.rowViewComponent) {
+            this.table.rowViewTemplate = this.rowViewComponent.template;
+        }
+
+        this.onPagingChangeEvent();
     }
 
     /** 用户点击一行的时候触发 */
@@ -85,6 +102,10 @@ export class OurpalmTableHeaderComponent implements AfterContentInit {
 
     /** 用户点击头部排序时触发 */
     onSortColumnEvent(column: OurpalmTableColumn) {
-        // this.table.sort
+        sortColumns(column, this.table);
+    }
+
+    onPagingChangeEvent() {
+        this.table.invokeLoadData();
     }
 }

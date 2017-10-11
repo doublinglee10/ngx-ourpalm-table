@@ -14,7 +14,9 @@ import {OurpalmTableColumn} from "../../model/ourpalm-table-column";
         </span>
         <!-- checkbox列 -->
         <ng-container *ngIf="column.checkbox">
-            <input type="checkbox" [(ngModel)]="checkAll" (change)="onHeaderCheckBoxChange.next()">
+            <input type="checkbox"
+                   [(ngModel)]="checkAll"
+                   (change)="onHeaderCheckBoxChange.emit($event);checkAllChange.emit(checkAll)">
         </ng-container>
         <!-- 正常列 | 序号列-->
         <ng-container *ngIf="!column.sort && !column.checkbox">
@@ -24,9 +26,10 @@ import {OurpalmTableColumn} from "../../model/ourpalm-table-column";
 })
 export class OurpalmTableHeaderCellComponent {
 
+    @Input() checkAll: boolean = false;
     @Input() column: OurpalmTableColumn;
 
-    @Output() onHeaderCheckBoxChange: EventEmitter<void> = new EventEmitter<void>();
-    @Output() onSortColumn: EventEmitter<OurpalmTableColumn> = new EventEmitter<OurpalmTableColumn>();
-
+    @Output() onHeaderCheckBoxChange: EventEmitter<any> = new EventEmitter();
+    @Output() checkAllChange: EventEmitter<any> = new EventEmitter();
+    @Output() onSortColumn: EventEmitter<OurpalmTableColumn> = new EventEmitter();
 }

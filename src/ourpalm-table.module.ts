@@ -12,6 +12,8 @@ import {OurpalmTableHeaderComponent} from "./component/header/ourpalm-table-head
 import {OurpalmTableHeaderCellComponent} from "./component/header/ourpalm-table-header-cell.component";
 import {OurpalmTableColumnComponent} from "./component/body/ourpalm-table-column.component";
 import {OurpalmTableRowViewComponent} from "./component/body/ourpalm-table-rowview.component";
+import {OurpalmTablePagingComponent} from "./component/footer/ourpalm-table-footer-paging.component";
+import {OurpalmTableContainerComponent} from "./component/ourpalm-table-container.component";
 
 @NgModule({
     imports: [
@@ -27,13 +29,16 @@ import {OurpalmTableRowViewComponent} from "./component/body/ourpalm-table-rowvi
         OurpalmTableColumnComponent,
         OurpalmTableRowViewComponent,
         OurpalmTableHeaderComponent,
+        OurpalmTablePagingComponent,
         OurpalmTableHeaderCellComponent,
-        OurpalmTableComponent
+        OurpalmTableComponent,
+        OurpalmTableContainerComponent
     ],
     exports: [
         OurpalmTableComponent,
         OurpalmTableColumnComponent,
-        OurpalmTableRowViewComponent
+        OurpalmTableRowViewComponent,
+        OurpalmTableContainerComponent
     ]
 })
 export class OurpalmTableModule {

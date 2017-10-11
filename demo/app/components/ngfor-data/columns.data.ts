@@ -577,6 +577,7 @@ let _columns = {
 export const ngfor_columns = _columns.data.columnList.filter(row => row.view == '1').map((row) => {
     return {
         header: row.desc,
-        field: row.name
+        field: row.name,
+        sort: true
     }
 });

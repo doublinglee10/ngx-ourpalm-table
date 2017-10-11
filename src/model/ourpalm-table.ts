@@ -25,6 +25,8 @@ export class OurpalmTable {
 
     /** 表格的class */
     tableClass: string = 'table table-bordered table-striped table-hover text-center';
+    /** check all rows */
+    checkAllRows: boolean;
     /** 初始化table的时候是否自动加载数据 */
     autoLoadData?: boolean = true;
     /** 表格列属性 */
@@ -75,10 +77,10 @@ export class OurpalmTable {
     /** 自定义行渲染模板*/
     rowViewTemplate?: TemplateRef<any>;
     /** 自定义行渲染模式 */
-    rowViewShowType: RowViewShowType = 'rowView';
+    rowViewShowType: RowViewShowType = 'column';
 
     /** 加载数据成功回调 */
-    loadData: (table: OurpalmTable, callback: (page: Page) => {}) => {} = () => {
+    loadData: (table: OurpalmTable, callback: (page: Page) => void) => {} = () => {
         return null;
     };
     /** 用户点击一行的时候触发 */
@@ -104,8 +106,6 @@ export class OurpalmTable {
     rows: any[] = []; //当前页数据
     currentPage: number = 1; //当前第几页
     pageSize: number = 10; //当前页大小
-
-    tmpCurrentPage?: number = 0;
 
     private tableComponent?: OurpalmTableComponent;
 
@@ -147,7 +147,6 @@ export class OurpalmTable {
         this.total = page.total;
         this.rows = page.rows;
         this.currentPage = page.currentPage || this.currentPage;
-        this.tmpCurrentPage = this.allPage > 0 ? (page.currentPage || this.currentPage) : 0;
         this.reflowTable();
     }
 
