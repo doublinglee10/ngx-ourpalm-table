@@ -3,6 +3,8 @@ import {
     Component,
     EventEmitter,
     Input,
+    OnDestroy,
+    OnInit,
     Output,
     TemplateRef,
     ViewEncapsulation
@@ -11,6 +13,7 @@ import {OurpalmTableColumn} from "../../model/ourpalm-table-column";
 import {OurpalmTableRow} from "../../model/ourpalm-table-row";
 import {RowView, RowViewShowType} from "../../model/ourpalm-table";
 import {OurpalmTableCell} from "../../model/ourpalm-table-cell";
+import {ContextMenu, ContextMenuService} from "glowworm/lib/context-menu";
 
 @Component({
     selector: '[ourpalm-table-body]',
@@ -29,7 +32,8 @@ import {OurpalmTableCell} from "../../model/ourpalm-table-cell";
                             [column]="column"
                             (click)="onClickCellEvent(j, column, row)"
                             (dblclick)="onDbClickCellEvent(j, column, row)"
-                            (onRowCheckBoxChange)="onRowCheckBoxChange.emit(row)">
+                            (onRowCheckBoxChange)="onRowCheckBoxChange.emit(row)"
+                            (contextmenu)="onContextMenu($event, i, j, row, column)">
                         </td>
                     </ng-container>
                 </tr>
@@ -47,8 +51,7 @@ import {OurpalmTableCell} from "../../model/ourpalm-table-cell";
         </ng-container>
     `
 })
-export class OurpalmTableBodyComponent {
-
+export class OurpalmTableBodyComponent implements OnInit, OnDestroy {
 
     @Input() columns: OurpalmTableColumn[];
     @Input() rows: OurpalmTableRow[];
@@ -71,6 +74,32 @@ export class OurpalmTableBodyComponent {
     /** 用户选择列表行checkbox时触发 */
     @Output() onRowCheckBoxChange: EventEmitter<OurpalmTableRow> = new EventEmitter();
 
+    constructor(private contextMenuService: ContextMenuService) {
+    }
+
+    /** 行上下文菜单 */
+    _rowMenus: ContextMenu[];
+
+    @Input() set rowMenus(rowMenus: ContextMenu[]) {
+        this._rowMenus = this._deepCloneMenus(rowMenus);
+        console.log(this._rowMenus);
+    }
+
+    get rowMenus() {
+        return this._rowMenus;
+    }
+
+    ngOnInit(): void {
+        if (this.rowMenus && this.rowMenus.length > 0) {
+            this.contextMenuService.onMenuDirectiveInit();
+        }
+    }
+
+    ngOnDestroy(): void {
+        if (this.rowMenus && this.rowMenus.length > 0) {
+            this.contextMenuService.onMenuDirectiveDestroy();
+        }
+    }
 
     onClickCellEvent(cellIndex: number, row: OurpalmTableRow, column: OurpalmTableColumn) {
         this.onClickCell.emit({
@@ -86,5 +115,41 @@ export class OurpalmTableBodyComponent {
             row,
             column
         });
+    }
+
+    onContextMenu(event: any, rowIndex: number, cellIndex: number, row: OurpalmTableRow, column: OurpalmTableColumn) {
+        if (!column.disabledContextMenu) {
+            event.preventDefault();
+            event.stopPropagation();
+
+            if (!row.selected) {
+                this.onClickRow.emit({row: row, event: event});
+            }
+
+            // 如果当前列没有禁用右键菜单，且 可显示的右键菜单数不为0
+            let length = this.rowMenus.filter((menu: ContextMenu) => !menu.separator).filter((menu: ContextMenu) => {
+                return typeof menu.show === 'function' ? menu.show() : menu.show;
+            }).length;
+
+            if (length > 0) {
+                this.contextMenuService.show.next({
+                    event: event,
+                    menus: this.rowMenus
+                });
+            }
+        }
+    }
+
+    private _deepCloneMenus(menus: ContextMenu[]): ContextMenu[] {
+        if (!menus) return;
+
+        function deepCloneMenu(menu: ContextMenu): ContextMenu {
+            if (menu.submenus) {
+                menu.submenus = menu.submenus.map((submenu) => deepCloneMenu(submenu));
+            }
+            return new ContextMenu(menu);
+        }
+
+        return menus.map(menu => deepCloneMenu(menu));
     }
 }

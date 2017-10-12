@@ -16,6 +16,7 @@ import {sortColumns} from "../utils/column-helpers";
                 [checkOnSelect]="table?.checkOnSelect"
                 [selectOnCheck]="table?.selectOnCheck"
                 [ctrlSelect]="table?.ctrlSelect"
+                [rowMenus]="table?.rowMenus"
 
                 [columns]="table?.columns"
                 (onHeaderCheckBoxChange)="onHeaderCheckBoxChangeEvent($event)"
@@ -32,6 +33,7 @@ import {sortColumns} from "../utils/column-helpers";
                 (onRowCheckBoxChange)="onRowCheckBoxChangeEvent($event)"
 
                 [pagination]="table?.pagination"
+                [pagePosition]="table?.pagePosition"
                 [(currentPage)]="table.currentPage"
                 [(pageSize)]="table.pageSize"
                 [total]="table?.total"

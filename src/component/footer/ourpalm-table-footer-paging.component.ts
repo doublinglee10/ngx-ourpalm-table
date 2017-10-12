@@ -5,44 +5,42 @@ import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewEnc
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
     template: `
-        <tr>
-            <td colspan="10000">
-                <span class="page-left">
-                    <select class="form-control input-sm"
-                            [(ngModel)]="_pageSize"
-                            (change)="_changePageSize()">
-                        <option *ngFor="let val of pageList" [value]="val">{{val}}</option>
-                    </select>
-                    <button class="glyphicon glyphicon-step-backward ourpalm-table-pager"
-                            (click)="_jumpPage(_firstPage)"
-                            [disabled]="_currentPage <= 1">
-                    </button>
-                    <button class="glyphicon glyphicon-backward ourpalm-table-pager"
-                            (click)="_jumpPage(_currentPage - 1)"
-                            [disabled]="_currentPage <= 1">
-                    </button>
-                    第
-                    <input type="number" min="1" max="{{_lastPage}}"
-                           [readonly]="!skipPage"
-                           [ngModel]="currentPage"
-                           (ngModelChange)="_changeCurrentPage($event)"
-                           class="form-control input-sm"/>
-                    页,共{{_lastPage}}页
-                    <button class="glyphicon glyphicon-forward ourpalm-table-pager"
-                            (click)="_jumpPage(_currentPage + 1)"
-                            [disabled]="_currentPage == _lastPage || _lastPage == 0">
-                    </button>
-                    <button class="glyphicon glyphicon-step-forward ourpalm-table-pager"
-                            (click)="_jumpPage(_lastPage)"
-                            [disabled]="_currentPage == _lastPage || _lastPage == 0">
-                    </button>
-                    <button *ngIf="showRefreshBtn" class="glyphicon glyphicon-refresh ourpalm-table-pager"
-                            (click)="onRefresh.emit(_currentPage)">
-                    </button>
-                </span>
-                <span class="page-right">显示{{_start}}-{{_end}}条记录,共{{_total}}条记录</span>
-            </td>
-        </tr>
+        <td colspan="10000">
+            <span class="page-left">
+                <select class="form-control input-sm"
+                        [(ngModel)]="_pageSize"
+                        (change)="_changePageSize()">
+                    <option *ngFor="let val of pageList" [value]="val">{{val}}</option>
+                </select>
+                <button class="glyphicon glyphicon-step-backward ourpalm-table-pager"
+                        (click)="_jumpPage(_firstPage)"
+                        [disabled]="_currentPage <= 1">
+                </button>
+                <button class="glyphicon glyphicon-backward ourpalm-table-pager"
+                        (click)="_jumpPage(_currentPage - 1)"
+                        [disabled]="_currentPage <= 1">
+                </button>
+                第
+                <input type="number" min="1" max="{{_lastPage}}"
+                       [readonly]="!skipPage"
+                       [ngModel]="currentPage"
+                       (ngModelChange)="_changeCurrentPage($event)"
+                       class="form-control input-sm"/>
+                页,共{{_lastPage}}页
+                <button class="glyphicon glyphicon-forward ourpalm-table-pager"
+                        (click)="_jumpPage(_currentPage + 1)"
+                        [disabled]="_currentPage == _lastPage || _lastPage == 0">
+                </button>
+                <button class="glyphicon glyphicon-step-forward ourpalm-table-pager"
+                        (click)="_jumpPage(_lastPage)"
+                        [disabled]="_currentPage == _lastPage || _lastPage == 0">
+                </button>
+                <button *ngIf="showRefreshBtn" class="glyphicon glyphicon-refresh ourpalm-table-pager"
+                        (click)="onRefresh.emit(_currentPage)">
+                </button>
+            </span>
+            <span class="page-right">显示{{_start}}-{{_end}}条记录,共{{_total}}条记录</span>
+        </td>
     `
 })
 export class OurpalmTablePagingComponent {

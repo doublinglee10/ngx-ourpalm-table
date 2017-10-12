@@ -6,17 +6,15 @@ import {OurpalmTableColumn} from "../../model/ourpalm-table-column";
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
     template: `
-        <tr>
-            <th *ngFor="let column of columns" [class.hidden]="!column.show"><!-- 隐藏列 -->
-                <ourpalm-table-header-cell
-                        [column]="column"
-                        [checkAll]="checkAll"
-                        (checkAllChange)="checkAllChange.emit($event)"
-                        (onSortColumn)="onSortColumn.emit($event)"
-                        (onHeaderCheckBoxChange)="onHeaderCheckBoxChange.emit($event)">
-                </ourpalm-table-header-cell>
-            </th>
-        </tr>
+        <th *ngFor="let column of columns" [class.hidden]="!column.show"><!-- 隐藏列 -->
+            <ourpalm-table-header-cell
+                    [column]="column"
+                    [checkAll]="checkAll"
+                    (checkAllChange)="checkAllChange.emit($event)"
+                    (onSortColumn)="onSortColumn.emit($event)"
+                    (onHeaderCheckBoxChange)="onHeaderCheckBoxChange.emit($event)">
+            </ourpalm-table-header-cell>
+        </th>
     `
 })
 export class OurpalmTableHeaderComponent {

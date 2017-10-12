@@ -1,7 +1,6 @@
 import {Component} from "@angular/core";
 import {ngfor_page2_rows} from "./ngfor-data/page2.data";
 import {ngfor_page1_rows} from "./ngfor-data/page1.data";
-import {ngfor_columns} from "./ngfor-data/columns.data";
 import {OurpalmTable, Page} from "../../../src/model/ourpalm-table";
 
 @Component({
@@ -35,49 +34,130 @@ export class OurpalmTableV3Component {
 
     table: OurpalmTable;
 
+    table1Columns: any[];
+    table2Columns: any[];
+    table3Columns: any[];
+
     ngOnInit() {
-        this.columns = ngfor_columns;
+        this.table1Columns = [];
+        for (let i = 0; i < 10; i++) {
+            this.table1Columns.push({
+                field: 'field1-' + i,
+                header: 'header1-' + i
+            });
+        }
+        this.table1Columns.unshift({
+            field: 'checkbox',
+            header: '选择列',
+            checkbox: true
+        }, {
+            field: 'rownumbers',
+            header: '序号',
+            rownumbers: true,
+            show: false,
+            disabledContextMenu: true
+        });
+
+        this.table2Columns = [];
+        for (let i = 0; i < 20; i++) {
+            this.table2Columns.push({
+                field: 'field2-' + i,
+                header: 'header2-' + i
+            });
+        }
+        this.table2Columns.unshift({
+            field: 'checkbox',
+            header: '选择列',
+            checkbox: true
+        }, {
+            field: 'rownumbers',
+            header: '序号',
+            rownumbers: true,
+            show: false
+        });
+
+        this.table3Columns = [];
+        for (let i = 0; i < 50; i++) {
+            this.table3Columns.push({
+                field: 'field3-' + i,
+                header: 'header3-' + i
+            });
+        }
+        this.table3Columns.unshift({
+            field: 'checkbox',
+            header: '选择列',
+            checkbox: true
+        }, {
+            field: 'rownumbers',
+            header: '序号',
+            rownumbers: true,
+            show: false
+        });
 
         this.table = new OurpalmTable({
-            columns: [{
-                header: '全选',
-                checkbox: true
-            }, {
-                header: '序号',
-                rownumbers: true
-            }, {
-                header: '姓名',
-                field: 'name',
-                sort: true
-            }, {
-                header: '年龄',
-                field: 'age',
-                sort: true
-            }],
+            columns: this.table2Columns,
             serverSort: false,
-            pageSize: 10,
-            pageList: [10, 50, 100, 200, 1000],
+            pagePosition: 'bottom',
+            cacheKey: 'table01',
+            pageSize: 2,
+            pageList: [2, 5, 10, 50, 100, 200, 1000],
             loadData: (table: OurpalmTable, callback: (page: Page) => {}) => {
-                var start = (table.currentPage - 1) * table.pageSize + 1;
-                var end = (+start) + (+table.pageSize);
-                end = end > 1186 ? 1186 : end;
-                //构造服务器假数据
-                var rows = [];
-                for (; start < end; start++) {
-                    rows.push({
-                        name: `zhangsan${start}`,
-                        age: start,
-                        email: `zhangsan${start}@163.com`
-                    });
+                let rows = [];
+                let start = (table.currentPage - 1) * table.pageSize + 1;
+                let end = +start + (+table.pageSize);
+                for (let i = start; i < end; i++) {
+                    let row: any = {};
+                    for (let j = 0; j < 20; j++) {
+                        row['field2-' + j] = `data2-${i}-${this.randomStr()}`;
+                    }
+                    rows.push(row);
                 }
 
-                setTimeout(function () {
+                console.log('load data success');
+
+                setTimeout(() => {
                     callback({
-                        total: 1186,
+                        total: 486000,
                         rows: rows
                     });
-                }, 100);
-            }
+                });
+            },
+            rowMenus: [
+                {
+                    text: '新建',
+                    submenus: [{
+                        text: '文件',
+                        iconCls: 'fa fa-file'
+                    }, {
+                        text: '文件夹',
+                        iconCls: 'fa fa-folder'
+                    }, {
+                        text: '.ignore file',
+                        submenus: [{
+                            text: '.gitignore file(Git)'
+                        }, {
+                            text: '.cvsignore file(Cvs)'
+                        }]
+                    }]
+                },
+                {
+                    text: '打开',
+                    onclick: function () {
+                        alert('打开')
+                    },
+                    show: () => {
+                        return this.table.getSelectedRows().length % 2 == 0;
+                    }
+                },
+                {
+                    separator: true
+                }, {
+                    text: '设置',
+                    onclick: function () {
+                        alert('设置')
+                    }
+                }
+            ]
         });
     }
 
@@ -87,6 +167,10 @@ export class OurpalmTableV3Component {
 
     page2() {
         this.rows = ngfor_page2_rows;
+    }
+
+    randomStr() {
+        return Math.random().toString(36).substring(2, 15);
     }
 
     ngDoCheck() {

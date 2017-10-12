@@ -19,15 +19,32 @@ import {OurpalmTableCell} from "../model/ourpalm-table-cell";
     encapsulation: ViewEncapsulation.None,
     template: `
         <table [ngClass]="tableClass">
-            <thead ourpalm-table-header
-                   [columns]="columns"
-                   [checkAll]="checkAll"
-                   (checkAllChange)="onHeaderCheckBoxChangeEvent($event)"
-                   (onSortColumn)="onSortColumn.emit($event)">
+            <thead>
+                <tr *ngIf="pagination && pagePosition !== 'bottom'"
+                    ourpalm-table-paging
+                    [currentPage]="currentPage"
+                    (currentPageChange)="currentPageChange.emit($event)"
+                    [pageSize]="pageSize"
+                    (pageSizeChange)="pageSizeChange.emit($event)"
+                    [total]="total"
+                    [rows]="rows.length"
+                    [skipPage]="skipPage"
+                    [pageList]="pageList"
+                    [showRefreshBtn]="showRefreshBtn"
+                    (onChange)="onPagingChange.emit($event)"
+                    (onRefresh)="onPagingRefresh.emit($event)">
+                </tr>
+                <tr ourpalm-table-header
+                    [columns]="columns"
+                    [checkAll]="checkAll"
+                    (checkAllChange)="onHeaderCheckBoxChangeEvent($event)"
+                    (onSortColumn)="onSortColumn.emit($event)">
+                </tr>
             </thead>
             <tbody ourpalm-table-body
                    [columns]="columns"
                    [rows]="rows"
+                   [rowMenus]="rowMenus"
                    [rowView]="rowView"
                    [rowViewShowType]="rowViewShowType"
                    [rowViewTemplate]="rowViewTemplate"
@@ -37,19 +54,21 @@ import {OurpalmTableCell} from "../model/ourpalm-table-cell";
                    (onDbClickCell)="onDbClickCell.emit($event)"
                    (onRowCheckBoxChange)="onRowCheckBoxChangeEvent($event)">
             </tbody>
-            <tfoot *ngIf="pagination"
-                   ourpalm-table-paging
-                   [currentPage]="currentPage"
-                   (currentPageChange)="currentPageChange.emit($event)"
-                   [pageSize]="pageSize"
-                   (pageSizeChange)="pageSizeChange.emit($event)"
-                   [total]="total"
-                   [rows]="rows.length"
-                   [skipPage]="skipPage"
-                   [pageList]="pageList"
-                   [showRefreshBtn]="showRefreshBtn"
-                   (onChange)="onPagingChange.emit($event)"
-                   (onRefresh)="onPagingRefresh.emit($event)">
+            <tfoot>
+                <tr *ngIf="pagination && pagePosition !== 'top'"
+                    ourpalm-table-paging
+                    [currentPage]="currentPage"
+                    (currentPageChange)="currentPageChange.emit($event)"
+                    [pageSize]="pageSize"
+                    (pageSizeChange)="pageSizeChange.emit($event)"
+                    [total]="total"
+                    [rows]="rows.length"
+                    [skipPage]="skipPage"
+                    [pageList]="pageList"
+                    [showRefreshBtn]="showRefreshBtn"
+                    (onChange)="onPagingChange.emit($event)"
+                    (onRefresh)="onPagingRefresh.emit($event)">
+                </tr>
             </tfoot>
         </table>
     `,
@@ -102,9 +121,9 @@ export class OurpalmTableComponent {
     /** 是否限制只能选中一行 */
     @Input() singleSelect: boolean = false;
     /** 是否要服务器排序 */
-    @Input() serverSort: boolean = true;
+    // @Input() serverSort: boolean = true;
     /** 是否允许多列排序 */
-    @Input() multiSort: boolean = true;
+    // @Input() multiSort: boolean = true;
     /** 勾选时选中 */
     @Input() checkOnSelect: boolean = true;
     /** 选中时勾选 */
@@ -186,7 +205,6 @@ export class OurpalmTableComponent {
                     row.checked = row.selected;
                 }
             });
-            console.log('row', row);
         }
     }
 
