@@ -50,7 +50,7 @@ export class OurpalmTableColumn {
 
     template?: TemplateRef<any>;
 
-    constructor(optcolumn: OurpalmTableColumn) {
-        Object.assign(this, optcolumn);
+    constructor(column: OurpalmTableColumn) {
+        Object.assign(this, column);
     }
 }

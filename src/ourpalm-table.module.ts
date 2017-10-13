@@ -14,6 +14,11 @@ import {OurpalmTableColumnComponent} from "./component/body/ourpalm-table-column
 import {OurpalmTableRowViewComponent} from "./component/body/ourpalm-table-rowview.component";
 import {OurpalmTablePagingComponent} from "./component/footer/ourpalm-table-footer-paging.component";
 import {OurpalmTableContainerComponent} from "./component/ourpalm-table-container.component";
+import {
+    ColumnSettingsLeftFilter,
+    ColumnSettingsRightFilter,
+    OurpalmTableSettingComponent
+} from "./component/footer/ourpalm-table-footer-setting.component";
 
 @NgModule({
     imports: [
@@ -32,13 +37,18 @@ import {OurpalmTableContainerComponent} from "./component/ourpalm-table-containe
         OurpalmTablePagingComponent,
         OurpalmTableHeaderCellComponent,
         OurpalmTableComponent,
-        OurpalmTableContainerComponent
+        OurpalmTableContainerComponent,
+        OurpalmTableSettingComponent,
+        ColumnSettingsLeftFilter,
+        ColumnSettingsRightFilter
     ],
     exports: [
         OurpalmTableComponent,
         OurpalmTableColumnComponent,
         OurpalmTableRowViewComponent,
-        OurpalmTableContainerComponent
+        OurpalmTableContainerComponent,
+        ColumnSettingsLeftFilter,
+        ColumnSettingsRightFilter
     ]
 })
 export class OurpalmTableModule {

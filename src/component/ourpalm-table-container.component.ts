@@ -18,7 +18,11 @@ import {sortColumns} from "../utils/column-helpers";
                 [ctrlSelect]="table?.ctrlSelect"
                 [rowMenus]="table?.rowMenus"
 
-                [columns]="table?.columns"
+                [cacheKey]="table?.cacheKey"
+                [cacheColumns]="table?.cacheColumns"
+                [cachePageSize]="table?.cachePageSize"
+
+                [(columns)]="table.columns"
                 (onHeaderCheckBoxChange)="onHeaderCheckBoxChangeEvent($event)"
                 (onSortColumn)="onSortColumnEvent($event)"
 
@@ -40,6 +44,8 @@ import {sortColumns} from "../utils/column-helpers";
                 [skipPage]="table?.skipPage"
                 [pageList]="table?.pageList"
                 [showRefreshBtn]="table?.showRefreshBtn"
+                [showSettingBtn]="table.showSettingBtn"
+                [(openSettings)]="table.openSettings"
                 (onPagingChange)="onPagingChangeEvent($event)"
                 (onPagingRefresh)="onPagingChangeEvent($event)">
         </ourpalm-table>

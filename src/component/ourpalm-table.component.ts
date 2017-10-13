@@ -31,6 +31,9 @@ import {OurpalmTableCell} from "../model/ourpalm-table-cell";
                     [skipPage]="skipPage"
                     [pageList]="pageList"
                     [showRefreshBtn]="showRefreshBtn"
+                    [showSettingBtn]="showSettingBtn"
+                    [openSettings]="openSettings"
+                    (openSettingsChange)="openSettingsChange.emit($event)"
                     (onChange)="onPagingChange.emit($event)"
                     (onRefresh)="onPagingRefresh.emit($event)">
                 </tr>
@@ -66,11 +69,20 @@ import {OurpalmTableCell} from "../model/ourpalm-table-cell";
                     [skipPage]="skipPage"
                     [pageList]="pageList"
                     [showRefreshBtn]="showRefreshBtn"
+                    [showSettingBtn]="showSettingBtn"
+                    [openSettings]="openSettings"
+                    (openSettingsChange)="openSettingsChange.emit($event)"
                     (onChange)="onPagingChange.emit($event)"
                     (onRefresh)="onPagingRefresh.emit($event)">
                 </tr>
             </tfoot>
         </table>
+        <ourpalm-table-setting *ngIf="openSettings"
+                               [columns]="columns"
+                               (columnsChange)="columnsChange.emit($event); updateColumns2LocalStorage();"
+                               [openSettings]="openSettings"
+                               (openSettingsChange)="openSettingsChange.emit($event)">
+        </ourpalm-table-setting>
     `,
     styleUrls: [
         '../styles/index.css'
@@ -100,6 +112,9 @@ export class OurpalmTableComponent {
     @Input() showSettingBtn: boolean = true;
     /** 是否打开自定义列表项 */
     @Input() openSettings: boolean = false;
+    /** 是否打开自定义列表项 -- 双向绑定 */
+    @Output() openSettingsChange: EventEmitter<boolean> = new EventEmitter();
+
     /** 分页触发加载数据事件 */
     @Output() onPagingChange: EventEmitter<void> = new EventEmitter<void>();
     /** 分页刷新触发加载数据事件 */
@@ -163,6 +178,7 @@ export class OurpalmTableComponent {
 
     /** 表格列属性 */
     columns: OurpalmTableColumn[];
+    @Output() columnsChange: EventEmitter<OurpalmTableColumn[]> = new EventEmitter();
 
     /** 原始的表格数据 */
     @Input('rows') set _rows(rows: any[]) {
@@ -275,5 +291,17 @@ export class OurpalmTableComponent {
 
     onPagingChangeEvent() {
         console.log('onPagingChange', this.currentPage, this.pageSize);
+    }
+
+    /** 将列信息更新到localStorage中 */
+    updateColumns2LocalStorage() {
+        console.log('将列信息更新到localStorage中');
+        if (this.cacheKey && this.cacheColumns && window.localStorage) {
+            let columnArr: Array<any> = [];
+            this.columns.forEach((column: OurpalmTableColumn) => {
+                columnArr.push({field: column.field, show: column.show});
+            });
+            window.localStorage.setItem(`ngx-ourpalm-table-${this.cacheKey}-columns`, JSON.stringify(columnArr));
+        }
     }
 }

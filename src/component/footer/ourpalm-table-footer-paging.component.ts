@@ -38,6 +38,8 @@ import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewEnc
                 <button *ngIf="showRefreshBtn" class="glyphicon glyphicon-refresh ourpalm-table-pager"
                         (click)="onRefresh.emit(_currentPage)">
                 </button>
+                <button *ngIf="showSettingBtn" class="glyphicon glyphicon-cog ourpalm-table-pager"
+                        (click)="openSettingsChange.emit(true)"></button>
             </span>
             <span class="page-right">显示{{_start}}-{{_end}}条记录,共{{_total}}条记录</span>
         </td>
@@ -70,6 +72,13 @@ export class OurpalmTablePagingComponent {
     @Output() currentPageChange: EventEmitter<number> = new EventEmitter();
     /** pageSize 双向绑定 */
     @Output() pageSizeChange: EventEmitter<number> = new EventEmitter();
+
+    /** 是否显示设置按钮*/
+    @Input() showSettingBtn: boolean = true;
+    /** 是否打开自定义列表项 */
+    @Input() openSettings: boolean = false;
+    /** 是否打开自定义列表项 -- 双向绑定 */
+    @Output() openSettingsChange: EventEmitter<boolean> = new EventEmitter();
 
     get currentPage() {
         return this._currentPage;

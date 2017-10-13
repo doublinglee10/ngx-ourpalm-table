@@ -1,6 +1,5 @@
 import {Component} from "@angular/core";
 import {ngfor_page2_rows} from "./ngfor-data/page2.data";
-import {ngfor_page1_rows} from "./ngfor-data/page1.data";
 import {OurpalmTable, Page} from "../../../src/model/ourpalm-table";
 
 @Component({
@@ -99,6 +98,8 @@ export class OurpalmTableV3Component {
             serverSort: false,
             pagePosition: 'bottom',
             cacheKey: 'table01',
+            cacheColumns: true,
+            cachePageSize: true,
             pageSize: 2,
             pageList: [2, 5, 10, 50, 100, 200, 1000],
             loadData: (table: OurpalmTable, callback: (page: Page) => {}) => {
@@ -162,7 +163,7 @@ export class OurpalmTableV3Component {
     }
 
     page1() {
-        this.rows = ngfor_page1_rows;
+        this.table.openSettings = true;
     }
 
     page2() {
