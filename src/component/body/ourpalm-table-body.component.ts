@@ -82,7 +82,6 @@ export class OurpalmTableBodyComponent implements OnInit, OnDestroy {
 
     @Input() set rowMenus(rowMenus: ContextMenu[]) {
         this._rowMenus = this._deepCloneMenus(rowMenus);
-        console.log(this._rowMenus);
     }
 
     get rowMenus() {

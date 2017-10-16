@@ -1,7 +1,7 @@
 import {OurpalmTableColumn} from "./ourpalm-table-column";
-import {OurpalmTableComponent} from "../component/ourpalm-table.component";
 import {TemplateRef} from "@angular/core";
 import {ContextMenu} from "glowworm/lib/context-menu";
+import {OurpalmTableRow} from "./ourpalm-table-row";
 
 export interface Page {
     currentPage?: number;
@@ -21,7 +21,7 @@ export interface RowView {
  */
 export class OurpalmTable {
     /** 用户配置的原始的列信息 */
-    __columns?: OurpalmTableColumn[] = [];
+    originalColumns?: OurpalmTableColumn[] = [];
 
     /** 表格的class */
     tableClass: string = 'table table-bordered table-striped table-hover text-center';
@@ -55,15 +55,6 @@ export class OurpalmTable {
     showRefreshBtn?: boolean = true;
     /** 是否显示设置按钮*/
     showSettingBtn?: boolean = true;
-    /** 是否固定到顶部,依赖jquery*/
-    enabledFloatThead?: boolean = false;
-    /** 固定到顶部的距离,单位像素*/
-    floatTheadConfig?: any = {
-        zIndex: 10,
-        responsiveContainer: function ($table) {
-            return $table.closest('.table-responsive');
-        }
-    };
     /** 勾选时选中 */
     checkOnSelect?: boolean = true;
     /** 选中时勾选 */
@@ -103,36 +94,16 @@ export class OurpalmTable {
 
     /** 分页信息 */
     total: number = 0; //总共记录数
-    rows: any[] = []; //当前页数据
-    currentPage: number = 1; //当前第几页
-    pageSize: number = 10; //当前页大小
-
-    private tableComponent?: OurpalmTableComponent;
+    _rows: any[] = []; //当前页数据
+    _currentPage: number = 1; //当前第几页
+    _pageSize: number = 10; //当前页大小
+    /** 表格数据 */
+    tableRows: OurpalmTableRow[] = [];
 
     constructor(table?: OurpalmTable | any) {
         Object.assign(this, table);
-        if (table && table.columns) {
-            this.__columns = this.columns.map(column => new OurpalmTableColumn(column));
-            this.columns = this.columns.map((column) => new OurpalmTableColumn(column));
-        }
-        if (table && table.rowMenus) {
-            this.rowMenus = this._deepCloneMenus(this.rowMenus);
-        }
-        if (table && table.floatTheadConfig) {
-            Object.assign(this.floatTheadConfig, table.floatTheadConfig);
-        }
-
-        if (this.columns && this.columns.length > 0) {
-            //如果不是静态列，就触发。因为静态列这会还没有设置上，设置静态列的时候也会触发 reloadCacheColumns
-            this.reloadCacheColumns();
-        }
-
-        this.reloadCachePageSize();
-        this.reflowTable();
-    }
-
-    reflowTable() {
-        // this.tableComponent && this.tableComponent.reflowTable(); TODO
+        this.changeColumns(this.columns);
+        this._reloadCachePageSize();
     }
 
     onLoadSuccess(_page: Page) {
@@ -147,7 +118,45 @@ export class OurpalmTable {
         this.total = page.total;
         this.rows = page.rows;
         this.currentPage = page.currentPage || this.currentPage;
-        this.reflowTable();
+    }
+
+    get rows() {
+        return this._rows;
+    }
+
+    set rows(rows: any[]) {
+        rows = rows || [];
+        this._rows = rows;
+
+        let __rows: OurpalmTableRow[] = rows.map((row: any, index: number) => {
+            return {
+                index: index,
+                selected: false,
+                checked: false,
+                data: row
+            }
+        });
+        this.tableRows = __rows;
+    }
+
+    get currentPage() {
+        return this._currentPage;
+    }
+
+    set currentPage(currentPage: number) {
+        if (this._currentPage != currentPage) {
+            this._currentPage = currentPage;
+        }
+    }
+
+    get pageSize() {
+        return this._pageSize;
+    }
+
+    set pageSize(pageSize: number) {
+        if (this._pageSize != pageSize) {
+            this._pageSize = pageSize;
+        }
     }
 
     /**
@@ -184,19 +193,19 @@ export class OurpalmTable {
         return columns;
     }
 
-    /*获取显示的行信息*/
+    /*获取显示的行信息,用于前端分页*/
     getDisplayedRows() {
         return this.rows.map(row => Object.assign({}, row));
     }
 
     /*获取选中的行信息*/
     getSelectedRows() {
-        return this.rows.filter(row => row.__selected__).map(row => Object.assign({}, row));
+        return this.tableRows.filter((row) => row.selected).map((row) => Object.assign({}, row.data));
     }
 
     /*获取勾选中的行信息*/
     getCheckedRows() {
-        return this.rows.filter(row => row.__checked__).map(row => Object.assign({}, row));
+        return this.tableRows.filter((row) => row.checked).map((row) => Object.assign({}, row.data));
     }
 
     /*获取排序的列信息*/
@@ -204,32 +213,54 @@ export class OurpalmTable {
         return this.columns.filter(column => column.sort).map(col => Object.assign({}, col));
     }
 
-    /*获取表格的实时信息*/
-    getOptions() {
-        return {
-            currentPage: this.currentPage,
-            pageSize: this.pageSize,
-            pagination: this.pagination,
-            singleSelect: this.singleSelect,
-            serverSort: this.serverSort,
-            pageList: [].concat(this.pageList),
-            skipPage: this.skipPage,
-            cacheKey: this.cacheKey,
-            cachePageSize: this.cachePageSize,
-            cacheColumns: this.cacheColumns,
-            pagePosition: this.pagePosition,
+    /**
+     * 修改列定义,支持动态列,不会触发重新加载数据
+     * @param columns 要修改的列定义
+     * @param localStorageType 是从localStorage中恢复列定义，还是将列定义放到localStorage中
+     */
+    changeColumns(columns: OurpalmTableColumn[], localStorageType: 'read' | 'write' | '' = 'read') {
+        this.originalColumns = columns.map(column => new OurpalmTableColumn(column));
+        this.columns = columns.map(column => new OurpalmTableColumn(column));
+
+        if (this.cacheKey && this.cacheColumns && window.localStorage) {
+            if (localStorageType === 'write') {
+                let columnArr: any[] = [];
+                this.columns.forEach((column: OurpalmTableColumn) => {
+                    columnArr.push({field: column.field, show: column.show});
+                });
+                window.localStorage.setItem(`ngx-ourpalm-table-${this.cacheKey}-columns`, JSON.stringify(columnArr));
+            } else if (localStorageType === 'read') {
+                let cache = window.localStorage.getItem(`ngx-ourpalm-table-${this.cacheKey}-columns`);
+                if (cache) {
+                    let columnArr: any[] = JSON.parse(cache);
+                    if (columnArr.length == this.columns.length) {
+                        let tmpColumns = [];
+                        columnArr.forEach((col1 => {
+                            this.columns.forEach(col2 => {
+                                if (col1.field == col2.field) {
+                                    tmpColumns.push(Object.assign(col2, col1));
+                                }
+                            });
+                        }));
+                        this.columns.splice(0);
+                        tmpColumns.forEach(col => {
+                            this.columns.push(col);
+                        });
+                    } else {
+                        window.localStorage.removeItem(`ngx-ourpalm-table-${this.cacheKey}-columns`);
+                    }
+                }
+            }
         }
     }
 
-    /*修改列定义,支持动态列,不会触发重新加载数据*/
-    changeColumns(columns: OurpalmTableColumn[]) {
-        this.columns = columns.map(column => new OurpalmTableColumn(column));
-        this.__columns = columns.map(column => new OurpalmTableColumn(column));
-        // this.reflowTable();
-
-        this.reloadCacheColumns();
-        this.reloadCachePageSize();
-        this.reflowTable();
+    changePageSize(pageSize: number) {
+        this.pageSize = pageSize;
+        this._currentPage = 1;
+        this.invokeLoadData();
+        if (this.cacheKey && this.cachePageSize && window.localStorage) {
+            window.localStorage.setItem(`ngx-ourpalm-table-${this.cacheKey}-pagesize`, `${pageSize}`);
+        }
     }
 
     /*跳转到第一页，触发重新加载数据*/
@@ -261,13 +292,6 @@ export class OurpalmTable {
         this.invokeLoadData();
     }
 
-    /*修改页大小，触发重新加载数据*/
-    changePageSize(pageSize: number) {
-        this.currentPage = 1;
-        this.pageSize = pageSize;
-        this.invokeLoadData();
-    }
-
     /*跳转到N页，触发重新加载数据*/
     gotoSkipPage(page: number) {
         this.currentPage = page;
@@ -283,52 +307,45 @@ export class OurpalmTable {
     setOptions(table: OurpalmTable | any) {
         Object.assign(this, table);
         if (table && table.columns) {
-            this.__columns = this.columns.map(column => new OurpalmTableColumn(column));
+            this.originalColumns = this.columns.map(column => new OurpalmTableColumn(column));
             this.columns = this.columns.map((column) => new OurpalmTableColumn(column));
-        }
-        if (table && table.rowMenus) {
-            this.rowMenus = this._deepCloneMenus(this.rowMenus);
-        }
-        if (table && table.floatTheadConfig) {
-            Object.assign(this.floatTheadConfig, table.floatTheadConfig);
         }
 
         if (this.autoLoadData) {
             this.invokeLoadData();
         }
 
-        this.reloadCacheColumns();
-        this.reloadCachePageSize();
-        this.reflowTable();
+        this.changeColumns(this.columns);
+        this._reloadCachePageSize();
     }
 
     /*勾选当前页中的所有行*/
     checkAll() {
-        this.rows.forEach((row: any) => {
-            row.__checked__ = true;
+        this.tableRows = this.tableRows.map((row: OurpalmTableRow) => {
+            return Object.assign({}, row, {checked: true});
         });
     }
 
     /*取消勾选当前页中的所有行*/
     uncheckAll() {
-        this.rows.forEach((row: any) => {
-            row.__checked__ = false;
+        this.tableRows = this.tableRows.map((row: OurpalmTableRow) => {
+            return Object.assign({}, row, {checked: false});
         });
     }
 
     /*勾选一行，行索引从0开始，传入行索引*/
     checkRow(index: number) {
-        let row = this.rows[index];
+        let row = this.tableRows[index];
         if (row) {
-            row.__checked__ = true;
+            row.checked = true;
         }
     }
 
     /*取消勾选一行，行索引从0开始，传入行索*/
     uncheckRow(index: number) {
-        let row = this.rows[index];
+        let row = this.tableRows[index];
         if (row) {
-            row.__checked__ = false;
+            row.checked = false;
         }
     }
 
@@ -340,54 +357,12 @@ export class OurpalmTable {
         this.loadData(this, this.onLoadSuccess.bind(this));
     }
 
-    setTableComponent(tableComponent: OurpalmTableComponent) {
-        this.tableComponent = tableComponent;
-    }
-
-    reloadCacheColumns() {
-        if (this.cacheKey && this.cacheColumns && window.localStorage) {
-            let cache = window.localStorage.getItem(`ngx-ourpalm-table-${this.cacheKey}-columns`);
-            if (cache) {
-                let columnArr: Array<any> = JSON.parse(cache);
-                if (columnArr.length == this.columns.length) {
-                    let tmpColumns = [];
-                    columnArr.forEach((col1 => {
-                        this.columns.forEach(col2 => {
-                            if (col1.field == col2.field) {
-                                tmpColumns.push(Object.assign(col2, col1));
-                            }
-                        });
-                    }));
-                    this.columns.splice(0);
-                    tmpColumns.forEach(col => {
-                        this.columns.push(col);
-                    });
-                } else {
-                    window.localStorage.removeItem(`ngx-ourpalm-table-${this.cacheKey}-columns`);
-                }
-            }
-        }
-    }
-
-    reloadCachePageSize() {
+    private _reloadCachePageSize() {
         if (this.cacheKey && this.cachePageSize && window.localStorage) {
             let pageSize = window.localStorage.getItem(`ngx-ourpalm-table-${this.cacheKey}-pagesize`);
             if (pageSize) {
                 this.pageSize = +pageSize;
             }
         }
-    }
-
-    private _deepCloneMenus(menus: ContextMenu[]): ContextMenu[] {
-        if (!menus) return;
-
-        function deepCloneMenu(menu: ContextMenu): ContextMenu {
-            if (menu.submenus) {
-                menu.submenus = menu.submenus.map((submenu) => deepCloneMenu(submenu));
-            }
-            return new ContextMenu(menu);
-        }
-
-        return menus.map(menu => deepCloneMenu(menu));
     }
 }

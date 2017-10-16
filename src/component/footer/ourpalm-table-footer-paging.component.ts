@@ -143,9 +143,6 @@ export class OurpalmTablePagingComponent {
             this._start = 0;
             this._end = 0;
         }
-        // if (this._currentPage > this._lastPage) {
-        //     this._jumpPage(this._lastPage);
-        // }
     }
 
     _jumpPage(index: number) {

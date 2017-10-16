@@ -12,14 +12,7 @@ import {OurpalmTable, Page} from "../../../src/model/ourpalm-table";
         <div class="container">
             <div class="row">
                 <div class="table-responsive">
-                    <!--<ourpalm-table-->
-                    <!--[columns]="columns"-->
-                    <!--[rows]="rows"-->
-                    <!--[total]="1000">-->
-                    <!--</ourpalm-table>-->
-                    <ourpalm-table-container
-                            [table]="table">
-                    </ourpalm-table-container>
+                    <ourpalm-table [table]="table"></ourpalm-table>
                 </div>
             </div>
         </div>
@@ -94,7 +87,7 @@ export class OurpalmTableV3Component {
         });
 
         this.table = new OurpalmTable({
-            columns: this.table2Columns,
+            columns: this.table1Columns,
             serverSort: false,
             pagePosition: 'bottom',
             cacheKey: 'table01',
@@ -105,11 +98,11 @@ export class OurpalmTableV3Component {
             loadData: (table: OurpalmTable, callback: (page: Page) => {}) => {
                 let rows = [];
                 let start = (table.currentPage - 1) * table.pageSize + 1;
-                let end = +start + (+table.pageSize);
+                let end = +start + table.pageSize;
                 for (let i = start; i < end; i++) {
                     let row: any = {};
-                    for (let j = 0; j < 20; j++) {
-                        row['field2-' + j] = `data2-${i}-${this.randomStr()}`;
+                    for (let j = 0; j < 10; j++) {
+                        row['field1-' + j] = `data1-${i}-${this.randomStr()}`;
                     }
                     rows.push(row);
                 }

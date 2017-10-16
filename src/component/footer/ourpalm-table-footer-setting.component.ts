@@ -85,6 +85,8 @@ import {DragulaService} from "ng2-dragula";
 })
 export class OurpalmTableSettingComponent implements OnDestroy {
 
+    /** 表格列属性 */
+    @Input() originalColumns: OurpalmTableColumn[];
     /** 双向绑定 */
     private _columns: OurpalmTableColumn[] = [];
     @Output() columnsChange: EventEmitter<OurpalmTableColumn[]> = new EventEmitter();
@@ -142,7 +144,7 @@ export class OurpalmTableSettingComponent implements OnDestroy {
     }
 
     resetColumns() {
-
+        this.columns = this.originalColumns;
     }
 
     saveColumns() {
