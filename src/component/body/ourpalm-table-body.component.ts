@@ -132,9 +132,9 @@ export class OurpalmTableBodyComponent implements OnInit, OnDestroy {
             }
 
             // 如果当前列没有禁用右键菜单，且 可显示的右键菜单数不为0
-            let length = this.rowMenus.filter((menu: ContextMenu) => !menu.separator).filter((menu: ContextMenu) => {
+            let length = this.rowMenus ? this.rowMenus.filter((menu: ContextMenu) => !menu.separator).filter((menu: ContextMenu) => {
                 return typeof menu.show === 'function' ? menu.show() : menu.show;
-            }).length;
+            }).length : 0;
 
             if (length > 0) {
                 this.contextMenuService.show.next({
