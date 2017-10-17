@@ -12,7 +12,7 @@ import {RowView} from "../../model/ourpalm-table";
             </ng-template>
         </ng-container>
         <ng-container *ngIf="!template">
-            {{rowView?.renderRow(rowIndex, row)}}
+            {{ (rowView?.renderRow(rowIndex, row) || '') | safeHtml }}
         </ng-container>
     `
 })

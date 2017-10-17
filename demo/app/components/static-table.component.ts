@@ -9,7 +9,7 @@ import {Component} from "@angular/core";
             <ourpalm-table-column [column]="{header: '序号', field: 'number', rownumbers: true}"></ourpalm-table-column>
             <ourpalm-table-column [column]="{header: '姓名', field: 'name', sort: true}">
                 <ng-template let-data="$row">
-                    {{data.name}}
+                    <span style="color:red;">{{data.name}}</span>
                 </ng-template>
             </ourpalm-table-column>
             <ourpalm-table-column [column]="{header: '年龄', field: 'age', sort: true}">

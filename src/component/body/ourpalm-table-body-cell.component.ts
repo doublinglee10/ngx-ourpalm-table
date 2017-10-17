@@ -21,7 +21,7 @@ import {OurpalmTableRow} from "../../model/ourpalm-table-row";
             <!-- 正常列(包括排序列) -->
             <ng-container *ngIf="!column.checkbox || !column.rownumbers">
                 <ng-container *ngIf="!column.template"> <!-- 动态列 -->
-                    {{value}}
+                    <span [innerHTML]="value ? (value | safeHtml) : value"></span>
                 </ng-container>
                 <ng-container *ngIf="column.template"> <!-- 静态列 -->
                     <ng-template [ngTemplateOutlet]="column.template"

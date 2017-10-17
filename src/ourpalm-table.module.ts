@@ -19,6 +19,7 @@ import {
     OurpalmTableSettingComponent
 } from "./component/footer/ourpalm-table-footer-setting.component";
 import {OurpalmTableWrapperComponent} from "./component/ourpalm-table-wrapper.component";
+import {SafeHtmlPipe} from "./utils/safe-html.pipe";
 
 @NgModule({
     imports: [
@@ -40,7 +41,8 @@ import {OurpalmTableWrapperComponent} from "./component/ourpalm-table-wrapper.co
         OurpalmTableComponent,
         OurpalmTableSettingComponent,
         ColumnSettingsLeftFilter,
-        ColumnSettingsRightFilter
+        ColumnSettingsRightFilter,
+        SafeHtmlPipe
     ],
     exports: [
         OurpalmTableWrapperComponent,
@@ -48,7 +50,8 @@ import {OurpalmTableWrapperComponent} from "./component/ourpalm-table-wrapper.co
         OurpalmTableRowViewComponent,
         OurpalmTableComponent,
         ColumnSettingsLeftFilter,
-        ColumnSettingsRightFilter
+        ColumnSettingsRightFilter,
+        SafeHtmlPipe
     ]
 })
 export class OurpalmTableModule {
