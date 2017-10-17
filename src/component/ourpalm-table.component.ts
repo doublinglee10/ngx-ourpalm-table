@@ -41,8 +41,7 @@ import {sortColumns} from "../utils/column-helpers";
                 [pagination]="table?.pagination"
                 [pagePosition]="table?.pagePosition"
                 [(currentPage)]="table.currentPage"
-                [pageSize]="table.pageSize"
-                (pageSizeChange)="table.changePageSize($event)"
+                [(pageSize)]="table.pageSize"
                 [total]="table?.total"
                 [skipPage]="table?.skipPage"
                 [pageList]="table?.pageList"
@@ -50,7 +49,7 @@ import {sortColumns} from "../utils/column-helpers";
                 [showSettingBtn]="table.showSettingBtn"
                 [(openSettings)]="table.openSettings"
                 (onPagingChange)="onPagingChangeEvent($event)"
-                (onPagingRefresh)="onPagingChangeEvent($event)">
+                (onPagingRefresh)="onPagingRefreshEvent($event)">
         </ourpalm-table-wrapper>
     `
 })
@@ -78,7 +77,9 @@ export class OurpalmTableComponent implements AfterContentInit {
             this.table.rowViewTemplate = this.rowViewComponent.template;
         }
 
-        this.table.invokeLoadData();
+        if (this.table.autoLoadData) {
+            this.table.invokeLoadData();
+        }
     }
 
     /** 用户点击一行的时候触发 */
@@ -117,6 +118,10 @@ export class OurpalmTableComponent implements AfterContentInit {
     }
 
     onPagingChangeEvent() {
+        this.table.invokeLoadData();
+    }
+
+    onPagingRefreshEvent() {
         this.table.invokeLoadData();
     }
 }

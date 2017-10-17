@@ -206,8 +206,6 @@ export class CardViewComponent {
 |	pagePosition          |     string   	  |		bottom		   |	分页条在那里显示可取值 'bottom', 'top', 'both'	|
 |	showRefreshBtn        |     boolean   	  |		true		   |	是否显示刷新按钮        	|
 |	showSettingBtn        |     boolean   	  |		true		   |	是否显示设置按钮        	|
-|	enabledFloatThead     |     boolean   	  |		false		   |	是否固定到顶部,依赖jquery 和 jquery.floatThead.js	|
-|	floatTheadConfig      |     any   	      |		`{ zIndex: 10, responsiveContainer: ($table) =>  $table.closest('.table-responsive') }`  |	floatThead配置项	|
 |	checkOnSelect         |     boolean   	  |		true   		   |	选择CheckBox时级联选中当前行	|
 |	selectOnCheck         |     boolean   	  |		true   		   |	选择当前行时级联选中checkbox	|
 |	ctrlSelect            |     boolean   	  |		false  		   |	多选时需要按住ctrl键	|
@@ -257,8 +255,8 @@ export class CardViewComponent {
 |	getSelectedRows       |                   |		 获取选中的行信息				   |
 |	getCheck edRows       |                   |		 获取勾选中的行信息				   |
 |	getSortColumns        |                   |		 获取排序的列信息				   |
-|	getOptions            |                   |		 获取表格的实时信息,如 currentPage, pageSize  |
 |	changeColumns         |   columns[]       |		 动态修改表的列定义，只支持编程方式，不支持声明式方式  |
+|	chagePageSize         |   pageSize        |		 动态修改表的分页大小  |
 |	firstPage             |                   |		 跳转到第一页  |
 |	prePage               |                   |		 跳转到上一页  |
 |	nextPage              |                   |		 跳转到下一页  |

@@ -5,7 +5,7 @@ import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewEnc
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
     template: `
-        <td colspan="10000">
+        <td colspan="100000">
             <span class="page-left">
                 <select class="form-control input-sm"
                         [(ngModel)]="_pageSize"
@@ -86,7 +86,7 @@ export class OurpalmTablePagingComponent {
 
     @Input()
     set currentPage(value: number) {
-        if (this._currentPage === value) {
+        if (this._currentPage == value) {
             return;
         }
         if (value > this._lastPage || value < this._firstPage) {
@@ -101,14 +101,13 @@ export class OurpalmTablePagingComponent {
     }
 
     set pageSize(value: number) {
-        if (this._pageSize === value) {
+        if (this._pageSize == value) {
             return;
         }
         if (value <= 0) {
             return;
         }
         this._pageSize = Number(value);
-        this.onChange.emit();
         this._buildPages();
     }
 
@@ -118,10 +117,10 @@ export class OurpalmTablePagingComponent {
 
     @Input()
     set total(value: number) {
-        if (this._total === value) {
+        if (this._total == value) {
             return;
         }
-        this._total = value;
+        this._total = Number(value);
         this._buildPages();
     }
 
@@ -159,10 +158,12 @@ export class OurpalmTablePagingComponent {
     }
 
     _changePageSize() {
-        this.currentPage = this._firstPage;
+        if (this.currentPage != this._firstPage) {
+            this.currentPage = this._firstPage;
+            this.currentPageChange.emit(this._firstPage);
+        }
         this._buildPages();
-        this.pageSizeChange.emit(this._pageSize);
-        this.currentPageChange.emit(this._firstPage);
+        this.pageSizeChange.emit(Number(this._pageSize));
         this.onChange.emit();
     }
 

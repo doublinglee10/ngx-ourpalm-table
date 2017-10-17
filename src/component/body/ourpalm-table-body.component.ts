@@ -30,6 +30,7 @@ import {ContextMenu, ContextMenuService} from "glowworm/lib/context-menu";
                             [class.hidden]="!column.show"
                             [row]="row"
                             [column]="column"
+                            [ngStyle]="getStyler(column, i, j, row.data)"
                             (click)="onClickCellEvent(j, column, row)"
                             (dblclick)="onDbClickCellEvent(j, column, row)"
                             (onRowCheckBoxChange)="onRowCheckBoxChange.emit(row)"
@@ -39,13 +40,18 @@ import {ContextMenu, ContextMenuService} from "glowworm/lib/context-menu";
                 </tr>
             </ng-container>
             <ng-container *ngIf="rowViewShowType !== 'column'">
-                <tr class="cardview">
-                    <ourpalm-table-body-rowview
-                            [rowIndex]="i"
-                            [row]="row.data"
-                            [rowView]="rowView"
-                            [template]="rowViewTemplate">
-                    </ourpalm-table-body-rowview>
+                <tr class="cardview"
+                    [ngClass]="{'row-selected': row.selected}"
+                    (click)="onClickRow.emit({row: row, event: $event})"
+                    (dblclick)="onDbClickRow.emit(row)">
+                    <td colspan="100000">
+                        <ourpalm-table-body-rowview
+                                [rowIndex]="i"
+                                [row]="row.data"
+                                [rowView]="rowView"
+                                [template]="rowViewTemplate">
+                        </ourpalm-table-body-rowview>
+                    </td>
                 </tr>
             </ng-container>
         </ng-container>
@@ -136,6 +142,14 @@ export class OurpalmTableBodyComponent implements OnInit, OnDestroy {
                     menus: this.rowMenus
                 });
             }
+        }
+    }
+
+    getStyler(column: OurpalmTableColumn, rowIndex: number, columnIndex: number, rowData: any) {
+        if (typeof column.styler == 'function') {
+            return column.styler(rowIndex, columnIndex, rowData);
+        } else {
+            return column.styler;
         }
     }
 

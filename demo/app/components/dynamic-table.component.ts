@@ -98,20 +98,6 @@ export class DynamicTableComponent {
         this.table = this.tableConfig.create({
             cacheKey: 'table01',
             customClass: 'mytable',
-            enabledFloatThead: true,
-            floatTheadConfig: {
-                zIndex: 10,
-                responsiveContainer: function ($table) {
-                    return $table.closest('.table-responsive');
-                },
-                top: function () {
-                    if ((<any>window).screenfull.isFullscreen) {
-                        return 0;
-                    } else {
-                        return 50;
-                    }
-                }
-            },
             autoLoadData: true,
             cachePageSize: true,
             cacheColumns: true,
@@ -121,167 +107,28 @@ export class DynamicTableComponent {
             checkOnSelect: true,
             pagePosition: 'bottom',
             columns: this.table1Columns,
-            pageSize: 100,
+            pageSize: 10,
             pageList: [10, 50, 100, 200, 500, 1000, 2000, 5000],
             loadData: this.loadData.bind(this),
-            rowMenus: [{
-                text: '详情',
-                submenus: [{
-                    text: '用户详情',
-                    show: () => {
-                        return true
-                    },
-                    onclick: () => {
-                    }
-                }, {
-                    text: '角色详情',
-                    show: () => {
-                        return true
-                    },
-                    onclick: () => {
-                    }
-                }, {
-                    text: '订单详情',
-                    show: () => {
-                        return true
-                    },
-                    onclick: () => {
-                    }
-                }]
-            }, {
-                text: '封停',
-                submenus: [{
-                    text: '角色封停',
-                    show: () => {
-                        return true
-                    },
-                    onclick: () => {
-                    }
-                }, {
-                    text: '用户封停',
-                    show: () => {
-                        return true
-                    },
-                    onclick: () => {
-                    }
-                }, {
-                    text: '设备封停',
-                    show: () => {
-                        return true
-                    },
-                    onclick: () => {
-                    }
-                }, {
-                    text: 'IP封停',
-                    show: () => {
-                        return true
-                    },
-                    onclick: () => {
-                    }
-                }]
-            }, {
-                text: '禁言',
-                submenus: [{
-                    text: '角色禁言',
-                    show: () => {
-                        return true
-                    },
-                    onclick: () => {
-                    }
-                }, {
-                    text: '用户禁言',
-                    show: () => {
-                        return true
-                    },
-                    onclick: () => {
-                    }
-                }, {
-                    text: '设备禁言',
-                    show: () => {
-                        return true
-                    },
-                    onclick: () => {
-                    }
-                }, {
-                    text: 'IP禁言',
-                    show: () => {
-                        return true
-                    },
-                    onclick: () => {
-                    }
-                }]
-            }, {
-                text: '重置密码',
-                show: () => {
-                    return true
-                },
-                onclick: () => {
-                }
-            }, {
-                text: '账号绑定',
-                show: () => {
-                    return true
-                },
-                onclick: () => {
-                }
-            }, {
-                text: '标记测试号',
-                show: () => {
-                    return true
-                },
-                onclick: () => {
-                }
-            }, {
-                text: '补单',
-                show: () => {
-                    return true
-                },
-                onclick: () => {
-                }
-            }, {
-                text: '重新发货',
-                show: () => {
-                    return true
-                },
-                onclick: () => {
-                }
-            }, {
-                text: 'display',
-                submenus: [{
-                    text: 'display日志',
-                    show: () => {
-                        return true
-                    },
+            rowMenus: [
+                {
+                    text: '详情',
                     submenus: [{
-                        text: '按角色',
+                        text: '用户详情',
                         show: () => {
                             return true
                         },
                         onclick: () => {
                         }
                     }, {
-                        text: '按账户',
+                        text: '角色详情',
                         show: () => {
                             return true
                         },
                         onclick: () => {
                         }
                     }, {
-                        text: '按MAC',
-                        show: () => {
-                            return true
-                        },
-                        onclick: () => {
-                        }
-                    }, {
-                        text: '按IDFA',
-                        show: () => {
-                            return true
-                        },
-                        onclick: () => {
-                        }
-                    }, {
-                        text: '按IP',
+                        text: '订单详情',
                         show: () => {
                             return true
                         },
@@ -289,27 +136,167 @@ export class DynamicTableComponent {
                         }
                     }]
                 }, {
-                    text: 'display订单',
-                    show: () => {
-                        return true
-                    },
+                    text: '封停',
                     submenus: [{
-                        text: '按角色',
+                        text: '角色封停',
                         show: () => {
-                            return this.table.getSelectedRows().length >= 3;
+                            return true
                         },
                         onclick: () => {
                         }
                     }, {
-                        text: '按账户',
+                        text: '用户封停',
                         show: () => {
-                            return this.table.getSelectedRows().length >= 3;
+                            return true
+                        },
+                        onclick: () => {
+                        }
+                    }, {
+                        text: '设备封停',
+                        show: () => {
+                            return true
+                        },
+                        onclick: () => {
+                        }
+                    }, {
+                        text: 'IP封停',
+                        show: () => {
+                            return true
                         },
                         onclick: () => {
                         }
                     }]
+                }, {
+                    text: '禁言',
+                    submenus: [{
+                        text: '角色禁言',
+                        show: () => {
+                            return true
+                        },
+                        onclick: () => {
+                        }
+                    }, {
+                        text: '用户禁言',
+                        show: () => {
+                            return true
+                        },
+                        onclick: () => {
+                        }
+                    }, {
+                        text: '设备禁言',
+                        show: () => {
+                            return true
+                        },
+                        onclick: () => {
+                        }
+                    }, {
+                        text: 'IP禁言',
+                        show: () => {
+                            return true
+                        },
+                        onclick: () => {
+                        }
+                    }]
+                }, {
+                    text: '重置密码',
+                    show: () => {
+                        return true
+                    },
+                    onclick: () => {
+                    }
+                }, {
+                    text: '账号绑定',
+                    show: () => {
+                        return true
+                    },
+                    onclick: () => {
+                    }
+                }, {
+                    text: '标记测试号',
+                    show: () => {
+                        return true
+                    },
+                    onclick: () => {
+                    }
+                }, {
+                    text: '补单',
+                    show: () => {
+                        return true
+                    },
+                    onclick: () => {
+                    }
+                }, {
+                    text: '重新发货',
+                    show: () => {
+                        return true
+                    },
+                    onclick: () => {
+                    }
+                }, {
+                    text: 'display',
+                    submenus: [{
+                        text: 'display日志',
+                        show: () => {
+                            return true
+                        },
+                        submenus: [{
+                            text: '按角色',
+                            show: () => {
+                                return true
+                            },
+                            onclick: () => {
+                            }
+                        }, {
+                            text: '按账户',
+                            show: () => {
+                                return true
+                            },
+                            onclick: () => {
+                            }
+                        }, {
+                            text: '按MAC',
+                            show: () => {
+                                return true
+                            },
+                            onclick: () => {
+                            }
+                        }, {
+                            text: '按IDFA',
+                            show: () => {
+                                return true
+                            },
+                            onclick: () => {
+                            }
+                        }, {
+                            text: '按IP',
+                            show: () => {
+                                return true
+                            },
+                            onclick: () => {
+                            }
+                        }]
+                    }, {
+                        text: 'display订单',
+                        show: () => {
+                            return true
+                        },
+                        submenus: [{
+                            text: '按角色',
+                            show: () => {
+                                return this.table.getSelectedRows().length >= 3;
+                            },
+                            onclick: () => {
+                            }
+                        }, {
+                            text: '按账户',
+                            show: () => {
+                                return this.table.getSelectedRows().length >= 3;
+                            },
+                            onclick: () => {
+                            }
+                        }]
+                    }]
                 }]
-            }]
         });
     }
 

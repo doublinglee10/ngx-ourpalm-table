@@ -255,6 +255,7 @@ export class OurpalmTable {
     }
 
     changePageSize(pageSize: number) {
+        console.log('changePageSize');
         this.pageSize = pageSize;
         this._currentPage = 1;
         this.invokeLoadData();
@@ -335,18 +336,30 @@ export class OurpalmTable {
 
     /*勾选一行，行索引从0开始，传入行索引*/
     checkRow(index: number) {
-        let row = this.tableRows[index];
-        if (row) {
-            row.checked = true;
-        }
+        this.tableRows = this.tableRows.map((row: OurpalmTableRow, _index: number) => {
+            if (index === _index) {
+                if (this.checkOnSelect) {
+                    return Object.assign({}, row, {checked: true, selected: true});
+                } else {
+                    return Object.assign({}, row, {checked: true});
+                }
+            }
+            return row;
+        });
     }
 
     /*取消勾选一行，行索引从0开始，传入行索*/
     uncheckRow(index: number) {
-        let row = this.tableRows[index];
-        if (row) {
-            row.checked = false;
-        }
+        this.tableRows = this.tableRows.map((row: OurpalmTableRow, _index: number) => {
+            if (index === _index) {
+                if (this.checkOnSelect) {
+                    return Object.assign({}, row, {checked: false, selected: false});
+                } else {
+                    return Object.assign({}, row, {checked: false});
+                }
+            }
+            return row;
+        });
     }
 
     openSetting() {

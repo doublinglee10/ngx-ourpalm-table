@@ -15,10 +15,18 @@ export function sortColumns(column: OurpalmTableColumn, table: OurpalmTable) {
     }
 
     if (!table.multiSort) {
-        table.columns.forEach(_column => {
-            if (_column !== column) {
-                _column.sortOrder = null;
+        table.columns = table.columns.map((_column) => {
+            if (_column.field != column.field) {
+                return Object.assign({}, _column, {sortOrder: null});
             }
+            return Object.assign({}, _column, column);
+        });
+    } else {
+        table.columns = table.columns.map((_column) => {
+            if (_column.field != column.field) {
+                return Object.assign({}, _column);
+            }
+            return Object.assign({}, _column, column);
         });
     }
 
