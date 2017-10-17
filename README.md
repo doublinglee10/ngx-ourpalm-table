@@ -169,7 +169,7 @@ export class CardViewComponent {
 
     constructor(private http: Http) {
         this.table = new OurpalmTable({
-            // rowViewShowType: 'both',
+            rowViewShowType: 'both',
             loadData: (table: OurpalmTable, callback: (page: Page) => {}) => {
                 this.http
                     .get('http://rapapi.org/mockjsdata/3828/ngx-ourpalm-table/cardview.do')

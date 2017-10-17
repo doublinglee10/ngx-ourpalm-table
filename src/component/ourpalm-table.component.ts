@@ -25,7 +25,7 @@ import {sortColumns} from "../utils/column-helpers";
                 [originalColumns]="table?.originalColumns"
                 [(columns)]="table.columns"
                 (columnsChange)="table.changeColumns($event, 'write')"
-                (onHeaderCheckBoxChange)="onHeaderCheckBoxChangeEvent($event)"
+                (onHeaderCheckBoxChange)="onHeaderCheckBoxChangeEvent()"
                 (onSortColumn)="onSortColumnEvent($event)"
 
                 [rows]="table?.tableRows"
@@ -48,8 +48,8 @@ import {sortColumns} from "../utils/column-helpers";
                 [showRefreshBtn]="table?.showRefreshBtn"
                 [showSettingBtn]="table.showSettingBtn"
                 [(openSettings)]="table.openSettings"
-                (onPagingChange)="onPagingChangeEvent($event)"
-                (onPagingRefresh)="onPagingRefreshEvent($event)">
+                (onPagingChange)="onPagingChangeEvent()"
+                (onPagingRefresh)="onPagingRefreshEvent()">
         </ourpalm-table-wrapper>
     `
 })
