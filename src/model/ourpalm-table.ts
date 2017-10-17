@@ -184,6 +184,26 @@ export class OurpalmTable {
         return 0;
     }
 
+    /**
+     * @deprecated
+     * 获取表格的实时信息
+     */
+    getOptions() {
+        return {
+            currentPage: this.currentPage,
+            pageSize: this.pageSize,
+            pagination: this.pagination,
+            singleSelect: this.singleSelect,
+            serverSort: this.serverSort,
+            pageList: [].concat(this.pageList),
+            skipPage: this.skipPage,
+            cacheKey: this.cacheKey,
+            cachePageSize: this.cachePageSize,
+            cacheColumns: this.cacheColumns,
+            pagePosition: this.pagePosition,
+        }
+    }
+
     /*获取显示的列信息*/
     getDisplayedColumns() {
         let columns = [];
