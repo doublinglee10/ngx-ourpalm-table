@@ -26,16 +26,29 @@ import {ContextMenu, ContextMenuService} from "glowworm/lib/context-menu";
                     (click)="onClickRow.emit({row: row, event: $event})"
                     (dblclick)="onDbClickRow.emit(row)">
                     <ng-container *ngFor="let column of columns; let j = index">
-                        <td ourpalm-table-body-cell
-                            [class.hidden]="!column.show"
-                            [row]="row"
-                            [column]="column"
-                            [ngStyle]="getStyler(column, i, j, row.data)"
-                            (click)="onClickCellEvent(j, column, row)"
-                            (dblclick)="onDbClickCellEvent(j, column, row)"
-                            (onRowCheckBoxChange)="onRowCheckBoxChange.emit(row)"
-                            (contextmenu)="onContextMenu($event, i, j, row, column)">
-                        </td>
+                        <ng-container *ngIf="column.checkbox">
+                            <td ourpalm-table-body-checkboxcell
+                                [class.hidden]="!column.show"
+                                [row]="row"
+                                [ngStyle]="getStyler(column, i, j, row.data)"
+                                (click)="onClickCellEvent(j, row, column)"
+                                (dblclick)="onDbClickCellEvent(j, row, column)"
+                                (onRowCheckBoxChange)="onRowCheckBoxChange.emit(row)"
+                                (contextmenu)="onContextMenu($event, i, j, row, column)">
+                            </td>
+                        </ng-container>
+                        <ng-container *ngIf="!column.checkbox">
+                            <td ourpalm-table-body-cell
+                                [class.hidden]="!column.show"
+                                [row]="row.data"
+                                [column]="column"
+                                [index]="i"
+                                [ngStyle]="getStyler(column, i, j, row.data)"
+                                (click)="onClickCellEvent(j, row, column)"
+                                (dblclick)="onDbClickCellEvent(j, row, column)"
+                                (contextmenu)="onContextMenu($event, i, j, row, column)">
+                            </td>
+                        </ng-container>
                     </ng-container>
                 </tr>
             </ng-container>

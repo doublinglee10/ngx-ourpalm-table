@@ -24,7 +24,6 @@ import {sortColumns} from "../utils/column-helpers";
 
                 [originalColumns]="table?.originalColumns"
                 [(columns)]="table.columns"
-                (columnsChange)="table.changeColumns($event, 'write')"
                 (onHeaderCheckBoxChange)="onHeaderCheckBoxChangeEvent()"
                 (onSortColumn)="onSortColumnEvent($event)"
 

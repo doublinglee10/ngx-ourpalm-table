@@ -240,7 +240,7 @@ export class OurpalmTable {
      */
     changeColumns(columns: OurpalmTableColumn[], localStorageType: 'read' | 'write' | '' = 'read') {
         this.originalColumns = columns.map(column => new OurpalmTableColumn(column));
-        this.columns = columns.map(column => new OurpalmTableColumn(column));
+        this.columns = columns.map(column => Object.assign(column, new OurpalmTableColumn(column)));
 
         if (this.cacheKey && this.cacheColumns && window.localStorage) {
             if (localStorageType === 'write') {
@@ -275,7 +275,6 @@ export class OurpalmTable {
     }
 
     changePageSize(pageSize: number) {
-        console.log('changePageSize');
         this.pageSize = pageSize;
         this._currentPage = 1;
         this.invokeLoadData();

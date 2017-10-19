@@ -17,16 +17,18 @@ export function sortColumns(column: OurpalmTableColumn, table: OurpalmTable) {
     if (!table.multiSort) {
         table.columns = table.columns.map((_column) => {
             if (_column.field != column.field) {
-                return Object.assign({}, _column, {sortOrder: null});
+                if (_column.sortOrder != null) {
+                    return Object.assign({}, _column, {sortOrder: null});
+                }
             }
-            return Object.assign({}, _column, column);
+            return _column;
         });
     } else {
         table.columns = table.columns.map((_column) => {
             if (_column.field != column.field) {
-                return Object.assign({}, _column);
+                return _column;
             }
-            return Object.assign({}, _column, column);
+            return Object.assign({}, column);
         });
     }
 

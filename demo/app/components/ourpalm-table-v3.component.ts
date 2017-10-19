@@ -1,5 +1,6 @@
 import {Component} from "@angular/core";
 import {OurpalmTable, Page} from "../../../src/model/ourpalm-table";
+import {OurpalmTableColumn} from "../../../src/model/ourpalm-table-column";
 
 @Component({
     selector: '',
@@ -174,6 +175,7 @@ export class OurpalmTableV3Component {
         this.table = new OurpalmTable({
             columns: this.columns,
             serverSort: false,
+            multiSort: false,
             pagePosition: 'bottom',
             cacheKey: 'table01',
             cacheColumns: true,
@@ -237,14 +239,14 @@ export class OurpalmTableV3Component {
                     }
                 }
             ],
-            onClickRow: function () {
-                console.log('click row', arguments);
+            onClickRow: (rowIndex: number, rowData: any) => {
+                console.log('click row', rowIndex, rowData);
             },
             onDblClickRow: function () {
                 console.log('dblclick row', arguments)
             },
-            onClickCell: function () {
-                console.log('click cell', arguments);
+            onClickCell: (rowIndex: number, cellIndex: number, rowData: any, column: OurpalmTableColumn) => {
+                console.log('click cell', rowIndex, cellIndex, rowData, column);
             },
             onDblClickCell: function () {
                 console.log('dblclick cell', arguments)

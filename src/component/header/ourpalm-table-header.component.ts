@@ -7,13 +7,19 @@ import {OurpalmTableColumn} from "../../model/ourpalm-table-column";
     encapsulation: ViewEncapsulation.None,
     template: `
         <th *ngFor="let column of columns" [class.hidden]="!column.show"><!-- 隐藏列 -->
-            <ourpalm-table-header-cell
-                    [column]="column"
-                    [checkAll]="checkAll"
-                    (checkAllChange)="checkAllChange.emit($event)"
-                    (onSortColumn)="onSortColumn.emit($event)"
-                    (onHeaderCheckBoxChange)="onHeaderCheckBoxChange.emit($event)">
-            </ourpalm-table-header-cell>
+            <ng-container *ngIf="column.checkbox">
+                <ourpalm-table-header-checkobxcell
+                        [checkAll]="checkAll"
+                        (checkAllChange)="checkAllChange.emit($event)"
+                        (onHeaderCheckBoxChange)="onHeaderCheckBoxChange.emit($event)">
+                </ourpalm-table-header-checkobxcell>
+            </ng-container>
+            <ng-container *ngIf="!column.checkbox">
+                <ourpalm-table-header-cell
+                        [column]="column"
+                        (onSortColumn)="onSortColumn.emit($event)">
+                </ourpalm-table-header-cell>
+            </ng-container>
         </th>
     `
 })

@@ -184,7 +184,7 @@ export class OurpalmTableWrapperComponent {
     /** 原始的表格列数据 */
     @Input('columns') set _columns(columns: OurpalmTableColumn[]) {
         columns = columns || [];
-        let __columns: OurpalmTableColumn[] = columns.map(column => new OurpalmTableColumn(column));
+        let __columns: OurpalmTableColumn[] = columns.map(column => Object.assign(column, new OurpalmTableColumn(column)));
         this.columns = __columns;
     }
 
@@ -231,24 +231,20 @@ export class OurpalmTableWrapperComponent {
     onHeaderCheckBoxChangeEvent(checkAll: boolean) {
         if (!this.singleSelect) {
             this.rows = this.rows.map((row) => {
-                return {
-                    ...row,
-                    checked: checkAll
-                }
+                row.checked = checkAll;
+                return row;
             });
         } else if (!this.checkOnSelect) {
             this.rows = this.rows.map((row) => {
-                return {
-                    ...row,
-                    checked: false
-                }
+                row.checked = false;
+                return row;
             });
         }
 
         if (this.checkOnSelect) {
             this.rows = this.rows.map((row) => {
                 if (row.checked != row.selected) {
-                    return {...row, ...{selected: row.checked}}
+                    row.selected = row.checked;
                 }
                 return row;
             });

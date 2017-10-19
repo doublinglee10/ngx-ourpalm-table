@@ -1,5 +1,6 @@
 import {
     ChangeDetectionStrategy,
+    ChangeDetectorRef,
     Component,
     EventEmitter,
     Injectable,
@@ -102,7 +103,8 @@ export class OurpalmTableSettingComponent implements OnDestroy {
     lcolumns: SettingColumn[] = [];
     rcolumns: SettingColumn[] = [];
 
-    constructor(private dragulaService: DragulaService) {
+    constructor(private dragulaService: DragulaService,
+                private changeDetectorRef: ChangeDetectorRef) {
     }
 
     get columns() {
@@ -116,7 +118,7 @@ export class OurpalmTableSettingComponent implements OnDestroy {
                 lchecked: false,
                 rchecked: false,
                 right: column.show,
-                column
+                column: new OurpalmTableColumn(column)
             }
         })];
         this.lcolumns = [...this.tempcolumns.filter((col: SettingColumn) => !col.right)];
@@ -144,14 +146,20 @@ export class OurpalmTableSettingComponent implements OnDestroy {
     }
 
     resetColumns() {
-        this.columns = this.originalColumns;
+        this.columns = this.originalColumns.map((col) => {
+            return Object.assign(this._getOriginalColumn(col.field), col);
+        });
+        this.changeDetectorRef.markForCheck();
     }
 
     saveColumns() {
-        let columns: OurpalmTableColumn[] = [...this.lcolumns, ...this.rcolumns].map((col: SettingColumn) => {
-            col.column.show = col.right;
-            return col.column;
-        });
+        let columns: OurpalmTableColumn[] = [...this.lcolumns, ...this.rcolumns]
+            .map((col: SettingColumn) => {
+                col.column.show = col.right;
+                return col.column;
+            }).map((col: OurpalmTableColumn) => {
+                return Object.assign(this._getOriginalColumn(col.field), col);
+            });
         this.columnsChange.emit(columns);
         this.closeSettings();
     }
@@ -163,6 +171,15 @@ export class OurpalmTableSettingComponent implements OnDestroy {
 
     ngOnDestroy() {
         this.dragulaService.destroy('setting-columns');
+    }
+
+    private _getOriginalColumn(field: string): OurpalmTableColumn {
+        for (let i = 0; i < this.columns.length; i++) {
+            let column = this.columns[i];
+            if (column.field === field) {
+                return column;
+            }
+        }
     }
 }
 

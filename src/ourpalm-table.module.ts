@@ -20,6 +20,8 @@ import {
 } from "./component/footer/ourpalm-table-footer-setting.component";
 import {OurpalmTableWrapperComponent} from "./component/ourpalm-table-wrapper.component";
 import {SafeHtmlPipe} from "./utils/safe-html.pipe";
+import {OurpalmTableBodyCheckboxCellComponent} from "./component/body/ourpalm-table-body-checkboxcell.component";
+import {OurpalmTableHeaderCheckboxCellComponent} from "./component/header/ourpalm-table-header-checkboxcell.component";
 
 @NgModule({
     imports: [
@@ -31,12 +33,14 @@ import {SafeHtmlPipe} from "./utils/safe-html.pipe";
     declarations: [
         OurpalmTableBodyComponent,
         OurpalmTableBodyCellComponent,
+        OurpalmTableBodyCheckboxCellComponent,
         OurpalmTableBodyRowViewComponent,
         OurpalmTableColumnComponent,
         OurpalmTableRowViewComponent,
         OurpalmTableHeaderComponent,
         OurpalmTablePagingComponent,
         OurpalmTableHeaderCellComponent,
+        OurpalmTableHeaderCheckboxCellComponent,
         OurpalmTableWrapperComponent,
         OurpalmTableComponent,
         OurpalmTableSettingComponent,
