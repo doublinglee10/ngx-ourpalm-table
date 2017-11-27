@@ -13,13 +13,13 @@ import {OurpalmTableColumn} from "../../model/ourpalm-table-column";
             </ng-container>
             <ng-container *ngIf="column.template"> <!-- 静态列 -->
                 <ng-template [ngTemplateOutlet]="column.template"
-                             [ngOutletContext]="{'$implicit': column, '$row': row}">
+                             [ngOutletContext]="{'$implicit': column, '$row': row, 'rowIndex': rowIndex, 'cellIndex': cellIndex}">
                 </ng-template>
             </ng-container>
         </ng-container>
         <!-- 序号列 -->
         <ng-container *ngIf="column.rownumbers">
-            {{index + 1}}
+            {{rowIndex + 1}}
         </ng-container>
     `
 })
@@ -27,7 +27,8 @@ export class OurpalmTableBodyCellComponent {
 
     @Input() column: OurpalmTableColumn;
     @Input() row: any;
-    @Input() index: number;
+    @Input() rowIndex: number;
+    @Input() cellIndex: number;
 
     get value(): any {
         return this.column.formatter ? this.column.formatter(this.row[this.column.field], this.row) : this.row[this.column.field];
