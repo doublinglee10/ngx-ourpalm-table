@@ -13,8 +13,8 @@ import {Component} from "@angular/core";
                 </ng-template>
             </ourpalm-table-column>
             <ourpalm-table-column [column]="{header: '年龄', field: 'age', sort: true}">
-                <ng-template let-row="$row">
-                    {{row.age}}
+                <ng-template let-row="$row" let-rowIndex="$rowIndex" let-cellIndex="$cellIndex">
+                    {{row.age}} - {{rowIndex}} - {{cellIndex}}
                 </ng-template>
             </ourpalm-table-column>
         </ourpalm-table>
