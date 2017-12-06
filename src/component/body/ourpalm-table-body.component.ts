@@ -26,9 +26,8 @@ import {ContextMenu, ContextMenuService} from "glowworm/lib/context-menu";
                     (click)="onClickRow.emit({row: row, event: $event})"
                     (dblclick)="onDbClickRow.emit(row)">
                     <ng-container *ngFor="let column of columns; let j = index">
-                        <ng-container *ngIf="column.checkbox">
+                        <ng-container *ngIf="column.checkbox && column.show">
                             <td ourpalm-table-body-checkboxcell
-                                [class.hidden]="!column.show"
                                 [row]="row"
                                 [ngStyle]="getStyler(column, i, j, row.data)"
                                 (click)="onClickCellEvent(j, row, column)"
@@ -37,9 +36,8 @@ import {ContextMenu, ContextMenuService} from "glowworm/lib/context-menu";
                                 (contextmenu)="onContextMenu($event, i, j, row, column)">
                             </td>
                         </ng-container>
-                        <ng-container *ngIf="!column.checkbox">
+                        <ng-container *ngIf="!column.checkbox && column.show">
                             <td ourpalm-table-body-cell
-                                [class.hidden]="!column.show"
                                 [row]="row.data"
                                 [column]="column"
                                 [rowIndex]="i"
