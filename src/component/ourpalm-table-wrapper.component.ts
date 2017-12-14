@@ -24,8 +24,8 @@ import {OurpalmTableCell} from "../model/ourpalm-table-cell";
                     ourpalm-table-paging
                     [currentPage]="currentPage"
                     (currentPageChange)="currentPageChange.emit($event)"
-                    [pageSize]="pageSize"
-                    (pageSizeChange)="pageSizeChange.emit($event)"
+                    [(pageSize)]="pageSize"
+                    (pageSizeChange)="onPageSizeChangeEvent($event);pageSizeChange.emit($event);"
                     [total]="total"
                     [rows]="rows.length"
                     [skipPage]="skipPage"
@@ -62,8 +62,8 @@ import {OurpalmTableCell} from "../model/ourpalm-table-cell";
                     ourpalm-table-paging
                     [currentPage]="currentPage"
                     (currentPageChange)="currentPageChange.emit($event)"
-                    [pageSize]="pageSize"
-                    (pageSizeChange)="pageSizeChange.emit($event)"
+                    [(pageSize)]="pageSize"
+                    (pageSizeChange)="onPageSizeChangeEvent($event);pageSizeChange.emit($event);"
                     [total]="total"
                     [rows]="rows.length"
                     [skipPage]="skipPage"
@@ -218,6 +218,24 @@ export class OurpalmTableWrapperComponent {
             });
             window.localStorage.setItem(`ngx-ourpalm-table-${this.cacheKey}-columns`, JSON.stringify(columnArr));
         }
+    }
+
+    @Input('pageSize') set _pageSize(pageSize: number) {
+        if (this.cacheKey && this.cachePageSize && window.localStorage) {
+            let pageSize = window.localStorage.getItem(`ngx-ourpalm-table-${this.cacheKey}-pagesize`);
+            if (pageSize) {
+                this.pageSize = Number(pageSize);
+                return;
+            }
+        }
+        this.pageSize = pageSize;
+    }
+
+    onPageSizeChangeEvent(pageSize) {
+        if (this.cacheKey && this.cachePageSize && window.localStorage) {
+            window.localStorage.setItem(`ngx-ourpalm-table-${this.cacheKey}-pagesize`, pageSize);
+        }
+        this.pageSize = pageSize;
     }
 
     /** 用户点击一行的时候触发 */
