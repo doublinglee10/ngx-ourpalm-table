@@ -79,8 +79,8 @@ import {OurpalmTableCell} from "../model/ourpalm-table-cell";
         </table>
         <ourpalm-table-setting *ngIf="openSettings"
                                [originalColumns]="originalColumns"
-                               [columns]="columns"
-                               (columnsChange)="columnsChange.emit($event);"
+                               [(columns)]="columns"
+                               (columnsChange)="onSettingColumns($event);"
                                [openSettings]="openSettings"
                                (openSettingsChange)="openSettingsChange.emit($event)">
         </ourpalm-table-setting>
@@ -183,9 +183,41 @@ export class OurpalmTableWrapperComponent {
 
     /** 原始的表格列数据 */
     @Input('columns') set _columns(columns: OurpalmTableColumn[]) {
-        columns = columns || [];
         let __columns: OurpalmTableColumn[] = columns.map(column => Object.assign(column, new OurpalmTableColumn(column)));
         this.columns = __columns;
+
+        if (this.cacheKey && this.cacheColumns && window.localStorage) {
+            let cache = window.localStorage.getItem(`ngx-ourpalm-table-${this.cacheKey}-columns`);
+            if (cache) {
+                let columnArr: any[] = JSON.parse(cache);
+                if (columnArr.length == this.columns.length) {
+                    let tmpColumns = [];
+                    columnArr.forEach((col1 => {
+                        this.columns.forEach(col2 => {
+                            if (col1.field == col2.field) {
+                                tmpColumns.push(Object.assign(col2, col1));
+                            }
+                        });
+                    }));
+                    this.columns.splice(0);
+                    tmpColumns.forEach(col => {
+                        this.columns.push(col);
+                    });
+                } else {
+                    window.localStorage.removeItem(`ngx-ourpalm-table-${this.cacheKey}-columns`);
+                }
+            }
+        }
+    }
+
+    onSettingColumns(columns) {
+        if (this.cacheKey && this.cacheColumns && window.localStorage) {
+            let columnArr: any[] = [];
+            this.columns.forEach((column: OurpalmTableColumn) => {
+                columnArr.push({field: column.field, show: column.show});
+            });
+            window.localStorage.setItem(`ngx-ourpalm-table-${this.cacheKey}-columns`, JSON.stringify(columnArr));
+        }
     }
 
     /** 用户点击一行的时候触发 */
