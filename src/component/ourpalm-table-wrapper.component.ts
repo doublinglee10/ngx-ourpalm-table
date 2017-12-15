@@ -178,37 +178,8 @@ export class OurpalmTableWrapperComponent {
     /** 表格列属性 */
     @Input() originalColumns: OurpalmTableColumn[];
     /** 表格列属性 */
-    columns: OurpalmTableColumn[];
+    @Input() columns: OurpalmTableColumn[];
     @Output() columnsChange: EventEmitter<OurpalmTableColumn[]> = new EventEmitter();
-
-    /** 原始的表格列数据 */
-    @Input('columns') set _columns(columns: OurpalmTableColumn[]) {
-        let __columns: OurpalmTableColumn[] = columns.map(column => Object.assign(column, new OurpalmTableColumn(column)));
-        this.columns = __columns;
-
-        if (this.cacheKey && this.cacheColumns && window.localStorage) {
-            let cache = window.localStorage.getItem(`ngx-ourpalm-table-${this.cacheKey}-columns`);
-            if (cache) {
-                let columnArr: any[] = JSON.parse(cache);
-                if (columnArr.length == this.columns.length) {
-                    let tmpColumns = [];
-                    columnArr.forEach((col1 => {
-                        this.columns.forEach(col2 => {
-                            if (col1.field == col2.field) {
-                                tmpColumns.push(Object.assign(col2, col1));
-                            }
-                        });
-                    }));
-                    this.columns.splice(0);
-                    tmpColumns.forEach(col => {
-                        this.columns.push(col);
-                    });
-                } else {
-                    window.localStorage.removeItem(`ngx-ourpalm-table-${this.cacheKey}-columns`);
-                }
-            }
-        }
-    }
 
     onSettingColumns(columns) {
         if (this.cacheKey && this.cacheColumns && window.localStorage) {
@@ -218,17 +189,6 @@ export class OurpalmTableWrapperComponent {
             });
             window.localStorage.setItem(`ngx-ourpalm-table-${this.cacheKey}-columns`, JSON.stringify(columnArr));
         }
-    }
-
-    @Input('pageSize') set _pageSize(pageSize: number) {
-        if (this.cacheKey && this.cachePageSize && window.localStorage) {
-            let pageSize = window.localStorage.getItem(`ngx-ourpalm-table-${this.cacheKey}-pagesize`);
-            if (pageSize) {
-                this.pageSize = Number(pageSize);
-                return;
-            }
-        }
-        this.pageSize = pageSize;
     }
 
     onPageSizeChangeEvent(pageSize) {

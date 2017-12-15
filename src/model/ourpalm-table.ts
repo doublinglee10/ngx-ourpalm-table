@@ -30,7 +30,7 @@ export class OurpalmTable {
     /** 初始化table的时候是否自动加载数据 */
     autoLoadData?: boolean = true;
     /** 表格列属性 */
-    columns?: OurpalmTableColumn[] = [];
+    private _columns?: OurpalmTableColumn[] = [];
     /** 是否显示分页控件 */
     pagination?: boolean = true;
     /** 是否限制只能选中一行 */
@@ -44,11 +44,11 @@ export class OurpalmTable {
     /** 在设置分页属性的时候是否允许用户跳转页面 */
     skipPage?: boolean = true;
     /** 客户端存储table信息是对应存放在localStorage中的key */
-    cacheKey?: string = '';
+    private _cacheKey?: string = '';
     /** 是否在客户端存储table的页大小,刷新的时候页大小不变,保存在localStorage中,key为ourpalm-table-${cacheKey}-pageSize */
-    cachePageSize?: boolean = false;
+    private _cachePageSize?: boolean = false;
     /** 是否在客户端存在table的列隐藏信息,刷新的时候列的隐藏信息不变,保存在localStorage中,key为ourpalm-table-${cacheKey}-columns */
-    cacheColumns?: boolean = false;
+    private _cacheColumns?: boolean = false;
     /** 分页条在那里显示可取值 'bottom', 'top', 'both' */
     pagePosition?: 'bottom' | 'top' | 'both' = 'bottom';
     /** 是否显示刷新按钮*/
@@ -102,22 +102,87 @@ export class OurpalmTable {
 
     constructor(table?: OurpalmTable | any) {
         Object.assign(this, table);
-        this.changeColumns(this.columns);
+    }
+
+    get cacheKey() {
+        return this._cacheKey;
+    }
+
+    set cacheKey(cacheKey: string) {
+        this._cacheKey = cacheKey;
+        this._reloadCachePageSize();
+        this._reloadCacheColumns();
+    }
+
+    get cachePageSize() {
+        return this._cachePageSize;
+    }
+
+    set cachePageSize(cachePageSize: boolean) {
+        this._cachePageSize = cachePageSize;
         this._reloadCachePageSize();
     }
 
-    onLoadSuccess(_page: Page) {
-        let page: Page = {
-            currentPage: _page.currentPage,
-            pageSize: _page.pageSize,
-            total: _page.total,
-            rows: [...(_page.rows || [])]
-        };
+    get cacheColumns() {
+        return this._cacheColumns;
+    }
 
-        this.pageSize = page.pageSize || this.pageSize;
-        this.total = page.total;
-        this.rows = page.rows;
-        this.currentPage = page.currentPage || this.currentPage;
+    set cacheColumns(cacheColumns: boolean) {
+        this._cacheColumns = cacheColumns;
+        this._reloadCacheColumns();
+    }
+
+    get columns() {
+        return this._columns;
+    }
+
+    set columns(columns: OurpalmTableColumn[]) {
+        this.originalColumns = columns.map(column => new OurpalmTableColumn(column));
+        this._columns = columns.map(column => Object.assign(column, new OurpalmTableColumn(column)));
+        this._reloadCacheColumns();
+    }
+
+    private _reloadCachePageSize() {
+        if (this.cacheKey && this.cachePageSize && window.localStorage) {
+            let pageSize = window.localStorage.getItem(`ngx-ourpalm-table-${this.cacheKey}-pagesize`);
+            if (pageSize && Number(pageSize) != this.pageSize) {
+                this.pageSize = Number(pageSize);
+            }
+        }
+    }
+
+    private _reloadCacheColumns() {
+        if (this.cacheKey && this.cacheColumns && window.localStorage) {
+            let cache = window.localStorage.getItem(`ngx-ourpalm-table-${this.cacheKey}-columns`);
+            if (cache) {
+                let cachedColumns: any[] = JSON.parse(cache);
+                let tmpColumns = [];
+                cachedColumns.forEach(((cachedColumn: OurpalmTableColumn) => {
+                    this.columns.forEach((tableColumn: OurpalmTableColumn) => {
+                        if (cachedColumn.field == tableColumn.field) {
+                            tmpColumns.push(Object.assign(tableColumn, cachedColumn));
+                        }
+                    });
+                }));
+                this._columns = tmpColumns;
+            }
+        }
+    }
+
+    onLoadSuccess(_page: Page) {
+        Promise.resolve().then(() => {
+            let page: Page = {
+                currentPage: _page.currentPage,
+                pageSize: _page.pageSize,
+                total: _page.total,
+                rows: [...(_page.rows || [])]
+            };
+
+            this.pageSize = page.pageSize || this.pageSize;
+            this.total = page.total;
+            this.rows = page.rows;
+            this.currentPage = page.currentPage || this.currentPage;
+        });
     }
 
     get rows() {
@@ -238,49 +303,14 @@ export class OurpalmTable {
      * @param columns 要修改的列定义
      * @param localStorageType 是从localStorage中恢复列定义，还是将列定义放到localStorage中
      */
-    changeColumns(columns: OurpalmTableColumn[], localStorageType: 'read' | 'write' | '' = 'read') {
-        this.originalColumns = columns.map(column => new OurpalmTableColumn(column));
-        this.columns = columns.map(column => Object.assign(column, new OurpalmTableColumn(column)));
-
-        if (this.cacheKey && this.cacheColumns && window.localStorage) {
-            if (localStorageType === 'write') {
-                let columnArr: any[] = [];
-                this.columns.forEach((column: OurpalmTableColumn) => {
-                    columnArr.push({field: column.field, show: column.show});
-                });
-                window.localStorage.setItem(`ngx-ourpalm-table-${this.cacheKey}-columns`, JSON.stringify(columnArr));
-            } else if (localStorageType === 'read') {
-                let cache = window.localStorage.getItem(`ngx-ourpalm-table-${this.cacheKey}-columns`);
-                if (cache) {
-                    let columnArr: any[] = JSON.parse(cache);
-                    if (columnArr.length == this.columns.length) {
-                        let tmpColumns = [];
-                        columnArr.forEach((col1 => {
-                            this.columns.forEach(col2 => {
-                                if (col1.field == col2.field) {
-                                    tmpColumns.push(Object.assign(col2, col1));
-                                }
-                            });
-                        }));
-                        this.columns.splice(0);
-                        tmpColumns.forEach(col => {
-                            this.columns.push(col);
-                        });
-                    } else {
-                        window.localStorage.removeItem(`ngx-ourpalm-table-${this.cacheKey}-columns`);
-                    }
-                }
-            }
-        }
+    changeColumns(columns: OurpalmTableColumn[]) {
+        this.columns = columns;
     }
 
     changePageSize(pageSize: number) {
         this.pageSize = pageSize;
         this._currentPage = 1;
         this.invokeLoadData();
-        if (this.cacheKey && this.cachePageSize && window.localStorage) {
-            window.localStorage.setItem(`ngx-ourpalm-table-${this.cacheKey}-pagesize`, `${pageSize}`);
-        }
     }
 
     /*跳转到第一页，触发重新加载数据*/
@@ -326,17 +356,9 @@ export class OurpalmTable {
     /*重新配置table属性，触发重新加载数据*/
     setOptions(table: OurpalmTable | any) {
         Object.assign(this, table);
-        if (table && table.columns) {
-            this.originalColumns = this.columns.map(column => new OurpalmTableColumn(column));
-            this.columns = this.columns.map((column) => new OurpalmTableColumn(column));
-        }
-
         if (this.autoLoadData) {
             this.invokeLoadData();
         }
-
-        this.changeColumns(this.columns);
-        this._reloadCachePageSize();
     }
 
     /*勾选当前页中的所有行*/
@@ -387,14 +409,5 @@ export class OurpalmTable {
 
     invokeLoadData() {
         this.loadData(this, this.onLoadSuccess.bind(this));
-    }
-
-    private _reloadCachePageSize() {
-        if (this.cacheKey && this.cachePageSize && window.localStorage) {
-            let pageSize = window.localStorage.getItem(`ngx-ourpalm-table-${this.cacheKey}-pagesize`);
-            if (pageSize) {
-                this.pageSize = +pageSize;
-            }
-        }
     }
 }

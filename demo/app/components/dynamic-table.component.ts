@@ -108,7 +108,7 @@ export class DynamicTableComponent {
             pagePosition: 'bottom',
             columns: this.table1Columns,
             pageSize: 10,
-            pageList: [10, 50, 100, 200, 500, 1000, 2000, 5000],
+            pageList: [2, 3, 5, 10, 50, 100, 200, 500, 1000, 2000, 5000],
             loadData: this.loadData.bind(this),
             rowMenus: [
                 {

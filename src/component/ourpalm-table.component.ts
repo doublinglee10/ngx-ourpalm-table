@@ -1,4 +1,4 @@
-import {AfterContentInit, Component, ContentChild, ContentChildren, Input, QueryList} from "@angular/core";
+import {AfterViewInit, Component, ContentChild, ContentChildren, Input, QueryList} from "@angular/core";
 import {OurpalmTable} from "../model/ourpalm-table";
 import {OurpalmTableRowViewComponent} from "./body/ourpalm-table-rowview.component";
 import {OurpalmTableColumnComponent} from "./body/ourpalm-table-column.component";
@@ -52,7 +52,7 @@ import {sortColumns} from "../utils/column-helpers";
         </ourpalm-table-wrapper>
     `
 })
-export class OurpalmTableComponent implements AfterContentInit {
+export class OurpalmTableComponent implements AfterViewInit {
 
     @Input('table') table: OurpalmTable;
 
@@ -61,24 +61,26 @@ export class OurpalmTableComponent implements AfterContentInit {
     @ContentChild(OurpalmTableRowViewComponent)
     private rowViewComponent: OurpalmTableRowViewComponent;
 
-    ngAfterContentInit() {
-        let staticColumns = this.columnComponents.toArray().map((columnComponent: OurpalmTableColumnComponent) => {
-            let column: OurpalmTableColumn = columnComponent.column;
-            column.template = columnComponent.template;
-            return new OurpalmTableColumn(column);
+    ngAfterViewInit() {
+        Promise.resolve().then(() => {
+            let staticColumns = this.columnComponents.toArray().map((columnComponent: OurpalmTableColumnComponent) => {
+                let column: OurpalmTableColumn = columnComponent.column;
+                column.template = columnComponent.template;
+                return new OurpalmTableColumn(column);
+            });
+
+            if (staticColumns.length > 0) {
+                this.table.columns = staticColumns;
+            }
+
+            if (this.rowViewComponent) {
+                this.table.rowViewTemplate = this.rowViewComponent.template;
+            }
+
+            if (this.table.autoLoadData) {
+                this.table.invokeLoadData();
+            }
         });
-
-        if (staticColumns.length > 0) {
-            this.table.columns = staticColumns;
-        }
-
-        if (this.rowViewComponent) {
-            this.table.rowViewTemplate = this.rowViewComponent.template;
-        }
-
-        if (this.table.autoLoadData) {
-            this.table.invokeLoadData();
-        }
     }
 
     /** 用户点击一行的时候触发 */
