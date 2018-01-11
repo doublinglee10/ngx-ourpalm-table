@@ -2,7 +2,6 @@ import {FormsModule} from "@angular/forms";
 import {CommonModule} from "@angular/common";
 import {DragulaModule} from "ng2-dragula";
 import {ModuleWithProviders, NgModule} from "@angular/core";
-import {GwContextMenuModule} from "glowworm/lib/context-menu";
 import {TableConfig} from "./model/table.config";
 import {OurpalmTableBodyComponent} from "./component/body/ourpalm-table-body.component";
 import {OurpalmTableBodyCellComponent} from "./component/body/ourpalm-table-body-cell.component";
@@ -22,13 +21,14 @@ import {OurpalmTableWrapperComponent} from "./component/ourpalm-table-wrapper.co
 import {SafeHtmlPipe} from "./utils/safe-html.pipe";
 import {OurpalmTableBodyCheckboxCellComponent} from "./component/body/ourpalm-table-body-checkboxcell.component";
 import {OurpalmTableHeaderCheckboxCellComponent} from "./component/header/ourpalm-table-header-checkboxcell.component";
+import {GlowwormRootModule} from "glowworm";
 
 @NgModule({
     imports: [
         CommonModule,
         FormsModule,
         DragulaModule,
-        GwContextMenuModule.forRoot()
+        GlowwormRootModule
     ],
     declarations: [
         OurpalmTableBodyComponent,

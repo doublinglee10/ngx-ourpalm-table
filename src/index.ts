@@ -7,6 +7,7 @@ export {Page} from './model/ourpalm-table';
 export {OurpalmTableCell} from './model/ourpalm-table-cell';
 export {OurpalmTableColumn} from './model/ourpalm-table-column';
 export {OurpalmTableRow} from './model/ourpalm-table-row';
+export {SafeHtmlPipe} from './utils/safe-html.pipe';
+
 export * from './model/uuid';
 
-export {SafeHtmlPipe} from './utils/safe-html.pipe';

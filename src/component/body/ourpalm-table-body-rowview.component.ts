@@ -8,7 +8,7 @@ import {RowView} from "../../model/ourpalm-table";
     template: `
         <ng-container *ngIf="template">
             <ng-template [ngTemplateOutlet]="template"
-                         [ngOutletContext]="{'$row': row, '$index': rowIndex}">
+                         [ngTemplateOutletContext]="{'$row': row, '$index': rowIndex}">
             </ng-template>
         </ng-container>
         <ng-container *ngIf="!template">
