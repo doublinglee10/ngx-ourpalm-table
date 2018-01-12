@@ -13,6 +13,7 @@ import {HttpModule} from "@angular/http";
 import {NgForDemoComponent} from "./components/ngfor-demo.component";
 import {OurpalmTableV3Component} from "./components/ourpalm-table-v3.component";
 import {FormsModule} from "@angular/forms";
+import {AddRowComponent} from "./components/addrow.table.component";
 
 @NgModule({
     declarations: [
@@ -23,7 +24,8 @@ import {FormsModule} from "@angular/forms";
         ObjectRowTableComponent,
         CardViewComponent,
         NgForDemoComponent,
-        OurpalmTableV3Component
+        OurpalmTableV3Component,
+        AddRowComponent
     ],
     imports: [
         FormsModule,

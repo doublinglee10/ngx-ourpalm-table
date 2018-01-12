@@ -193,13 +193,22 @@ export class OurpalmTable {
         rows = rows || [];
         this._rows = rows;
 
+        let getPreTableRow = (row) => {
+            let rows = this.tableRows.filter(tableRow => tableRow.data === row);
+            return rows.length > 0 ? rows[0] : null;
+        };
+
         let __rows: OurpalmTableRow[] = rows.map((row: any, index: number) => {
-            return {
-                index: index,
-                selected: false,
-                checked: false,
-                data: row
+            let tableRow = getPreTableRow(row);
+            if (tableRow) {
+                tableRow.index = index;
             }
+            return tableRow || {
+                    index: index,
+                    selected: false,
+                    checked: false,
+                    data: row
+                };
         });
         this.tableRows = __rows;
     }

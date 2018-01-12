@@ -7,6 +7,7 @@ import {ObjectRowTableComponent} from "./components/object-row.component";
 import {CardViewComponent} from "./components/card-view.component";
 import {NgForDemoComponent} from "./components/ngfor-demo.component";
 import {OurpalmTableV3Component} from "./components/ourpalm-table-v3.component";
+import {AddRowComponent} from "./components/addrow.table.component";
 
 const routes: Routes = [
     {
@@ -36,6 +37,10 @@ const routes: Routes = [
     {
         path: 'v3',
         component: OurpalmTableV3Component
+    },
+    {
+        path: 'addrow',
+        component: AddRowComponent
     }
 ];
 
