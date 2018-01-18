@@ -14,6 +14,7 @@ import {OurpalmTableRow} from "../../model/ourpalm-table-row";
 import {RowView, RowViewShowType} from "../../model/ourpalm-table";
 import {OurpalmTableCell} from "../../model/ourpalm-table-cell";
 import {ContextMenu, ContextMenuService} from "glowworm/lib/context-menu";
+import {getElementOffset, isMobileDevice} from "../../utils/detech-device";
 
 @Component({
     selector: '[ourpalm-table-body]',
@@ -30,9 +31,9 @@ import {ContextMenu, ContextMenuService} from "glowworm/lib/context-menu";
                             <td ourpalm-table-body-checkboxcell
                                 [row]="row"
                                 [ngStyle]="getStyler(column, i, j, row.data)"
-                                (click)="onClickCellEvent(j, row, column)"
+                                (click)="onClickCellEvent($event, j, row, column)"
                                 (dblclick)="onDbClickCellEvent(j, row, column)"
-                                (onRowCheckBoxChange)="onRowCheckBoxChange.emit(row)"
+                                (onRowCheckBoxChange)="onRowCheckBoxChange.emit(row);onRowCheckBoxChangeEvent($event, j, row, column);"
                                 (contextmenu)="onContextMenu($event, i, j, row, column)">
                             </td>
                         </ng-container>
@@ -43,7 +44,7 @@ import {ContextMenu, ContextMenuService} from "glowworm/lib/context-menu";
                                 [rowIndex]="i"
                                 [cellIndex]="j"
                                 [ngStyle]="getStyler(column, i, j, row.data)"
-                                (click)="onClickCellEvent(j, row, column)"
+                                (click)="onClickCellEvent($event, j, row, column)"
                                 (dblclick)="onDbClickCellEvent(j, row, column)"
                                 (contextmenu)="onContextMenu($event, i, j, row, column)">
                             </td>
@@ -118,12 +119,17 @@ export class OurpalmTableBodyComponent implements OnInit, OnDestroy {
         }
     }
 
-    onClickCellEvent(cellIndex: number, row: OurpalmTableRow, column: OurpalmTableColumn) {
+    onClickCellEvent(event: any, cellIndex: number, row: OurpalmTableRow, column: OurpalmTableColumn) {
         this.onClickCell.emit({
             index: cellIndex,
             row,
             column
         });
+
+        //移动端当点击cell的时候弹出右键菜单
+        if (isMobileDevice()) {
+            this.onContextMenu(event, row.index, cellIndex, row, column);
+        }
     }
 
     onDbClickCellEvent(cellIndex: number, column: OurpalmTableColumn, row: OurpalmTableRow) {
@@ -132,6 +138,16 @@ export class OurpalmTableBodyComponent implements OnInit, OnDestroy {
             row,
             column
         });
+    }
+
+    onRowCheckBoxChangeEvent(event: any, cellIndex: number, row: OurpalmTableRow, column: OurpalmTableColumn) {
+        //移动端当点击checkbox时弹出右键菜单
+        if (row.checked && isMobileDevice()) {
+            let {top, left, width, height} = getElementOffset(event.target);
+            event.pageY = top + height;
+            event.pageX = left + width;
+            this.onContextMenu(event, row.index, cellIndex, row, column);
+        }
     }
 
     onContextMenu(event: any, rowIndex: number, cellIndex: number, row: OurpalmTableRow, column: OurpalmTableColumn) {

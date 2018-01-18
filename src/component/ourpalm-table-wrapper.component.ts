@@ -219,6 +219,7 @@ export class OurpalmTableWrapperComponent {
                 }
             });
         }
+        this.onClickRow.emit(row);
     }
 
     /** 用户选择列表行checkbox时触发 */

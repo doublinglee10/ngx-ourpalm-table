@@ -81,22 +81,22 @@ export class StaticTableComponent {
                     }, {
                         text: '.ignore file',
                         submenus: [{
-                            text: '.gitignore file(Git)'
+                            text: '.gitignore file(Git)',
+                            onclick: function () {
+                                alert('gitignore file(Git)')
+                            }
                         }, {
-                            text: '.cvsignore file(Cvs)'
+                            text: '.cvsignore file(Cvs)',
+                            onclick: function () {
+                                alert('cvsignore file(Cvs)')
+                            }
                         }]
-                    }],
-                    show: () => {
-                        return this.table.getSelectedRows().length < 5 ? true : false;
-                    }
+                    }]
                 },
                 {
                     text: '打开',
                     onclick: function () {
                         alert('打开')
-                    },
-                    show: () => {
-                        return this.table.getSelectedRows().length < 5 ? true : false;
                     }
                 },
                 {
@@ -105,12 +105,23 @@ export class StaticTableComponent {
                     text: '设置',
                     onclick: function () {
                         alert('设置')
-                    },
-                    show: () => {
-                        return this.table.getSelectedRows().length < 5 ? true : false;
                     }
                 }
-            ]
+            ],
+            onClickRow: (rowIndex: number, rowData: any) => {
+                console.warn('click row');
+            },
+            /** 用户双击一行的时候触发 */
+            onDbClickRow: (rowIndex: number, rowData: any) => {
+                console.warn('dbclick row');
+            },
+            /** 用户点击单元格的时候触发 */
+            onClickCell: (rowIndex: number, cellIndex: number, rowData: any, column: any) => {
+                console.warn('click cell');
+            },
+            onDbClickCell: (rowIndex: number, rowData: any) => {
+                console.warn('dbclick cell');
+            }
         });
     }
 
