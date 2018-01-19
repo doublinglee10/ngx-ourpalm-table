@@ -31,7 +31,7 @@ import {DragulaService} from "ng2-dragula";
                     </div>
                     <div class="modal-body">
                         <div class="row">
-                            <div class="col-md-5">
+                            <div class="column-items">
                                 <span>备选列</span>
                                 <div class="col-con">
                                     <input type="text" placeholder="输入值..." [(ngModel)]="lmodel">
@@ -45,7 +45,7 @@ import {DragulaService} from "ng2-dragula";
                                     </ul>
                                 </div>
                             </div>
-                            <div class="col-md-2" style="padding:0px;margin:0px;text-align:center;">
+                            <div style="padding:0px;margin:0px;text-align:center;width:100px;float:left;">
                                 <div style="margin-top:130px;margin-bottom:10px;">
                                     <button type="button" class="btn btn-default btn-sm" (click)="showColumns()">
                                         <i class="glyphicon glyphicon-arrow-right"></i>
@@ -55,7 +55,7 @@ import {DragulaService} from "ng2-dragula";
                                     <i class="glyphicon glyphicon-arrow-left"></i>
                                 </button>
                             </div>
-                            <div class="col-md-5">
+                            <div class="column-items">
                                 <span>已选列</span>
                                 <div class="col-con">
                                     <input type="text" placeholder="输入值..." [(ngModel)]="rmodel">
