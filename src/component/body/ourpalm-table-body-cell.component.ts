@@ -13,7 +13,7 @@ import {OurpalmTableColumn} from "../../model/ourpalm-table-column";
             </ng-container>
             <ng-container *ngIf="column.template"> <!-- 静态列 -->
                 <ng-template [ngTemplateOutlet]="column.template"
-                             [ngOutletContext]="{'$implicit': column, '$row': row, '$rowIndex': rowIndex, '$cellIndex': cellIndex}">
+                             [ngTemplateOutletContext]="{'$implicit': column, '$row': row, '$rowIndex': rowIndex, '$cellIndex': cellIndex}">
                 </ng-template>
             </ng-container>
         </ng-container>
