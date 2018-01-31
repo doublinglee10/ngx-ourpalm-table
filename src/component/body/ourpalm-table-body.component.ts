@@ -30,6 +30,7 @@ import {ContextMenu, ContextMenuService} from "glowworm";
                         <ng-container *ngIf="column.checkbox && column.show">
                             <td ourpalm-table-body-checkboxcell
                                 [row]="row"
+                                [ngClass]="column.clazz"
                                 [ngStyle]="getStyler(column, i, j, row.data)"
                                 (click)="onClickCellEvent($event, j, row, column)"
                                 (dblclick)="onDbClickCellEvent(j, row, column)"
@@ -43,6 +44,7 @@ import {ContextMenu, ContextMenuService} from "glowworm";
                                 [column]="column"
                                 [rowIndex]="i"
                                 [cellIndex]="j"
+                                [ngClass]="column.clazz"
                                 [ngStyle]="getStyler(column, i, j, row.data)"
                                 (click)="onClickCellEvent($event, j, row, column)"
                                 (dblclick)="onDbClickCellEvent(j, row, column)"
@@ -57,7 +59,7 @@ import {ContextMenu, ContextMenuService} from "glowworm";
                     [ngClass]="{'row-selected': row.selected}"
                     (click)="onClickRow.emit({row: row, event: $event})"
                     (dblclick)="onDbClickRow.emit(row)">
-                    <td colspan="100000">
+                    <td colspan="10000">
                         <ourpalm-table-body-rowview
                                 [rowIndex]="i"
                                 [row]="row.data"

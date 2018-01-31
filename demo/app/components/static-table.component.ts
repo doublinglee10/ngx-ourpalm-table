@@ -5,8 +5,10 @@ import {Component} from "@angular/core";
     selector: 'static-table',
     template: `
         <ourpalm-table [table]="table">
-            <ourpalm-table-column [column]="{header: '全选', field: 'checkAll', checkbox: true}"></ourpalm-table-column>
-            <ourpalm-table-column [column]="{header: '序号', field: 'number', rownumbers: true}"></ourpalm-table-column>
+            <ourpalm-table-column
+                    [column]="{header: '全选', field: 'checkAll', checkbox: true, styler: styler, clazz: 'myclazz' }"></ourpalm-table-column>
+            <ourpalm-table-column
+                    [column]="{header: '序号', field: 'number', rownumbers: true, styler: styler}"></ourpalm-table-column>
             <ourpalm-table-column [column]="{header: '姓名', field: 'name', sort: true}">
                 <ng-template let-data="$row">
                     <span style="color:red;">{{data.name}}</span>
@@ -21,6 +23,12 @@ import {Component} from "@angular/core";
     `
 })
 export class StaticTableComponent {
+
+    styler = () => {
+        return {
+            width: '50px'
+        }
+    };
 
     table: OurpalmTable;
 

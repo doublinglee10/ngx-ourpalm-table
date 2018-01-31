@@ -229,6 +229,7 @@ export class CardViewComponent {
 |	checkbox		      |     boolean		  |		false		   |	是否为多选列				|
 |	sorter  		      |     function	  |		undefined      |	服务器排序不需要设置，客户端排序需要设置，`sorter: (column, row1, row2) => row1[column.field] - row2[column.field]`		|
 |	styler  		      |  ()=>any \| any	  |		''             |	设置表格cell的样式，`styler: (rowIndex, columnIndex, rowData) => return { color: 'red' }`	  or  `styler: { color: 'red' }`	|
+|	clazz     		      |     string  	  |		''             |	设置表格cell的class 	|
 |	disabledContextMenu   |     boolean		  |		false		   |	是否在当前列上禁用上下文菜单			|
 
 

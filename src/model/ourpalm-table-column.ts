@@ -21,9 +21,11 @@ export class OurpalmTableColumn {
     /** 是否禁止右键菜单 */
     disabledContextMenu?: boolean = false;
     /** td的宽 */
-    styler?: (rowIndex: number, columnIndex: number, rowData: any) => any;
+    styler?: (rowIndex: number, columnIndex: number, rowData: any) => any | any;
     /** 单元格formatter(格式化器)函数 */
     formatter?: (value: any, row: any) => {} = (value, row) => value;
+    /** td的class*/
+    clazz: string;
     /** 列排序函数 */
     sorter?: (column: OurpalmTableColumn, row1: any, row2: any) => any = (column, row1, row2) => {
         let param1 = row1[column.field];
