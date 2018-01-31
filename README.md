@@ -1,6 +1,6 @@
 ## ngx-ourpalm-table
 
-基于angular4.x、bootstrap的表格控件，支持编程式和声明式列配置 [angular5.x](https://github.com/lishichao1002/ngx-ourpalm-table/tree/v2.x)
+基于angular5.x、bootstrap的表格控件，支持编程式和声明式列配置
 
 ### Installation
 
