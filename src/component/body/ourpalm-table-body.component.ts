@@ -13,8 +13,8 @@ import {OurpalmTableColumn} from "../../model/ourpalm-table-column";
 import {OurpalmTableRow} from "../../model/ourpalm-table-row";
 import {RowView, RowViewShowType} from "../../model/ourpalm-table";
 import {OurpalmTableCell} from "../../model/ourpalm-table-cell";
-import {ContextMenu, ContextMenuService} from "glowworm/lib/context-menu";
 import {getElementOffset, isMobileDevice} from "../../utils/detech-device";
+import {ContextMenu, ContextMenuService} from "glowworm";
 
 @Component({
     selector: '[ourpalm-table-body]',

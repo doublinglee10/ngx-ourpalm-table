@@ -1,6 +1,6 @@
 import {OurpalmTableColumn} from "./ourpalm-table-column";
 import {TemplateRef} from "@angular/core";
-import {ContextMenu} from "glowworm/lib/context-menu";
+import {ContextMenu} from "glowworm";
 import {OurpalmTableRow} from "./ourpalm-table-row";
 
 export interface Page {

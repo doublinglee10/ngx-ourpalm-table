@@ -8,7 +8,7 @@ import {
     ViewEncapsulation
 } from "@angular/core";
 import {OurpalmTableColumn} from "../model/ourpalm-table-column";
-import {ContextMenu} from "glowworm/lib/context-menu";
+import {ContextMenu} from "glowworm";
 import {RowView, RowViewShowType} from "../model/ourpalm-table";
 import {OurpalmTableRow} from "../model/ourpalm-table-row";
 import {OurpalmTableCell} from "../model/ourpalm-table-cell";

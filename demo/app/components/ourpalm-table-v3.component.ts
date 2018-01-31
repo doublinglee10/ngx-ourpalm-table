@@ -274,7 +274,7 @@ export class OurpalmTableV3Component {
         console.log('check end');
     }
 
-    L() {
+    L(msg) {
         console.log(arguments);
     }
 }

@@ -12,7 +12,6 @@ import {
     ViewEncapsulation
 } from "@angular/core";
 import {OurpalmTableColumn} from "../../model/ourpalm-table-column";
-import {DragulaService} from "ng2-dragula";
 
 @Component({
     selector: 'ourpalm-table-setting',
@@ -59,7 +58,8 @@ import {DragulaService} from "ng2-dragula";
                                 <span>已选列</span>
                                 <div class="col-con">
                                     <input type="text" placeholder="输入值..." [(ngModel)]="rmodel">
-                                    <ul [dragula]="'setting-columns'" [dragulaModel]="rcolumns">
+                                    <!--<ul [dragula]="'setting-columns'" [dragulaModel]="rcolumns">-->
+                                    <ul>
                                         <li *ngFor="let col of rcolumns | rcolumnFilter:rmodel; let i = index;">
                                             <label>
                                                 <input type="checkbox" [(ngModel)]="col.rchecked">
@@ -103,7 +103,7 @@ export class OurpalmTableSettingComponent implements OnDestroy {
     lcolumns: SettingColumn[] = [];
     rcolumns: SettingColumn[] = [];
 
-    constructor(private dragulaService: DragulaService,
+    constructor(/*private dragulaService: DragulaService,*/
                 private changeDetectorRef: ChangeDetectorRef) {
     }
 
@@ -170,7 +170,7 @@ export class OurpalmTableSettingComponent implements OnDestroy {
     }
 
     ngOnDestroy() {
-        this.dragulaService.destroy('setting-columns');
+        // this.dragulaService.destroy('setting-columns');
     }
 
     private _getOriginalColumn(field: string): OurpalmTableColumn {

@@ -1,21 +1,21 @@
 {
   "name": "ngx-ourpalm-table",
-  "version": "2.0.2",
+  "version": "2.0.6",
   "license": "MIT",
-  "main": "./lib/index.js",
-  "typings": "./lib/index.d.ts",
-  "files": [
-    "lib"
-  ],
+  "ngPackage": {
+    "lib": {
+      "entryFile": "public_api.ts"
+    }
+  },
   "scripts": {
     "ng": "ng",
-    "dev": "http-server -a 0.0.0.0 -p 3000 -g -c-1 ./dist",
-    "start": "ng serve --host 0.0.0.0 --port 3000 --disable-host-check",
+    "dev": "http-server -a 0.0.0.0 -p 4200 -g -c-1 ./dist",
+    "start": "ng serve --host 0.0.0.0 --port 4200 --disable-host-check",
+    "start:aot": "ng serve --aot --host test.gamebean.com --port 4200",
     "test": "ng test",
     "lint": "ng lint",
-    "build": "npm run build:ngc && npm run build:umd",
-    "build:umd": "webpack --config webpack-umd.config.ts",
-    "build:ngc": "rm -rf aot && rm -rf lib && \"node_modules/.bin/ngc\" -p tsconfig-aot.json && gulp"
+    "build": "ng-packagr",
+    "publish:lib": "npm publish dist"
   },
   "repository": {
     "type": "git",
@@ -23,9 +23,9 @@
   },
   "keywords": [
     "angular2",
-    "angular4",
+    "angular5",
     "ng2",
-    "ng4",
+    "ng5",
     "table"
   ],
   "bugs": {
@@ -35,8 +35,7 @@
   "dependencies": {
     "bootstrap": "^3.3.7",
     "font-awesome": "^4.7.0",
-    "glowworm": "^1.0.0",
-    "ng2-dragula": "^1.5.0"
+    "glowworm": "^1.0.18"
   },
   "peerDependencies": {
     "@angular/common": "^5.2.0",
@@ -45,53 +44,54 @@
   },
   "devDependencies": {
     "@angular/animations": "^5.2.0",
+    "@angular/cli": "1.6.5",
     "@angular/common": "^5.2.0",
     "@angular/compiler": "^5.2.0",
+    "@angular/compiler-cli": "^5.2.0",
     "@angular/core": "^5.2.0",
     "@angular/forms": "^5.2.0",
     "@angular/http": "^5.2.0",
+    "@angular/language-service": "^5.2.0",
     "@angular/platform-browser": "^5.2.0",
     "@angular/platform-browser-dynamic": "^5.2.0",
     "@angular/router": "^5.2.0",
     "@ngrx/store": "^5.0.0",
     "@ngrx/store-devtools": "^5.0.0",
-    "core-js": "^2.4.1",
-    "rxjs": "^5.5.6",
-    "zone.js": "^0.8.19",
-    "@angular/cli": "1.6.5",
-    "@angular/compiler-cli": "^5.2.0",
-    "@angular/language-service": "^5.2.0",
     "@types/jasmine": "~2.8.3",
     "@types/jasminewd2": "~2.0.2",
+    "@types/jquery": "^3.2.9",
     "@types/node": "~6.0.60",
+    "admin-lte": "^2.3.11",
+    "angular2-template-loader": "^0.6.2",
+    "awesome-typescript-loader": "^3.1.3",
     "codelyzer": "^4.0.1",
+    "core-js": "^2.4.1",
+    "gulp": "^3.9.1",
+    "gulp-sass": "^3.1.0",
     "http-server": "^0.11.1",
     "jasmine-core": "~2.8.0",
     "jasmine-spec-reporter": "~4.2.1",
+    "jquery": "^3.2.1",
     "karma": "~2.0.0",
     "karma-chrome-launcher": "~2.2.0",
     "karma-cli": "~1.0.1",
     "karma-coverage-istanbul-reporter": "^1.2.1",
     "karma-jasmine": "~1.1.0",
     "karma-jasmine-html-reporter": "^0.2.2",
-    "protractor": "~5.1.2",
-    "ts-node": "~4.1.0",
-    "tslint": "~5.9.1",
-    "typescript": "~2.5.3",
-    "@types/jquery": "^3.2.9",
-    "admin-lte": "^2.3.11",
-    "angular2-template-loader": "^0.6.2",
-    "awesome-typescript-loader": "^3.1.3",
-    "gulp": "^3.9.1",
-    "gulp-sass": "^3.1.0",
-    "jquery": "^3.2.1",
+    "ng-packagr": "^1.6.0",
     "node-sass": "^4.5.3",
+    "protractor": "~5.1.2",
+    "rxjs": "^5.5.6",
     "sass-loader": "^6.0.6",
     "screenfull": "^3.3.1",
     "to-string-loader": "^1.1.5",
+    "ts-node": "~4.1.0",
+    "tslint": "~5.9.1",
+    "typescript": "~2.5.3",
     "webpack": "^2.5.1",
     "webpack-angular-externals": "^1.0.2",
-    "webpack-rxjs-externals": "^1.0.0"
+    "webpack-rxjs-externals": "^1.0.0",
+    "zone.js": "^0.8.19"
   },
   "description": "基于angular2.x、bootstrap的表格控件，支持编程式和声明式列配置",
   "homepage": "https://github.com/lishichao1002/ngx-ourpalm-table#readme"
