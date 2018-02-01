@@ -25,7 +25,7 @@ export class OurpalmTableColumn {
     /** 单元格formatter(格式化器)函数 */
     formatter?: (value: any, row: any) => {} = (value, row) => value;
     /** td的class*/
-    clazz: string;
+    clazz?: string;
     /** 列排序函数 */
     sorter?: (column: OurpalmTableColumn, row1: any, row2: any) => any = (column, row1, row2) => {
         let param1 = row1[column.field];

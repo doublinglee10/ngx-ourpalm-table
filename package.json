@@ -1,6 +1,6 @@
 {
   "name": "ngx-ourpalm-table",
-  "version": "2.0.7",
+  "version": "2.0.11",
   "license": "MIT",
   "ngPackage": {
     "lib": {
@@ -15,7 +15,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "build": "ng-packagr",
-    "publish:lib": "npm publish dist"
+    "publish": "npm publish dist"
   },
   "repository": {
     "type": "git",
@@ -35,7 +35,8 @@
   "dependencies": {
     "bootstrap": "^3.3.7",
     "font-awesome": "^4.7.0",
-    "glowworm": "^1.0.18"
+    "glowworm": "^1.0.18",
+    "ng-dragula": "^1.0.0"
   },
   "peerDependencies": {
     "@angular/common": "^5.2.0",

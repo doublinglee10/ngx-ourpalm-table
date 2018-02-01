@@ -12,6 +12,9 @@ import {
     ViewEncapsulation
 } from "@angular/core";
 import {OurpalmTableColumn} from "../../model/ourpalm-table-column";
+import {DragulaService} from "ng-dragula";
+
+let dragula_key_index: number = 0;
 
 @Component({
     selector: 'ourpalm-table-setting',
@@ -58,8 +61,7 @@ import {OurpalmTableColumn} from "../../model/ourpalm-table-column";
                                 <span>已选列</span>
                                 <div class="col-con">
                                     <input type="text" placeholder="输入值..." [(ngModel)]="rmodel">
-                                    <!--<ul [dragula]="'setting-columns'" [dragulaModel]="rcolumns">-->
-                                    <ul>
+                                    <ul [dragula]="dragula_key" [dragulaModel]="rcolumns">
                                         <li *ngFor="let col of rcolumns | rcolumnFilter:rmodel; let i = index;">
                                             <label>
                                                 <input type="checkbox" [(ngModel)]="col.rchecked">
@@ -96,6 +98,8 @@ export class OurpalmTableSettingComponent implements OnDestroy {
     @Input() openSettings: boolean;
     @Output() openSettingsChange: EventEmitter<boolean> = new EventEmitter();
 
+    dragula_key: string = `ourpalm-table-setting-columns-${++dragula_key_index}`;
+
     lmodel: string;
     rmodel: string;
 
@@ -103,7 +107,7 @@ export class OurpalmTableSettingComponent implements OnDestroy {
     lcolumns: SettingColumn[] = [];
     rcolumns: SettingColumn[] = [];
 
-    constructor(/*private dragulaService: DragulaService,*/
+    constructor(private dragulaService: DragulaService,
                 private changeDetectorRef: ChangeDetectorRef) {
     }
 
@@ -170,7 +174,7 @@ export class OurpalmTableSettingComponent implements OnDestroy {
     }
 
     ngOnDestroy() {
-        // this.dragulaService.destroy('setting-columns');
+        this.dragulaService.destroy(this.dragula_key);
     }
 
     private _getOriginalColumn(field: string): OurpalmTableColumn {

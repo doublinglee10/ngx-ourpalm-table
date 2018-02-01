@@ -21,12 +21,13 @@ import {SafeHtmlPipe} from "./utils/safe-html.pipe";
 import {OurpalmTableBodyCheckboxCellComponent} from "./component/body/ourpalm-table-body-checkboxcell.component";
 import {OurpalmTableHeaderCheckboxCellComponent} from "./component/header/ourpalm-table-header-checkboxcell.component";
 import {GwContextMenuModule} from "glowworm";
+import {DragulaModule} from "ng-dragula";
 
 @NgModule({
     imports: [
         CommonModule,
         FormsModule,
-        // DragulaModule,
+        DragulaModule,
         GwContextMenuModule.forRoot()
     ],
     declarations: [
