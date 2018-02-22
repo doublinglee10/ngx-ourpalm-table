@@ -9,4 +9,5 @@ export * from './model/ourpalm-table-column';
 export * from './model/ourpalm-table-row';
 export * from './model/uuid';
 
+export * from './utils/detech-device';
 export * from './utils/safe-html.pipe';
