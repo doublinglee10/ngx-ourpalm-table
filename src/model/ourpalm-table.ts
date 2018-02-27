@@ -282,7 +282,7 @@ export class OurpalmTable {
     getDisplayedColumns() {
         let columns = [];
         this.columns.forEach((column: OurpalmTableColumn) => {
-            column.show && columns.push(column);
+            column.show && columns.push(Object.assign({}, column));
         });
         return columns;
     }
@@ -294,12 +294,12 @@ export class OurpalmTable {
 
     /*获取选中的行信息*/
     getSelectedRows() {
-        return this.tableRows.filter((row) => row.selected);
+        return this.tableRows.filter((row) => row.selected).map((row) => row.data);
     }
 
     /*获取勾选中的行信息*/
     getCheckedRows() {
-        return this.tableRows.filter((row) => row.checked);
+        return this.tableRows.filter((row) => row.checked).map((row) => row.data);
     }
 
     /*获取排序的列信息*/
