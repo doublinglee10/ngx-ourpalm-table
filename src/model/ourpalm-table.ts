@@ -282,29 +282,29 @@ export class OurpalmTable {
     getDisplayedColumns() {
         let columns = [];
         this.columns.forEach((column: OurpalmTableColumn) => {
-            column.show && columns.push(Object.assign({}, column));
+            column.show && columns.push(column);
         });
         return columns;
     }
 
     /*获取显示的行信息,用于前端分页*/
     getDisplayedRows() {
-        return this.rows.map(row => Object.assign({}, row));
+        return this.rows;
     }
 
     /*获取选中的行信息*/
     getSelectedRows() {
-        return this.tableRows.filter((row) => row.selected).map((row) => Object.assign({}, row.data));
+        return this.tableRows.filter((row) => row.selected);
     }
 
     /*获取勾选中的行信息*/
     getCheckedRows() {
-        return this.tableRows.filter((row) => row.checked).map((row) => Object.assign({}, row.data));
+        return this.tableRows.filter((row) => row.checked);
     }
 
     /*获取排序的列信息*/
     getSortColumns() {
-        return this.columns.filter(column => column.sort).map(col => Object.assign({}, col));
+        return this.columns.filter(column => column.sort);
     }
 
     /**
