@@ -201,7 +201,9 @@ export interface SettingColumn {
 @Injectable()
 export class ColumnSettingsLeftFilter implements PipeTransform {
     transform(columns: SettingColumn[], name: string): SettingColumn[] {
-        return !name ? columns : columns.filter(column => column.column.header.includes(name));
+        return !name ? columns : columns.filter(column => {
+            return column.column.header.toLocaleLowerCase().includes(name.toLocaleLowerCase());
+        });
     }
 }
 
@@ -212,6 +214,8 @@ export class ColumnSettingsLeftFilter implements PipeTransform {
 @Injectable()
 export class ColumnSettingsRightFilter implements PipeTransform {
     transform(columns: SettingColumn[], name: string): SettingColumn[] {
-        return name ? columns.filter(column => column.column.header.includes(name)) : columns;
+        return !name ? columns : columns.filter(column => {
+            return column.column.header.toLocaleLowerCase().includes(name.toLocaleLowerCase());
+        });
     }
 }
