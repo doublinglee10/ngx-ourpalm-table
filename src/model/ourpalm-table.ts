@@ -153,18 +153,42 @@ export class OurpalmTable {
 
     private _reloadCacheColumns() {
         if (this.cacheKey && this.cacheColumns && window.localStorage) {
-            let cache = window.localStorage.getItem(`ngx-ourpalm-table-${this.cacheKey}-columns`);
+            let key = `ngx-ourpalm-table-${this.cacheKey}-columns`;
+            let cache = window.localStorage.getItem(key);
             if (cache) {
                 let cachedColumns: any[] = JSON.parse(cache);
-                let tmpColumns = [];
-                cachedColumns.forEach(((cachedColumn: OurpalmTableColumn) => {
-                    this.columns.forEach((tableColumn: OurpalmTableColumn) => {
-                        if (cachedColumn.field == tableColumn.field) {
-                            tmpColumns.push(Object.assign(tableColumn, cachedColumn));
+                if (this.originalColumns.length == 0 || cachedColumns.length == this.originalColumns.length) {
+                    let tmpColumns = [];
+                    cachedColumns.forEach(((cachedColumn: OurpalmTableColumn) => {
+                        this.columns.forEach((tableColumn: OurpalmTableColumn) => {
+                            if (cachedColumn.field == tableColumn.field) {
+                                tmpColumns.push(Object.assign(tableColumn, cachedColumn));
+                            }
+                        });
+                    }));
+                    this._columns = tmpColumns;
+                } else {
+                    window.localStorage.removeItem(key);
+                    console.table({
+                        '出现异常': {
+                            '详情': '当前表格的缓存列和设置列不对应，删除缓存的列设置'
+                        },
+                        '可能原因': {
+                            '详情': '1.静态列和动态列混用，会导致缓存列检查机制失效，请不要静态列和动态列混用; 2.列数据已过期'
+                        },
+                        '设置列信息': {
+                            '详情': JSON.stringify(this.originalColumns.map(item => {
+                                return {
+                                    header: item.header,
+                                    field: item.field
+                                }
+                            }))
+                        },
+                        '缓存列信息': {
+                            '详情': cache
                         }
                     });
-                }));
-                this._columns = tmpColumns;
+                }
             }
         }
     }

@@ -66,10 +66,10 @@ export class StaticTableComponent {
                     rows.push({
                         name: `zhangsan${start}`,
                         age: start,
-                        email: `zhangsan${start}@163.com`
+                        email: `zhangsan${start}@163.com`,
+                        test: `test${start}`
                     });
                 }
-
                 setTimeout(function () {
                     callback({
                         total: 286,
@@ -131,6 +131,17 @@ export class StaticTableComponent {
                 console.warn('dbclick cell');
             }
         });
+
+        setTimeout(() => {
+            console.log('动态添加列');
+            this.table.columns = [
+                ...this.table.columns,
+                {
+                    field: 'test',
+                    header: 'test'
+                }
+            ];
+        }, 5000)
     }
 
     ngDoCheck() {
