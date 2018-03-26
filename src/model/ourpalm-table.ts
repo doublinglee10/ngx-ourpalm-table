@@ -388,6 +388,17 @@ export class OurpalmTable {
 
     /*重新配置table属性，触发重新加载数据*/
     setOptions(table: OurpalmTable | any) {
+        /** start **/
+        /** 这里这么处理是因为动态改变cacheKey和columns时要保证两者同时完成，否则每次缓存columns都会失败 **/
+        if (table.columns) {
+            this.originalColumns = table.columns.map(column => new OurpalmTableColumn(column));
+            this._columns = table.columns;
+        }
+        if (table.cacheKey) {
+            this._cacheKey = table.cacheKey;
+        }
+        /** end **/
+
         Object.assign(this, table);
         if (this.autoLoadData) {
             this.invokeLoadData();
