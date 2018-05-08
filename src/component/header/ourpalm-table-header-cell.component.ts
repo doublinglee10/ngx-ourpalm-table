@@ -8,13 +8,20 @@ import {OurpalmTableColumn} from "../../model/ourpalm-table-column";
     template: `
         <!-- 排序列 -->
         <span *ngIf="column.sort" (click)="onSortColumn.next(column)" [class.sortable]="column.sort">
+            <ng-container *ngIf="showTemplate()" [ngTemplateOutlet]="column.headerTpl"></ng-container>
+            <ng-container *ngIf="!showTemplate()">
                 {{column.header}}
+            </ng-container>
                 <i class="fa"
                    [ngClass]="{'fa-sort-asc': column.sortOrder == 'asc', 'fa-sort-desc': column.sortOrder == 'desc', 'fa-sort': !column.sortOrder}"></i>
         </span>
         <!-- 正常列 | 序号列-->
         <ng-container *ngIf="!column.sort && !column.checkbox">
-            {{column.header}}
+            <ng-container *ngIf="showTemplate()" [ngTemplateOutlet]="column.headerTpl"></ng-container>
+            <ng-container *ngIf="!showTemplate()">
+                {{column.header}}
+            </ng-container>
+
         </ng-container>
     `
 })
@@ -22,4 +29,9 @@ export class OurpalmTableHeaderCellComponent {
 
     @Input() column: OurpalmTableColumn;
     @Output() onSortColumn: EventEmitter<OurpalmTableColumn> = new EventEmitter();
+
+    showTemplate():boolean{
+        console.log(Boolean(this.column.headerTpl));
+        return Boolean(this.column.headerTpl)
+    }
 }

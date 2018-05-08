@@ -6,6 +6,8 @@ import {TemplateRef} from "@angular/core";
 export class OurpalmTableColumn {
     /** 表头 */
     header: string = '';
+
+    headerTpl?:TemplateRef<any>;
     /** 字段名称 */
     field: string = '';
     /** 是否列排序 */

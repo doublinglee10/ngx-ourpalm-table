@@ -9,9 +9,14 @@ import {Component} from "@angular/core";
                     [column]="{header: '全选', field: 'checkAll', checkbox: true, styler: styler, clazz: 'myclazz' }"></ourpalm-table-column>
             <ourpalm-table-column
                     [column]="{header: '序号', field: 'number', rownumbers: true, styler: styler}"></ourpalm-table-column>
-            <ourpalm-table-column [column]="{header: '姓名', field: 'name', sort: true}">
+            <ourpalm-table-column [column]="{header: '姓名', field: 'name', sort: true,headerTpl:headerTpl}">
+
                 <ng-template let-data="$row">
                     <span style="color:red;">{{data.name}}</span>
+                </ng-template>
+                <ng-template #headerTpl>
+                    <i class="fa fa-info"></i>
+                    姓名
                 </ng-template>
             </ourpalm-table-column>
             <ourpalm-table-column [column]="{header: '年龄', field: 'age', sort: true}">
