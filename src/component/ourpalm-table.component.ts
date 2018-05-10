@@ -66,6 +66,7 @@ export class OurpalmTableComponent implements AfterViewInit {
             let staticColumns = this.columnComponents.toArray().map((columnComponent: OurpalmTableColumnComponent) => {
                 let column: OurpalmTableColumn = columnComponent.column;
                 column.template = columnComponent.template;
+                column.headerTpl = columnComponent.headerTemplate || column.headerTpl;
                 return new OurpalmTableColumn(column);
             });
 

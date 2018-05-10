@@ -13,6 +13,9 @@ export class OurpalmTableColumnComponent implements AfterContentInit{
     @ContentChild(TemplateRef)
     template: TemplateRef<any>;
 
+    @ContentChild('header', {read: TemplateRef})
+    headerTemplate: TemplateRef<any>;
+
     @ContentChild('row',{read:TemplateRef})
     rowTemplate:TemplateRef<any>;
 

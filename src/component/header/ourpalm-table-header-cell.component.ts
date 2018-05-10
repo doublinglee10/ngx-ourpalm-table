@@ -33,8 +33,7 @@ export class OurpalmTableHeaderCellComponent {
     @Input() column: OurpalmTableColumn;
     @Output() onSortColumn: EventEmitter<OurpalmTableColumn> = new EventEmitter();
 
-    showTemplate():boolean{
-        console.log(Boolean(this.column.headerTpl));
+    showTemplate(): boolean {
         return Boolean(this.column.headerTpl)
     }
 }
