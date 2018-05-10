@@ -8,7 +8,9 @@ import {OurpalmTableColumn} from "../../model/ourpalm-table-column";
     template: `
         <!-- 排序列 -->
         <span *ngIf="column.sort" (click)="onSortColumn.next(column)" [class.sortable]="column.sort">
-            <ng-container *ngIf="showTemplate()" [ngTemplateOutlet]="column.headerTpl"></ng-container>
+            <ng-container *ngIf="showTemplate()">
+                <ng-template [ngTemplateOutlet]="column.headerTpl"></ng-template>
+            </ng-container>
             <ng-container *ngIf="!showTemplate()">
                 {{column.header}}
             </ng-container>
@@ -17,11 +19,12 @@ import {OurpalmTableColumn} from "../../model/ourpalm-table-column";
         </span>
         <!-- 正常列 | 序号列-->
         <ng-container *ngIf="!column.sort && !column.checkbox">
-            <ng-container *ngIf="showTemplate()" [ngTemplateOutlet]="column.headerTpl"></ng-container>
+            <ng-container *ngIf="showTemplate()">
+                <ng-template [ngTemplateOutlet]="column.headerTpl"></ng-template>
+            </ng-container>
             <ng-container *ngIf="!showTemplate()">
                 {{column.header}}
             </ng-container>
-
         </ng-container>
     `
 })
